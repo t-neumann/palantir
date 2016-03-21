@@ -15,6 +15,17 @@
 	<h:form>
 	<p:editor value="#{editor.value}" />
 	</h:form>
+	
+	<p:dataTable var="datapoint" value="#{blabla.datapoints}">
+    <!-- <p:column headerText="Id">
+        <h:outputText value="#{datapoint.id}" />
+    </p:column> -->
+ 
+    <p:column headerText="Gene">
+        <h:outputText value="#{datapoint.gene}" />
+    </p:column>
+    
+	</p:dataTable>
 
 </h:body>
 </html>
