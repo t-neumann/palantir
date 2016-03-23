@@ -17,10 +17,6 @@
 package at.ac.imp.palantir.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ejb.EJB;
 
@@ -28,20 +24,21 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import at.ac.imp.palantir.controller.GeneBean;
 import at.ac.imp.palantir.controller.GeneHandler;
-import at.ac.imp.palantir.entities.Alignment;
-import at.ac.imp.palantir.entities.Datapoint;
-import at.ac.imp.palantir.entities.ExpressionValue;
-import at.ac.imp.palantir.entities.Gene;
-import at.ac.imp.palantir.entities.Reference;
-import at.ac.imp.palantir.entities.Result;
-import at.ac.imp.palantir.entities.Sample;
 import at.ac.imp.palantir.exceptions.DatabaseException;
+import at.ac.imp.palantir.model.Alignment;
+import at.ac.imp.palantir.model.Datapoint;
+import at.ac.imp.palantir.model.ExpressionValue;
+import at.ac.imp.palantir.model.Gene;
+import at.ac.imp.palantir.model.Reference;
+import at.ac.imp.palantir.model.Result;
+import at.ac.imp.palantir.model.Sample;
 
 @RunWith(Arquillian.class)
 public class RemoteCalculatorTest {
@@ -50,8 +47,9 @@ public class RemoteCalculatorTest {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClasses(GeneHandler.class, GeneBean.class, Gene.class, DatabaseException.class, Reference.class, Datapoint.class, Result.class, Alignment.class, Sample.class, ExpressionValue.class)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+        		.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
                 // Deploy our test datasource
-                .addAsWebInfResource("test-ds.xml");
+                //.addAsWebInfResource("test-ds.xml");
     }
     
     @EJB

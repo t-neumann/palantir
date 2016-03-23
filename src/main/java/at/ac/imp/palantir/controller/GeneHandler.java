@@ -1,8 +1,8 @@
 package at.ac.imp.palantir.controller;
 
-import at.ac.imp.palantir.entities.Gene;
-import at.ac.imp.palantir.entities.Reference;
 import at.ac.imp.palantir.exceptions.DatabaseException;
+import at.ac.imp.palantir.model.Gene;
+import at.ac.imp.palantir.model.Reference;
 
 public interface GeneHandler {
 	

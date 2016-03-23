@@ -8,9 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import at.ac.imp.palantir.entities.Gene;
-import at.ac.imp.palantir.entities.Reference;
 import at.ac.imp.palantir.exceptions.DatabaseException;
+import at.ac.imp.palantir.model.Gene;
+import at.ac.imp.palantir.model.Reference;
 
 @Stateless
 //@Named("GeneHandler")
