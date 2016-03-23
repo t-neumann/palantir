@@ -12,9 +12,9 @@ import at.ac.imp.palantir.entities.Gene;
 import at.ac.imp.palantir.entities.Reference;
 import at.ac.imp.palantir.exceptions.DatabaseException;
 
-//@Stateless
-@Named("GeneHandler")
-@ApplicationScoped
+@Stateless
+//@Named("GeneHandler")
+//@ApplicationScoped
 @Remote(GeneHandler.class)
 public class GeneBean implements GeneHandler {
 	

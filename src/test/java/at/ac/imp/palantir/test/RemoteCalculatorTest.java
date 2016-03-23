@@ -34,14 +34,21 @@ import org.junit.runner.RunWith;
 
 import at.ac.imp.palantir.controller.GeneBean;
 import at.ac.imp.palantir.controller.GeneHandler;
+import at.ac.imp.palantir.entities.Alignment;
+import at.ac.imp.palantir.entities.Datapoint;
+import at.ac.imp.palantir.entities.ExpressionValue;
 import at.ac.imp.palantir.entities.Gene;
+import at.ac.imp.palantir.entities.Reference;
+import at.ac.imp.palantir.entities.Result;
+import at.ac.imp.palantir.entities.Sample;
+import at.ac.imp.palantir.exceptions.DatabaseException;
 
 @RunWith(Arquillian.class)
 public class RemoteCalculatorTest {
     @Deployment
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(GeneHandler.class, GeneBean.class, Gene.class)
+                .addClasses(GeneHandler.class, GeneBean.class, Gene.class, DatabaseException.class, Reference.class, Datapoint.class, Result.class, Alignment.class, Sample.class, ExpressionValue.class)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 // Deploy our test datasource
                 .addAsWebInfResource("test-ds.xml");
@@ -53,22 +60,11 @@ public class RemoteCalculatorTest {
     @Test
     public void testHandler() throws Exception {
     	
-    	Gene gene = new Gene("test", 1, 2, "test2", false, 3);
-    	//genehandler.addGene(gene);
+    	String symbol = "BRCA1";
     	
-    	boolean found = false;
-    	
-    	//List<Gene> genes = genehandler.getGenes();
-    	List<Gene> genes = new ArrayList<Gene>();
-    	
-    	for (Gene i : genes) {
-    		if (i.equals(gene)) {
-    			System.out.println(i);
-    			found = true;
-    		}
-    	}    	
+    	Gene gene = genehandler.getGeneByName(symbol);
+ 
     	System.out.println(gene);
-    	assertTrue(found);
+    	assertEquals(gene.getGeneSymbol(),symbol);
     }
-
 }

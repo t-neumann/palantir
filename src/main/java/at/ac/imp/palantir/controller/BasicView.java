@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,11 +16,13 @@ import at.ac.imp.palantir.exceptions.DatabaseException;
 
 @Named("blabla")
 @ViewScoped
+//@EJB(name="blabla")
 public class BasicView implements Serializable {
 	
 	private Collection<Datapoint> datapoints;
 	
-	@Inject
+	//@Inject
+	@EJB
 	private GeneHandler handler;
 	
 	@PostConstruct
