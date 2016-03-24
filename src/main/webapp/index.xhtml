@@ -12,14 +12,12 @@
 <h:body>
 	<h1>Hello World PrimeFaces</h1>
 	<h:form id="form">
-	<p:growl id="msgs" showDetail="true" />
 
 	<p:dataTable id="eventsDT" var="sample" value="#{SampleController.samples}" selectionMode="single" selection="#{SampleController.selectedSample}" rowKey="#{sample.id}">
 		<f:facet name="header">
             Zuberlab Sample List
       	</f:facet>
-		<p:ajax event="rowSelect" listener="#{SampleController.onRowSelect}" update=":form:msgs" />
-        <p:ajax event="rowUnselect" listener="#{SampleController.onRowUnselect}" update=":form:msgs" />
+		<p:ajax event="rowSelect" listener="#{SampleController.onRowSelect}"/>
 		<p:column headerText="Sample ID">
 			<h:outputText value="#{sample.id}" />
 		</p:column>
