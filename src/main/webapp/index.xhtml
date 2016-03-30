@@ -10,9 +10,7 @@
 <h:head>
 </h:head>
 <h:body>
-	<h1>Hello World PrimeFaces</h1>
-	<h:form id="form">
-
+	<h:form id="sampletab">
 	<p:dataTable id="eventsDT" var="sample" value="#{SampleController.samples}" selectionMode="single" selection="#{SampleController.selectedSample}" rowKey="#{sample.id}">
 		<f:facet name="header">
             Zuberlab Sample List
@@ -21,6 +19,12 @@
 		<p:column headerText="Sample ID">
 			<h:outputText value="#{sample.id}" />
 		</p:column>
+		<p:column headerText="Organism">
+			<h:outputText value="#{sample.metaInfo.organism}" />
+		</p:column>
+		<f:facet name="footer">
+            <p:commandButton process="eventsDT" icon="ui-icon-pencil" value="Edit" action = "#{SampleController.edit}" />
+        </f:facet>
 	</p:dataTable>
 	</h:form>
 </h:body>

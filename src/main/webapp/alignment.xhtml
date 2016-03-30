@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<h1>Hello World PrimeFaces</h1>
+
+	<h:form id="form">
+
+	<p:dataTable id="eventsDT" var="alignment" value="#{AlignmentController.alignments}" selectionMode="single" selection="#{AlignmentController.selectedAlignment}" rowKey="#{alignment.id}">
+		<f:facet name="header">
+            Zuberlab Sample List
+      	</f:facet>
+		<p:column headerText="Alignment ID">
+			<h:outputText value="#{alignment.id}" />
+		</p:column>
+		<p:column headerText="Alignment name">
+			<h:outputText value="#{alignment.name}" />
+		</p:column>
+		<p:column headerText="Alignment build">
+			<h:outputText value="#{alignment.build}" />
+		</p:column>
+	</p:dataTable>
+	</h:form>
+	#{AlignmentController.sampleId}
+</h:body>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<h:form id="sampletab">
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:contextMenu for="sampleEditDT" widgetVar="cMenu">
+			<p:menuitem value="Edit Cell" icon="ui-icon-search"
+				onclick="PF('cellSamples').showCellEditor();return false;" />
+			<p:menuitem value="Hide Menu" icon="ui-icon-close"
+				onclick="PF('cMenu').hide()" />
+		</p:contextMenu>
+
+		<p:dataTable id="sampleEditDT" var="sample"
+			value="#{SampleController.samples}" editable="true" editMode="cell"
+			widgetVar="cellSamples">
+			<f:facet name="header">
+            Cell Editing with Click and RightClick
+      	</f:facet>
+			<p:ajax event="cellEdit" listener="#{sampleEditDT.onCellEdit}"
+				update=":sampletab:msgs" />
+			<p:column headerText="Sample ID">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{sample.id}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="sampleInput" value="#{sample.id}"
+							style="width:96%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Organism">
+				<f:facet name="output">
+					<h:outputText value="#{sample.metaInfo.organism}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText id="organismInput" value="#{sample.metaInfo.organism}"
+						style="width:96%" />
+				</f:facet>
+			</p:column>
+			<p:column style="width:32px;text-align: center">
+				<p:commandButton value="Search" icon="ui-icon-search"
+					actionListener="#{SampleController.getMetaInfo}"
+					update="sampleEditDT">
+					<f:setPropertyActionListener value="#{sample}" target="#{SampleController.selectedSample}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
