@@ -1,31 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
-
-<h:head>
-</h:head>
-<h:body>
-	<h:form id="sampletab">
-	<p:dataTable id="eventsDT" var="sample" value="#{SampleController.samples}" selectionMode="single" selection="#{SampleController.selectedSample}" rowKey="#{sample.id}">
-		<f:facet name="header">
-            Zuberlab Sample List
-      	</f:facet>
-		<p:ajax event="rowSelect" listener="#{SampleController.onRowSelect}"/>
-		<p:column headerText="Sample ID">
-			<h:outputText value="#{sample.id}" />
-		</p:column>
-		<p:column headerText="Organism">
-			<h:outputText value="#{sample.metaInfo.organism}" />
-		</p:column>
-		<f:facet name="footer">
-            <p:commandButton process="eventsDT" icon="ui-icon-pencil" value="Edit" action = "#{SampleController.edit}" />
-        </f:facet>
-	</p:dataTable>
-	</h:form>
-</h:body>
-</html>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="templates/template.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		Welcome to the Zuberlab NGS repository!
+	</ui:define>
+</ui:composition>

@@ -17,14 +17,14 @@ import javax.persistence.OneToOne;
  */
 @Entity
 
-public class Sample implements Serializable {
+public class Sample implements Serializable, Comparable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	private int id;
 	
-	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private QueueSampleMetaInfo metaInfo;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -65,5 +65,19 @@ public class Sample implements Serializable {
 
 	public void setMetaInfo(QueueSampleMetaInfo metaInfo) {
 		this.metaInfo = metaInfo;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (!(o instanceof Sample))
+		      throw new ClassCastException("A Sample object expected.");
+		int otherId = ((Sample)o).getId();
+		if (otherId > this.id) {
+			return -1;
+		} else if (otherId == this.id) {
+			return 0;
+		} else {
+			return 1;
+		}
 	}   
 }

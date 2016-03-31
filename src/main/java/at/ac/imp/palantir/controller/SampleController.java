@@ -3,6 +3,7 @@ package at.ac.imp.palantir.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +19,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.CellEditEvent;
 
 import at.ac.imp.palantir.exceptions.DatabaseException;
 import at.ac.imp.palantir.facades.SampleFacade;
@@ -36,7 +38,28 @@ public class SampleController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Collection<Sample> samples;
+	
+	public Collection<Sample> getSamples() {
+		return samples;
+	}
 		
+	@SuppressWarnings("unchecked")
+	public void setSamples(Collection<Sample> samples) {
+		
+		this.samples = samples;
+		Collections.sort((List<Sample>) samples);
+	}
+	
+	private List<String> organisms;
+
+	public List<String> getOrganisms() {
+		return organisms;
+	}
+
+	public void setOrganisms(List<String> organisms) {
+		this.organisms = organisms;
+	}
+
 	//@Inject
 	@EJB
 	private SampleFacade sampleFacade;
@@ -44,7 +67,8 @@ public class SampleController implements Serializable {
 	@PostConstruct
 	public void init() {
 		try {
-			samples = sampleFacade.getAllSamples();
+			setSamples(sampleFacade.getAllSamples());
+			setOrganisms(sampleFacade.getOrganisms());
 		} catch (DatabaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,10 +84,6 @@ public class SampleController implements Serializable {
 	public void setSelectedSample(Sample selectedSample) {
 		this.selectedSample = selectedSample;
 	}
-
-	public Collection<Sample> getSamples() {
-		return samples;
-	}
 	
 	public void onRowSelect(SelectEvent event) {
 		
@@ -76,14 +96,32 @@ public class SampleController implements Serializable {
                 getCurrentInstance().getApplication().getNavigationHandler();
         
 		//configurableNavigationHandler.performNavigation("alignment?faces-redirect=true");
-		configurableNavigationHandler.performNavigation("alignment");
+		configurableNavigationHandler.performNavigation("/pages/alignment");
 	}
 	
-	public String edit(){
-		return "editSample";
+	public void edit(){
+		
+		ConfigurableNavigationHandler configurableNavigationHandler =
+                (ConfigurableNavigationHandler)FacesContext.
+                getCurrentInstance().getApplication().getNavigationHandler();
+		
+		configurableNavigationHandler.performNavigation("editSample");
+		
 	}
+	
+	public void onCellEdit(CellEditEvent event) {
+		
+		Sample sample = (Sample)((DataTable)event.getComponent()).getRowData();
+		sampleFacade.updateSample(sample);
+    }
 	
 	public void getMetaInfo() {
-		
+		sampleFacade.addSampleMetaInfo(this.selectedSample);
+		try {
+			setSamples(sampleFacade.getAllSamples());
+		} catch (DatabaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
