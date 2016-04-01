@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<p:growl id="growl" sticky="true" showDetail="true" />
+			<p:wizard flowListener="#{userWizard.onFlowProcess}">
+				<p:tab id="sample" title="Samples">
+					<p:panel>
+						<p:messages />
+						<p:dataTable id="wizardSamplesDT" var="sample"
+							value="#{ExperimentWizard.samples}" selectionMode="multiple"
+							selection="#{ExperimentWizard.selectedSamples}"
+							rowKey="#{sample.id}" stickyHeader="false" scrollable="true" scrollHeight="68%"
+							resizableColumns="true">
+							<p:column headerText="Sample ID" width ="10%">
+								<h:outputText value="#{sample.id}" />
+							</p:column>
+							<p:column headerText="Owner" width ="10%">
+								<h:outputText value="#{sample.metaInfo.user}" />
+							</p:column>
+							<p:column headerText="Organism" width ="10%">
+								<h:outputText value="#{sample.metaInfo.organism}" />
+							</p:column>
+							<p:column headerText="Experiment Type" width ="10%">
+								<h:outputText value="#{sample.metaInfo.experimentType}" />
+							</p:column>
+							<p:column headerText="Cell Type" width ="10%">
+								<h:outputText value="#{sample.metaInfo.celltype}" />
+							</p:column>
+							<p:column headerText="Genotype" width ="10%">
+								<h:outputText value="#{sample.metaInfo.genotype}" />
+							</p:column>
+							<p:column headerText="Antibody" width ="10%">
+								<h:outputText value="#{sample.metaInfo.antibody}" />
+							</p:column>
+							<p:column headerText="Sequencer" width ="10%">
+								<h:outputText value="#{sample.metaInfo.sequencer}" />
+							</p:column>
+							<p:column headerText="Read Type" width ="10%">
+								<h:outputText value="#{sample.metaInfo.readType}" />
+							</p:column>
+							<p:column headerText="Primer" width ="10%">
+								<h:outputText value="#{sample.metaInfo.primer}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</p:tab>
+				<p:tab id="reference" title="Reference">
+					<p:panel>
+						<p:dataTable id="wizardSamplesDT" var="result"
+							value="#{ExperimentWizard.results}" selectionMode="multiple"
+							selection="#{ExperimentWizard.selectedSamples}"
+							rowKey="#{result.id}" stickyHeader="false" scrollable="true" scrollHeight="68%"
+							resizableColumns="true">
+							<p:column headerText="Sample ID" width ="10%">
+								<h:outputText value="#{result.id}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="confirm" title="Confirmation">
+					<p:panel header="Confirmation">
+						<h:panelGrid id="confirmation" columns="3"
+							columnClasses="grid,grid,grid">
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="Firstname: " />
+								<h:outputText value="#{userWizard.user.firstname}"
+									styleClass="outputLabel" />
+
+								<h:outputText value="Lastname: " />
+								<h:outputText value="#{userWizard.user.lastname}"
+									styleClass="outputLabel" />
+
+								<h:outputText value="Age: " />
+								<h:outputText value="#{userWizard.user.age}"
+									styleClass="outputLabel" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="Street: " />
+								<h:outputText value="#{userWizard.user.street}"
+									styleClass="outputLabel" />
+
+								<h:outputText value="Postal: " />
+								<h:outputText value="#{userWizard.user.postalCode}"
+									styleClass="outputLabel" />
+
+								<h:outputText value="City: " />
+								<h:outputText value="#{userWizard.user.city}"
+									styleClass="outputLabel" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="Email: " />
+								<h:outputText value="#{userWizard.user.email}"
+									styleClass="outputLabel" />
+
+								<h:outputText value="Phone " />
+								<h:outputText value="#{userWizard.user.phone}"
+									styleClass="outputLabel" />
+
+								<h:outputText value="Info: " />
+								<h:outputText value="#{userWizard.user.info}"
+									styleClass="outputLabel" />
+
+								<h:outputText />
+								<h:outputText />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<p:commandButton value="Submit"
+							actionListener="#{userWizard.save}" update="growl"
+							process="@this" />
+					</p:panel>
+				</p:tab>
+			</p:wizard>
+		</h:form>
+	</ui:define>
+</ui:composition>

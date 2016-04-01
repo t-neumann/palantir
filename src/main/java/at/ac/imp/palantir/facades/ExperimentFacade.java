@@ -1,0 +1,10 @@
+package at.ac.imp.palantir.facades;
+
+import java.util.List;
+
+import at.ac.imp.palantir.model.Alignment;
+import at.ac.imp.palantir.model.Result;
+
+public interface ExperimentFacade {
+	public List<Result> getResultsForAlignment(Alignment alignment);
+}
