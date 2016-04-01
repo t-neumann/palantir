@@ -44,5 +44,20 @@ public class Experiment implements Serializable {
 	public void setReference(Reference reference) {
 		this.reference = reference;
 	}
-   
+
+	public Collection<Alignment> getAlignments() {
+		return alignments;
+	}
+
+	public void setAlignments(Collection<Alignment> alignments) {
+		this.alignments = alignments;
+	}
+
+	public Result getResult() {
+		return result;
+	}
+
+	public void setResult(Result result) {
+		this.result = result;
+	}   
 }

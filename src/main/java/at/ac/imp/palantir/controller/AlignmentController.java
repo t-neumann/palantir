@@ -5,10 +5,9 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.inject.Named;
 
 import at.ac.imp.palantir.facades.SampleFacade;
@@ -16,7 +15,7 @@ import at.ac.imp.palantir.model.Alignment;
 import at.ac.imp.palantir.model.Sample;
 
 @Named("AlignmentController")
-@RequestScoped
+@ViewScoped
 public class AlignmentController implements Serializable {
 	
 	/**
@@ -37,8 +36,11 @@ public class AlignmentController implements Serializable {
 	@PostConstruct
 	public void init() {
 		
-		this.sampleId = (Integer)FacesContext.getCurrentInstance().getExternalContext()
-	               .getSessionMap().get("sampleId");
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		this.sampleId = (Integer)flash.get("sampleId");
+		
+//		this.sampleId = (Integer)FacesContext.getCurrentInstance().getExternalContext()
+//	               .getSessionMap().get("sampleId");
 		Sample sample = sampleFacade.getSampleById(sampleId);
 		if (sample != null) {
 			this.alignments = sample.getAlignments();

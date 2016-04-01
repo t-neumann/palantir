@@ -4,14 +4,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
-	<h:form>
+	<h:form id="menuForm">
 		<p:outputPanel id="menuPanel" layout="block">
 			<p:menu autoSubmenuDisplay="true"
 				style="width:213px;height:483px;border:none;font-size:small;padding:0px;"
 				ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
 				<p:submenu label="Samples" icon="ui-icon ui-icon-refresh">
-					<p:menuitem value="Samples" url="/pages/samples.xhtml" />
-					<p:menuitem value="Experiments" url="/pages/page2.xhtml" />
+					<p:menuitem value="Samples" action="#{Navigator.navigateSample}" update=":contentForm"/>
+					<p:menuitem value="Experiments" action="#{Navigator.navigateExperiment}" update=":contentForm"/>
 				</p:submenu>
 				<p:submenu label="More Pages" icon="ui-icon ui-icon-refresh">
 				</p:submenu>
@@ -19,5 +19,3 @@
 		</p:outputPanel>
 	</h:form>
 </ui:composition>
-
-

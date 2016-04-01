@@ -12,9 +12,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,7 +30,7 @@ import at.ac.imp.palantir.model.Gene;
 import at.ac.imp.palantir.model.Sample;
 
 @Named("SampleController")
-@SessionScoped
+@ViewScoped
 public class SampleController implements Serializable {
 	
 	/**
@@ -87,25 +88,38 @@ public class SampleController implements Serializable {
 	
 	public void onRowSelect(SelectEvent event) {
 		
-		FacesContext.getCurrentInstance().getExternalContext()
-        .getSessionMap()
-        .put("sampleId",this.selectedSample.getId());
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		flash.put("sampleId", this.selectedSample.getId());
+		
+//		FacesContext.getCurrentInstance().getExternalContext()
+//        .getSessionMap()
+//        .put("sampleId",this.selectedSample.getId());
 		
 		ConfigurableNavigationHandler configurableNavigationHandler =
                 (ConfigurableNavigationHandler)FacesContext.
                 getCurrentInstance().getApplication().getNavigationHandler();
         
 		//configurableNavigationHandler.performNavigation("alignment?faces-redirect=true");
-		configurableNavigationHandler.performNavigation("/pages/alignment");
+		configurableNavigationHandler.performNavigation("alignment?faces-redirect=true");
+		
 	}
 	
-	public void edit(){
+	public String sampleAlignments() {
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		flash.put("sampleId", this.selectedSample.getId());
 		
-		ConfigurableNavigationHandler configurableNavigationHandler =
-                (ConfigurableNavigationHandler)FacesContext.
-                getCurrentInstance().getApplication().getNavigationHandler();
+		return "alignment";
+	}
+	
+	public String edit(){
 		
-		configurableNavigationHandler.performNavigation("editSample");
+//		ConfigurableNavigationHandler configurableNavigationHandler =
+//                (ConfigurableNavigationHandler)FacesContext.
+//                getCurrentInstance().getApplication().getNavigationHandler();
+//		
+//		configurableNavigationHandler.performNavigation("editSample");
+		
+		return "editSample";
 		
 	}
 	

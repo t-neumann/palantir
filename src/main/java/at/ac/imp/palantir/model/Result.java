@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
  *
  */
 @Entity
+@NamedQuery(name="Result.findByAlignmentId",query="SELECT r FROM Result r WHERE r.alignment.id = :id")
 public class Result implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
