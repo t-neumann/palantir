@@ -19,14 +19,14 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQuery(name="Result.findByAlignmentId",query="SELECT r FROM Result r WHERE r.alignment.id = :id")
-public class Result implements Serializable {
+public class Result implements Serializable, Comparable<Result> {
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private Alignment alignment;
 	
@@ -60,8 +60,42 @@ public class Result implements Serializable {
 		this.datapoints = datapoints;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public Result() {
 		super();
 	}
-   
+	
+	@Override
+	public int compareTo(Result o) {
+		
+		int otherId = o.getId();
+		if (otherId > this.id) {
+			return -1;
+		} else if (otherId == this.id) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Result other = (Result) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 }

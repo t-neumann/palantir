@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 
-public class Sample implements Serializable, Comparable {
+public class Sample implements Serializable, Comparable<Sample> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -68,10 +68,8 @@ public class Sample implements Serializable, Comparable {
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		if (!(o instanceof Sample))
-		      throw new ClassCastException("A Sample object expected.");
-		int otherId = ((Sample)o).getId();
+	public int compareTo(Sample o) {
+		int otherId = o.getId();
 		if (otherId > this.id) {
 			return -1;
 		} else if (otherId == this.id) {

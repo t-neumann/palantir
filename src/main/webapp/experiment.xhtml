@@ -9,44 +9,43 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
-			<p:growl id="growl" sticky="true" showDetail="true" />
-			<p:wizard flowListener="#{userWizard.onFlowProcess}">
+			<p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true" />
+			<p:wizard flowListener="#{ExperimentWizard.onFlowProcess}">
 				<p:tab id="sample" title="Samples">
 					<p:panel>
-						<p:messages />
 						<p:dataTable id="wizardSamplesDT" var="sample"
 							value="#{ExperimentWizard.samples}" selectionMode="multiple"
 							selection="#{ExperimentWizard.selectedSamples}"
-							rowKey="#{sample.id}" stickyHeader="false" scrollable="true" scrollHeight="68%"
-							resizableColumns="true">
-							<p:column headerText="Sample ID" width ="10%">
+							rowKey="#{sample.id}" stickyHeader="false" scrollable="true"
+							scrollHeight="68%" resizableColumns="true">
+							<p:column headerText="Sample ID" width="10%">
 								<h:outputText value="#{sample.id}" />
 							</p:column>
-							<p:column headerText="Owner" width ="10%">
+							<p:column headerText="Owner" width="10%">
 								<h:outputText value="#{sample.metaInfo.user}" />
 							</p:column>
-							<p:column headerText="Organism" width ="10%">
+							<p:column headerText="Organism" width="10%">
 								<h:outputText value="#{sample.metaInfo.organism}" />
 							</p:column>
-							<p:column headerText="Experiment Type" width ="10%">
+							<p:column headerText="Experiment Type" width="10%">
 								<h:outputText value="#{sample.metaInfo.experimentType}" />
 							</p:column>
-							<p:column headerText="Cell Type" width ="10%">
+							<p:column headerText="Cell Type" width="10%">
 								<h:outputText value="#{sample.metaInfo.celltype}" />
 							</p:column>
-							<p:column headerText="Genotype" width ="10%">
+							<p:column headerText="Genotype" width="10%">
 								<h:outputText value="#{sample.metaInfo.genotype}" />
 							</p:column>
-							<p:column headerText="Antibody" width ="10%">
+							<p:column headerText="Antibody" width="10%">
 								<h:outputText value="#{sample.metaInfo.antibody}" />
 							</p:column>
-							<p:column headerText="Sequencer" width ="10%">
+							<p:column headerText="Sequencer" width="10%">
 								<h:outputText value="#{sample.metaInfo.sequencer}" />
 							</p:column>
-							<p:column headerText="Read Type" width ="10%">
+							<p:column headerText="Read Type" width="10%">
 								<h:outputText value="#{sample.metaInfo.readType}" />
 							</p:column>
-							<p:column headerText="Primer" width ="10%">
+							<p:column headerText="Primer" width="10%">
 								<h:outputText value="#{sample.metaInfo.primer}" />
 							</p:column>
 						</p:dataTable>
@@ -54,68 +53,65 @@
 				</p:tab>
 				<p:tab id="reference" title="Reference">
 					<p:panel>
-						<p:dataTable id="wizardSamplesDT" var="result"
+						<p:dataTable id="wizardResultsDT" var="result"
 							value="#{ExperimentWizard.results}" selectionMode="multiple"
-							selection="#{ExperimentWizard.selectedSamples}"
-							rowKey="#{result.id}" stickyHeader="false" scrollable="true" scrollHeight="68%"
-							resizableColumns="true">
-							<p:column headerText="Sample ID" width ="10%">
+							selection="#{ExperimentWizard.selectedResults}"
+							rowKey="#{result.id}" stickyHeader="false" scrollable="true"
+							scrollHeight="100%" resizableColumns="true">
+							<!-- <p:ajax event="rowSelect" listener="#{ExperimentWizard.onRowSelect}" /> -->
+							<p:column headerText="Result ID">
 								<h:outputText value="#{result.id}" />
+							</p:column>
+							<p:column headerText="Alignment">
+								<h:outputText value="#{result.alignment.name}" />
+							</p:column>
+							<p:column headerText="Alignment build">
+								<h:outputText value="#{result.alignment.build}" />
+							</p:column>
+							<p:column headerText="Reference name">
+								<h:outputText value="#{result.reference.name}" />
+							</p:column>
+							<p:column headerText="Reference build">
+								<h:outputText value="#{result.reference.build}" />
 							</p:column>
 						</p:dataTable>
 					</p:panel>
 				</p:tab>
 
-				<p:tab id="confirm" title="Confirmation">
-					<p:panel header="Confirmation">
-						<h:panelGrid id="confirmation" columns="3"
-							columnClasses="grid,grid,grid">
+				<p:tab id="submit" title="Description">
+					<p:panel>
+						<h:panelGrid id="confirmation" columns="2"
+							columnClasses="grid, grid">
 							<h:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Firstname: " />
-								<h:outputText value="#{userWizard.user.firstname}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Lastname: " />
-								<h:outputText value="#{userWizard.user.lastname}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Age: " />
-								<h:outputText value="#{userWizard.user.age}"
-									styleClass="outputLabel" />
-							</h:panelGrid>
-
-							<h:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Street: " />
-								<h:outputText value="#{userWizard.user.street}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Postal: " />
-								<h:outputText value="#{userWizard.user.postalCode}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="City: " />
-								<h:outputText value="#{userWizard.user.city}"
-									styleClass="outputLabel" />
-							</h:panelGrid>
-
-							<h:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Email: " />
-								<h:outputText value="#{userWizard.user.email}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Phone " />
-								<h:outputText value="#{userWizard.user.phone}"
-									styleClass="outputLabel" />
-
-								<h:outputText value="Info: " />
-								<h:outputText value="#{userWizard.user.info}"
-									styleClass="outputLabel" />
-
-								<h:outputText />
-								<h:outputText />
+								<h:outputText value="Experiment name:" />
+								<p:inputTextarea value="#{ExperimentWizard.experimentName}"
+									required="true" rows="1" cols="33" />
+								<h:outputText value="Experiment description:" />
+								<p:inputTextarea value="#{ExperimentWizard.experimentName}"
+									rows="6" cols="33" />
 							</h:panelGrid>
 						</h:panelGrid>
-
+						<h:panelGrid columns="1" columnClasses="label">
+							<p:dataTable id="wizardselectedResultsDT" var="result"
+								value="#{ExperimentWizard.selectedResults}" scrollable="false"
+								tableStyle="table-layout: auto;" resizableColumns="true">
+								<p:column headerText="Sample ID">
+									<h:outputText value="#{result.alignment.sample.id}" />
+								</p:column>
+								<p:column headerText="Alignment">
+									<h:outputText value="#{result.alignment.name}" />
+								</p:column>
+								<p:column headerText="Alignment build">
+									<h:outputText value="#{result.alignment.build}" />
+								</p:column>
+								<p:column headerText="Reference name">
+									<h:outputText value="#{result.reference.name}" />
+								</p:column>
+								<p:column headerText="Reference build">
+									<h:outputText value="#{result.reference.build}" />
+								</p:column>
+							</p:dataTable>
+						</h:panelGrid>
 						<p:commandButton value="Submit"
 							actionListener="#{userWizard.save}" update="growl"
 							process="@this" />

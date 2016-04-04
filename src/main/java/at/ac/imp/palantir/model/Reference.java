@@ -61,6 +61,14 @@ public class Reference implements Serializable {
 		genes.add(gene);
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Reference() {
 		super();
 	}
