@@ -6,7 +6,9 @@ import java.util.List;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -16,10 +18,10 @@ import at.ac.imp.palantir.model.QueueSampleMetaInfo;
 import at.ac.imp.palantir.model.Sample;
 import at.ac.imp.palantir.util.QueueSampleInfoRetreiver;
 
-@Stateless
-//@Named("GeneHandler")
-//@ApplicationScoped
-@Remote(SampleFacade.class)
+//@Stateless
+@Named("SampleFacade")
+@ApplicationScoped
+//@Remote(SampleFacade.class)
 public class SampleFacadeBean implements SampleFacade {
 	
 	@PersistenceContext(unitName = "palantir-db")

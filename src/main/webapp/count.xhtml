@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml">
+	
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="countForm">
+			<p:dataTable id="resultDT" var="expressionValue"
+				value="#{CountController.expressionValues}"
+				tableStyle="table-layout: auto;" resizableColumns="true">
+				<p:column headerText="Gene">
+					<h:outputText value="#{expressionValue.gene.geneSymbol}" />
+				</p:column>
+				<p:column headerText="Count">
+					<h:outputText value="#{expressionValue.count}" />
+				</p:column>
+				<p:column headerText="RPKM">
+					<h:outputText value="#{expressionValue.rpkm}" />
+				</p:column>
+				<p:column headerText="TPM">
+					<h:outputText value="#{expressionValue.tpm}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

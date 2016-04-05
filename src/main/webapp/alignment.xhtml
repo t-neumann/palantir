@@ -8,19 +8,26 @@
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
-		<h:form id="alignmentForm">
-			<p:dataTable id="eventsDT" var="alignment"
-				value="#{AlignmentController.alignments}" selectionMode="single"
-				selection="#{AlignmentController.selectedAlignment}"
-				rowKey="#{alignment.id}">
-				<p:column headerText="Alignment ID">
-					<h:outputText value="#{alignment.id}" />
+		<h:form id="resultForm">
+			<p:dataTable id="resultDT" var="result"
+				value="#{AlignmentController.results}" selectionMode="single"
+				selection="#{AlignmentController.selectedResult}"
+				rowKey="#{result.id}" tableStyle="table-layout: auto;" resizableColumns="true">
+				<p:ajax event="rowSelect" listener="#{AlignmentController.onRowSelect}" update=":contentForm:resultForm" />
+				<p:column headerText="Result id">
+					<h:outputText value="#{result.id}" />
 				</p:column>
-				<p:column headerText="Alignment name">
-					<h:outputText value="#{alignment.name}" />
+				<p:column headerText="Alignment">
+					<h:outputText value="#{result.alignment.name}" />
 				</p:column>
 				<p:column headerText="Alignment build">
-					<h:outputText value="#{alignment.build}" />
+					<h:outputText value="#{result.alignment.build}" />
+				</p:column>
+				<p:column headerText="Reference name">
+					<h:outputText value="#{result.reference.name}" />
+				</p:column>
+				<p:column headerText="Reference build">
+					<h:outputText value="#{result.reference.build}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>

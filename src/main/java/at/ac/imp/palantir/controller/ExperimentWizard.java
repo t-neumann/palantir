@@ -2,21 +2,29 @@ package at.ac.imp.palantir.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.ApplicationContext;
 import org.primefaces.event.FlowEvent;
 
 import at.ac.imp.palantir.exceptions.DatabaseException;
-import at.ac.imp.palantir.facades.ExperimentFacade;
+import at.ac.imp.palantir.facades.ExperimentFacadeBean;
 import at.ac.imp.palantir.facades.SampleFacade;
 import at.ac.imp.palantir.model.Alignment;
 import at.ac.imp.palantir.model.Experiment;
@@ -33,8 +41,8 @@ public class ExperimentWizard implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@EJB
-	private ExperimentFacade experimentFacade;
+	@Inject
+	private ExperimentFacadeBean experimentFacade;
 			
 	private Collection<Sample> samples;
 	
@@ -69,17 +77,23 @@ public class ExperimentWizard implements Serializable {
 
 	private Experiment experiment = new Experiment();
 		
-	@EJB
+	@Inject
 	private SampleFacade sampleFacade;
 	
 	@PostConstruct
 	public void init() {
+		System.out.println("Init");
 		try {
 			setSamples(sampleFacade.getAllSamples());
 		} catch (DatabaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@PreDestroy
+	public void destroy() {
+		System.out.println("Destroyed");
 	}
  
     public Experiment getExperiment() {
@@ -88,11 +102,6 @@ public class ExperimentWizard implements Serializable {
  
     public void setExperiment(Experiment experiment) {
         this.experiment = experiment;
-    }
-     
-    public void save() {        
-        FacesMessage msg = new FacesMessage("Successful", "Welcome :" + experiment.toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
     public String onFlowProcess(FlowEvent event) {
@@ -141,6 +150,11 @@ public class ExperimentWizard implements Serializable {
 	}
 
 	public void setSelectedSamples(List<Sample> selectedSamples) {
+		System.out.println("SELECT start");
+		for (Sample result : selectedSamples) {
+			System.out.println(result.getId());
+		}
+		System.out.println("SELECT end");
 		this.selectedSamples = selectedSamples;
 	}
 
@@ -149,6 +163,16 @@ public class ExperimentWizard implements Serializable {
 	}
 
 	public void setSelectedResults(List<Result> selectedResults) {
+		System.out.println("SELECTED samples");
+		for (Sample result : selectedSamples) {
+			System.out.println(result.getId());
+		}
+		System.out.println("SELECTED samples");
+		System.out.println("SELECT start");
+		for (Result result : selectedResults) {
+			System.out.println(result.getId());
+		}
+		System.out.println("SELECT end");
 		this.selectedResults = selectedResults;
 	}
 

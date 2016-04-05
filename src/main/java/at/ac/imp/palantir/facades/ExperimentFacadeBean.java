@@ -1,24 +1,21 @@
 package at.ac.imp.palantir.facades;
 
-import java.util.Collection;
 import java.util.List;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import at.ac.imp.palantir.exceptions.DatabaseException;
 import at.ac.imp.palantir.model.Alignment;
-import at.ac.imp.palantir.model.Reference;
 import at.ac.imp.palantir.model.Result;
-import at.ac.imp.palantir.model.Sample;
 
-@Stateless
-//@Named("GeneHandler")
-//@ApplicationScoped
-@Remote(ExperimentFacade.class)
+//@Stateless
+@Named("ExperimentFacade")
+@ApplicationScoped
+//@Remote(ExperimentFacade.class)
 public class ExperimentFacadeBean implements ExperimentFacade {
 	
 	@PersistenceContext(unitName = "palantir-db")
@@ -35,5 +32,11 @@ public class ExperimentFacadeBean implements ExperimentFacade {
 			throw new DatabaseException(e.getMessage(),e.getCause());
 		}
 		return results;
+	}
+
+	@Override
+	public Result getResultById(int id) throws DatabaseException {
+		Result result = em.find(Result.class, id);
+		return result;
 	}
 }

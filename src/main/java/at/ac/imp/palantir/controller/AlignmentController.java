@@ -1,66 +1,119 @@
 package at.ac.imp.palantir.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.ConfigurableNavigationHandler;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.SelectEvent;
+
+import at.ac.imp.palantir.exceptions.DatabaseException;
+import at.ac.imp.palantir.facades.ExperimentFacade;
+import at.ac.imp.palantir.facades.ExperimentFacadeBean;
 import at.ac.imp.palantir.facades.SampleFacade;
+import at.ac.imp.palantir.facades.SampleFacadeBean;
 import at.ac.imp.palantir.model.Alignment;
+import at.ac.imp.palantir.model.Result;
 import at.ac.imp.palantir.model.Sample;
 
 @Named("AlignmentController")
 @ViewScoped
 public class AlignmentController implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private Collection<Alignment> alignments;
-	
-	private Alignment selectedAlignment;
-	
+
+	private Collection<Result> results;
+
+	private Result selectedResult;
+
 	private int sampleId;
-		
-	//@Inject
-	@EJB
-	private SampleFacade sampleFacade;
-	
+
+	@Inject
+	private SampleFacadeBean sampleFacade;
+
+	@Inject
+	private ExperimentFacadeBean experimentFacade;
+
 	@PostConstruct
 	public void init() {
-		
+
+		//if (!FacesContext.getCurrentInstance().isPostback()) {
+			//if (!FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
+
+				System.out.println("SCHAAS");
+				Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+				for (String key : flash.keySet()) {
+					System.out.println(key);
+				}
+				this.sampleId = (Integer) flash.get("sampleId");
+
+				// this.sampleId =
+				// (Integer)FacesContext.getCurrentInstance().getExternalContext()
+				// .getSessionMap().get("sampleId");
+
+				Sample sample = sampleFacade.getSampleById(sampleId);
+				if (sample != null) {
+					results = new ArrayList<Result>();
+
+					for (Alignment alignment : sample.getAlignments()) {
+						try {
+							List<Result> alignmentResults = experimentFacade.getResultsForAlignment(alignment);
+							results.addAll(alignmentResults);
+						} catch (DatabaseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		//}
+	//}
+
+	public void onRowSelect(SelectEvent event) {
+
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-		this.sampleId = (Integer)flash.get("sampleId");
-		
-//		this.sampleId = (Integer)FacesContext.getCurrentInstance().getExternalContext()
-//	               .getSessionMap().get("sampleId");
-		Sample sample = sampleFacade.getSampleById(sampleId);
-		if (sample != null) {
-			this.alignments = sample.getAlignments();
-		}
+		flash.put("resultId", this.selectedResult.getId());
+
+		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext
+				.getCurrentInstance().getApplication().getNavigationHandler();
+
+		FacesMessage msg = new FacesMessage("Error", "error");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+
+		// configurableNavigationHandler.performNavigation("alignment?faces-redirect=true");
+		configurableNavigationHandler.performNavigation("count");
+
 	}
 
-	public Collection<Alignment> getAlignments() {
-		return alignments;
+	public Collection<Result> getResults() {
+		return results;
 	}
 
-	public void setAlignments(Collection<Alignment> alignments) {
-		this.alignments = alignments;
+	public void setResults(Collection<Result> results) {
+		this.results = results;
 	}
 
-	public Alignment getSelectedAlignment() {
-		return selectedAlignment;
+	public Result getSelectedResult() {
+		return selectedResult;
 	}
 
-	public void setSelectedAlignment(Alignment selectedAlignment) {
-		this.selectedAlignment = selectedAlignment;
+	public void setSelectedResult(Result selectedResult) {
+		this.selectedResult = selectedResult;
 	}
 
 	public int getSampleId() {

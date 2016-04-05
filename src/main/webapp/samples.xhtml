@@ -8,7 +8,7 @@
 	</ui:define>
 	<ui:define name="content">
 	<h:form id="sampletab">
-		<p:remoteCommand name="alignmentDetailsCmd" action="#{SampleController.sampleAlignments}" />
+		<p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true" />
 		<p:dataTable id="eventsDT" var="sample"
 			value="#{SampleController.samples}" selectionMode="single"
 			selection="#{SampleController.selectedSample}" rowKey="#{sample.id}" stickyHeader="false" scrollable="false"
@@ -17,7 +17,6 @@
             	Zuberlab Sample List
       		</f:facet>
 			<p:ajax event="rowSelect" listener="#{SampleController.onRowSelect}" />
-			<!-- <p:ajax event="rowSelect" onStart="alignmentDetailsCmd()" global="false" /> -->
 			<p:column headerText="Sample ID">
 				<h:outputText value="#{sample.id}" />
 			</p:column>
