@@ -83,5 +83,18 @@ public class Reference implements Serializable {
 	public String toString() {
 		return "Reference [name=" + name + ", build=" + build + "]";
 	}
-   
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Reference other = (Reference) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 }

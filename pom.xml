@@ -250,6 +250,10 @@
 			<artifactId>wildfly-arquillian-container-remote</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
     </dependencies>
 
     <build>

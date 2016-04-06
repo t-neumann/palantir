@@ -4,14 +4,22 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/templates/template.xhtml">
-	
+
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
 		<h:form id="countForm">
 			<p:dataTable id="resultDT" var="expressionValue"
-				value="#{CountController.expressionValues}"
-				tableStyle="table-layout: auto;" resizableColumns="true">
+				value="#{CountController.expressionValues}" resizableColumns="false"
+				scrollRows="20" scrollable="true" liveScroll="true"
+				scrollHeight="100%">
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Search for gene:" />
+						<p:inputText id="geneFilter" onkeyup="PF('resultDT').filter()"
+							style="width:150px" placeholder="Enter gene" />
+					</p:outputPanel>
+				</f:facet>
 				<p:column headerText="Gene">
 					<h:outputText value="#{expressionValue.gene.geneSymbol}" />
 				</p:column>

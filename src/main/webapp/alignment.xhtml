@@ -9,11 +9,17 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:form id="resultForm">
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false" appendTo="@(body)">
+				<h:outputText value="Fetching count data from database..." />
+				<p:graphicImage name="img/ajax-loader.gif" />
+			</p:dialog>
 			<p:dataTable id="resultDT" var="result"
 				value="#{AlignmentController.results}" selectionMode="single"
 				selection="#{AlignmentController.selectedResult}"
 				rowKey="#{result.id}" tableStyle="table-layout: auto;" resizableColumns="true">
-				<p:ajax event="rowSelect" listener="#{AlignmentController.onRowSelect}" update=":contentForm:resultForm" />
+				<p:ajax event="rowSelect" listener="#{AlignmentController.onRowSelect}" onstart="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()"/>
 				<p:column headerText="Result id">
 					<h:outputText value="#{result.id}" />
 				</p:column>
