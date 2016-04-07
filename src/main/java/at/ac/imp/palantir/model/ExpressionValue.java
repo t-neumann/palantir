@@ -1,6 +1,8 @@
 package at.ac.imp.palantir.model;
 
 import java.io.Serializable;
+import java.util.Comparator;
+
 import javax.persistence.*;
 
 import at.ac.imp.palantir.model.Datapoint;
@@ -58,7 +60,7 @@ public class ExpressionValue extends Datapoint implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ExpressionValue [count=" + count + ", rpkm=" + rpkm + ", tpm=" + tpm + ", gene=" + gene + ", result="
-				+ result + "]";
+		return "ExpressionValue [count=" + count + ", rpkm=" + rpkm + ", tpm=" + tpm + ", result=" + result.getId()
+				+ ", id=" + getId() + "]";
 	}
 }

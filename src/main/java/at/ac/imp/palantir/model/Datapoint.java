@@ -2,6 +2,7 @@ package at.ac.imp.palantir.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DATAPOINT_TYPE")
-public abstract class Datapoint implements Serializable {
+public abstract class Datapoint implements Serializable, Comparable<Datapoint> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,12 +30,21 @@ public abstract class Datapoint implements Serializable {
 	@ManyToOne
 	protected Gene gene;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	protected Result result;
 
 	public Datapoint() {
 		super();
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 
 	public Gene getGene() {
 		return gene;
@@ -50,5 +60,11 @@ public abstract class Datapoint implements Serializable {
 
 	public void setResult(Result result) {
 		this.result = result;
+	}
+	
+	@Override
+	public int compareTo(Datapoint o) {
+		Gene otherGene = o.getGene();
+		return this.gene.compareTo(otherGene);
 	}
 }

@@ -10,21 +10,19 @@
 	<ui:define name="content">
 		<h:form id="countForm">
 			<p:dataTable id="resultDT" var="expressionValue"
-				value="#{CountController.expressionValues}" resizableColumns="false"
-				scrollRows="20" scrollable="true" liveScroll="true"
-				scrollHeight="100%">
-				<f:facet name="header">
-					<p:outputPanel>
-						<h:outputText value="Search for gene:" />
-						<p:inputText id="geneFilter" onkeyup="PF('resultDT').filter()"
-							style="width:150px" placeholder="Enter gene" />
-					</p:outputPanel>
-				</f:facet>
-				<p:column headerText="Gene">
-					<h:outputText value="#{expressionValue.gene.geneSymbol}" />
+				value="#{CountController.lazyModel}" paginator="true"
+				rows="10"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single" lazy="true"
+				rowKey="expressionValue.id">
+				<p:column headerText="Result ID" sortBy="#{expressionValue.result.id}" filterBy="#{expressionValue.result.id}">
+					<h:outputText value="#{expressionValue.result.id}"/>
 				</p:column>
-				<p:column headerText="Count">
-					<h:outputText value="#{expressionValue.count}" />
+				<p:column headerText="Gene" sortBy="#{expressionValue.gene.geneSymbol}" filterBy="#{expressionValue.gene.geneSymbol}">
+					<h:outputText value="#{expressionValue.gene.geneSymbol}"/>
+				</p:column>
+				<p:column headerText="Count" sortBy="#{expressionValue.count}" filterBy="#{expressionValue.count}">
+					<h:outputText value="#{expressionValue.count}"/>
 				</p:column>
 				<p:column headerText="RPKM">
 					<h:outputText value="#{expressionValue.rpkm}" />

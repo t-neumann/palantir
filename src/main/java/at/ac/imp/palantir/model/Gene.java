@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Gene.findByName",query="SELECT g FROM Gene g WHERE g.geneSymbol = :name")
-public class Gene implements Serializable {
+public class Gene implements Serializable, Comparable<Gene> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -119,5 +119,11 @@ public class Gene implements Serializable {
 	public String toString() {
 		return "Gene [chr=" + chr + ", start=" + start + ", end=" + end + ", geneSymbol=" + geneSymbol + ", reverse="
 				+ reverse + ", entrezId=" + entrezId + ", reference=" + reference + "]";
+	}
+
+	@Override
+	public int compareTo(Gene o) {
+		String otherSymbol = o.getGeneSymbol();		
+		return this.geneSymbol.compareTo(otherSymbol);
 	}
 }

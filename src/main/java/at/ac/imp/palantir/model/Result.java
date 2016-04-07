@@ -37,6 +37,11 @@ public class Result implements Serializable, Comparable<Result> {
 	@OneToMany(cascade = CascadeType.ALL)
 	private Collection<Datapoint> datapoints = new ArrayList<Datapoint>();
 	
+	public void addDatapoint(Datapoint datapoint) {
+		datapoints.add(datapoint);
+		datapoint.setResult(this);
+	}
+	
 	public Reference getReference() {
 		return reference;
 	}

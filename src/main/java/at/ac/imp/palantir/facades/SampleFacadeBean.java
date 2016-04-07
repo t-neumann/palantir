@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
@@ -27,7 +28,7 @@ public class SampleFacadeBean implements SampleFacade {
 	@PersistenceContext(unitName = "palantir-db")
 	private EntityManager em;
 	
-	@Inject
+	@EJB
 	private QueueSampleInfoRetreiver infoRetreiver;
 	
 	private final static String[] organisms;

@@ -13,8 +13,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 import at.ac.imp.palantir.model.QueueSampleMetaInfo;
 
-//@Stateless
-@ApplicationScoped
+@Stateless
 @Remote(QueueSampleInfoRetreiver.class)
 public class QueueSampleInfoRetreiverBean implements QueueSampleInfoRetreiver {
 	
