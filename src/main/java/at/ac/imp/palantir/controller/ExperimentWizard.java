@@ -65,11 +65,7 @@ public class ExperimentWizard implements Serializable {
 	
 	private List<Result> selectedResults;
 	
-	private String experimentName;
-	
-	private String experimentDesc;
-
-	private Experiment experiment = new Experiment();
+	private Experiment experiment;
 		
 	@Inject
 	private SampleFacade sampleFacade;
@@ -77,6 +73,7 @@ public class ExperimentWizard implements Serializable {
 	@PostConstruct
 	public void init() {
 		System.out.println("Init");
+		this.experiment = new Experiment();
 		try {
 			setSamples(sampleFacade.getAllSamples());
 		} catch (DatabaseException e) {
@@ -89,14 +86,6 @@ public class ExperimentWizard implements Serializable {
 	public void destroy() {
 		System.out.println("Destroyed");
 	}
- 
-    public Experiment getExperiment() {
-        return experiment;
-    }
- 
-    public void setExperiment(Experiment experiment) {
-        this.experiment = experiment;
-    }
      
     public String onFlowProcess(FlowEvent event) {
         
@@ -171,20 +160,17 @@ public class ExperimentWizard implements Serializable {
 		System.out.println("SELECT end");
 		this.selectedResults = selectedResults;
 	}
+	
+	public void save() {
+        FacesMessage msg = new FacesMessage("Coming Soon", "Feature to save experiment: " + experiment.getName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
-	public String getExperimentName() {
-		return experimentName;
+	public Experiment getExperiment() {
+		return experiment;
 	}
 
-	public void setExperimentName(String experimentName) {
-		this.experimentName = experimentName;
-	}
-
-	public String getExperimentDesc() {
-		return experimentDesc;
-	}
-
-	public void setExperimentDesc(String experimentDesc) {
-		this.experimentDesc = experimentDesc;
+	public void setExperiment(Experiment experiment) {
+		this.experiment = experiment;
 	}
 }

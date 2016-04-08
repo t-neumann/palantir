@@ -9,7 +9,7 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
-			<p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true" />
+			<p:growl id="growl" sticky="true" showDetail="true" />
 			<p:wizard flowListener="#{ExperimentWizard.onFlowProcess}">
 				<p:tab id="sample" title="Samples">
 					<p:panel>
@@ -84,10 +84,10 @@
 							columnClasses="grid, grid">
 							<h:panelGrid columns="2" columnClasses="label, value">
 								<h:outputText value="Experiment name:" />
-								<p:inputTextarea value="#{ExperimentWizard.experimentName}"
+								<p:inputText value="#{ExperimentWizard.experiment.name}"
 									required="true" rows="1" cols="33" />
 								<h:outputText value="Experiment description:" />
-								<p:inputTextarea value="#{ExperimentWizard.experimentName}"
+								<p:inputText value="#{ExperimentWizard.experiment.description}"
 									rows="6" cols="33" />
 							</h:panelGrid>
 						</h:panelGrid>
@@ -113,8 +113,8 @@
 							</p:dataTable>
 						</h:panelGrid>
 						<p:commandButton value="Submit"
-							actionListener="#{userWizard.save}" update="growl"
-							process="@this" />
+							actionListener="#{ExperimentWizard.save}" update="growl"
+							process="@form" />
 					</p:panel>
 				</p:tab>
 			</p:wizard>
