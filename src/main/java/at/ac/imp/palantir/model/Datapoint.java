@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -30,7 +31,8 @@ public abstract class Datapoint implements Serializable, Comparable<Datapoint> {
 	@ManyToOne
 	protected Gene gene;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
+	//@JoinColumn(name="result_id", nullable=false)
 	protected Result result;
 
 	public Datapoint() {

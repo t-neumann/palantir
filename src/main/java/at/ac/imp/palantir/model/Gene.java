@@ -30,7 +30,7 @@ public class Gene implements Serializable, Comparable<Gene> {
 	private Reference reference;
 	
 	// Review fetch type
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
 	protected Collection<Datapoint> datapoints;
 
 	public Collection<Datapoint> getDatapoints() {

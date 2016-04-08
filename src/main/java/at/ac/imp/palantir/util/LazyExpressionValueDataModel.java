@@ -60,7 +60,7 @@ public class LazyExpressionValueDataModel extends LazyDataModel<ExpressionValue>
 		System.out.println("Result id: " + this.resultId);
 		Path<?> idFilter = expressionValue;
 		Path<Integer> idQuery = idFilter.get("result").get("id");
-		//p = cb.and(p, cb.equal(idQuery, this.resultId));
+		p = cb.and(p, cb.equal(idQuery, this.resultId));
 
 		cqCount.select(cb.count(expressionValue)).where(p);
 
@@ -71,8 +71,6 @@ public class LazyExpressionValueDataModel extends LazyDataModel<ExpressionValue>
 		//expressionGene = expressionValue.join(expressionValueMetaModel.getSingularAttribute("gene", Gene.class));
 
 		cq.select(expressionValue).where(p);
-
-		List<ExpressionValue> result = em.createQuery(cq).setFirstResult(first).setMaxResults(pageSize).getResultList();
 
 		this.setRowCount(count);
 
@@ -92,13 +90,10 @@ public class LazyExpressionValueDataModel extends LazyDataModel<ExpressionValue>
 		} else if (sortOrder == SortOrder.DESCENDING) {
 			cq.orderBy(cb.desc(sort));
 		}
+		
+		List<ExpressionValue> result = em.createQuery(cq).setFirstResult(first).setMaxResults(pageSize).getResultList();
 
 		return result;
-		// cq.select(cb.count(myObj));
-		// return em.createQuery(cq).getSingleResult().intValue();
-		// lazyModel.setRowCount(experimentFacade.count(filters));
-		// return experimentFacade.getResultList(first, pageSize, sortField,
-		// sortOrder, filters);
 	}
 
 	private String subGeneRelation(String field) {

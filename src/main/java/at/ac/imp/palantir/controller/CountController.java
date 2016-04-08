@@ -45,34 +45,7 @@ public class CountController implements Serializable{
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		this.resultId = (Integer) flash.get("resultId");
 
-//		try {
-//			Result result = experimentFacade.getResultById(this.resultId, true);
-//			System.out.println("Result loaded");
-//			System.out.println("Result initialized");
-//			Collection<Datapoint> datapoints = result.getDatapoints();
-//			
-//			expressionValues = new ArrayList<ExpressionValue>();
-//			for (Datapoint datapoint : datapoints) {
-//				expressionValues.add((ExpressionValue)datapoint);
-//			}
-//		} catch (DatabaseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 		lazyModel = new LazyExpressionValueDataModel(em, resultId);
-		//lazyModel.setRowCount(experimentFacade.count(new HashMap<String,Object>()));
-		
-//		CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-//        Metamodel m = em.getMetamodel();
-//        ManagedType<ExpressionValue> expressionValueMetaModel = m.managedType(ExpressionValue.class);
-//        Root<ExpressionValue> expressionValue = cq.from(ExpressionValue.class);
-//        Join<ExpressionValue, Gene> gene = expressionValue.join(expressionValueMetaModel.getSingularAttribute("gene", Gene.class));
-//        cq.select(cb.count(expressionValue)).where(cb.equal(gene.get("geneSymbol"), "BRCA1"));
-//        int res = em.createQuery(cq).getSingleResult().intValue();
-//        
-//        System.out.println("Got" + res);
 
 	}
 

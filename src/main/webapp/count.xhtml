@@ -11,23 +11,20 @@
 		<h:form id="countForm">
 			<p:dataTable id="resultDT" var="expressionValue"
 				value="#{CountController.lazyModel}" paginator="true"
-				rows="10"
-				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-				rowsPerPageTemplate="5,10,15" selectionMode="single" lazy="true"
+				rows="19"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				selectionMode="single" lazy="true"
 				rowKey="expressionValue.id">
-				<p:column headerText="Result ID" sortBy="#{expressionValue.result.id}" filterBy="#{expressionValue.result.id}">
-					<h:outputText value="#{expressionValue.result.id}"/>
-				</p:column>
 				<p:column headerText="Gene" sortBy="#{expressionValue.gene.geneSymbol}" filterBy="#{expressionValue.gene.geneSymbol}">
 					<h:outputText value="#{expressionValue.gene.geneSymbol}"/>
 				</p:column>
-				<p:column headerText="Count" sortBy="#{expressionValue.count}" filterBy="#{expressionValue.count}">
+				<p:column headerText="Count" sortBy="#{expressionValue.count}">
 					<h:outputText value="#{expressionValue.count}"/>
 				</p:column>
-				<p:column headerText="RPKM">
+				<p:column headerText="RPKM" sortBy="#{expressionValue.rpkm}">
 					<h:outputText value="#{expressionValue.rpkm}" />
 				</p:column>
-				<p:column headerText="TPM">
+				<p:column headerText="TPM" sortBy="#{expressionValue.rpkm}">
 					<h:outputText value="#{expressionValue.tpm}" />
 				</p:column>
 			</p:dataTable>

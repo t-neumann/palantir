@@ -34,12 +34,12 @@ public class Result implements Serializable, Comparable<Result> {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private Reference reference;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="result",cascade = CascadeType.ALL)
 	private Collection<Datapoint> datapoints = new ArrayList<Datapoint>();
 	
 	public void addDatapoint(Datapoint datapoint) {
 		datapoints.add(datapoint);
-		datapoint.setResult(this);
+		//datapoint.setResult(this);
 	}
 	
 	public Reference getReference() {
