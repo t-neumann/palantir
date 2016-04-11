@@ -1,0 +1,6 @@
+myFieldset .ui-fieldset, .ui-fieldset .ui-fieldset-legend {
+background-color: transparent;
+border-color: transparent;
+background: none;
+border: 0;
+}

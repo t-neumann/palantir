@@ -34,6 +34,8 @@ public abstract class Datapoint implements Serializable, Comparable<Datapoint> {
 	@ManyToOne
 	//@JoinColumn(name="result_id", nullable=false)
 	protected Result result;
+	
+	private int length;
 
 	public Datapoint() {
 		super();
@@ -46,7 +48,6 @@ public abstract class Datapoint implements Serializable, Comparable<Datapoint> {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public Gene getGene() {
 		return gene;
@@ -64,6 +65,14 @@ public abstract class Datapoint implements Serializable, Comparable<Datapoint> {
 		this.result = result;
 	}
 	
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
 	@Override
 	public int compareTo(Datapoint o) {
 		Gene otherGene = o.getGene();

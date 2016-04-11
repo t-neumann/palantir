@@ -12,9 +12,12 @@ import org.primefaces.model.SortOrder;
 import at.ac.imp.palantir.exceptions.DatabaseException;
 import at.ac.imp.palantir.model.Alignment;
 import at.ac.imp.palantir.model.ExpressionValue;
+import at.ac.imp.palantir.model.Reference;
 import at.ac.imp.palantir.model.Result;
 
 public interface ExperimentFacade {
+	
+	public List<Reference> getAllReferences()  throws DatabaseException;
 	public List<Result> getResultsForAlignment(Alignment alignment) throws DatabaseException;
 	public Result getResultById(int id,  boolean eager) throws DatabaseException;
 	public int count(Map<String, Object> filters);

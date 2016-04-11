@@ -19,9 +19,9 @@ public class ExpressionValue extends Datapoint implements Serializable {
 	
 	private int count;
 	
-	private double rpkm;
+	private float rpkm;
 	
-	private double tpm;
+	private float tpm;
 
 	public int getCount() {
 		return count;
@@ -31,19 +31,19 @@ public class ExpressionValue extends Datapoint implements Serializable {
 		this.count = count;
 	}
 
-	public double getRpkm() {
+	public float getRpkm() {
 		return rpkm;
 	}
 
-	public void setRpkm(double rpkm) {
+	public void setRpkm(float rpkm) {
 		this.rpkm = rpkm;
 	}
 
-	public double getTpm() {
+	public float getTpm() {
 		return tpm;
 	}
 
-	public void setTpm(double tpm) {
+	public void setTpm(float tpm) {
 		this.tpm = tpm;
 	}
 
@@ -51,7 +51,7 @@ public class ExpressionValue extends Datapoint implements Serializable {
 		super();
 	}
 
-	public ExpressionValue(int count, double rpkm, double tpm) {
+	public ExpressionValue(int count, float rpkm, float tpm) {
 		super();
 		this.count = count;
 		this.rpkm = rpkm;

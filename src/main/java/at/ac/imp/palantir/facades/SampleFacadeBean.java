@@ -19,10 +19,10 @@ import at.ac.imp.palantir.model.QueueSampleMetaInfo;
 import at.ac.imp.palantir.model.Sample;
 import at.ac.imp.palantir.util.QueueSampleInfoRetreiver;
 
-//@Stateless
-@Named("SampleFacade")
-@ApplicationScoped
-//@Remote(SampleFacade.class)
+@Stateless
+//@Named("SampleFacade")
+//@ApplicationScoped
+@Remote(SampleFacade.class)
 public class SampleFacadeBean implements SampleFacade {
 	
 	@PersistenceContext(unitName = "palantir-db")

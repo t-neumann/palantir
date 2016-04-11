@@ -18,6 +18,7 @@ import org.primefaces.event.SelectEvent;
 
 import at.ac.imp.palantir.exceptions.DatabaseException;
 import at.ac.imp.palantir.facades.ExperimentFacade;
+import at.ac.imp.palantir.facades.SampleFacade;
 import at.ac.imp.palantir.facades.SampleFacadeBean;
 import at.ac.imp.palantir.model.Alignment;
 import at.ac.imp.palantir.model.Result;
@@ -38,8 +39,8 @@ public class AlignmentController implements Serializable {
 
 	private int sampleId;
 
-	@Inject
-	private SampleFacadeBean sampleFacade;
+	@EJB
+	private SampleFacade sampleFacade;
 
 	@EJB
 	private ExperimentFacade experimentFacade;

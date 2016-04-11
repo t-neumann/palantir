@@ -67,7 +67,7 @@ public class ExperimentWizard implements Serializable {
 	
 	private Experiment experiment;
 		
-	@Inject
+	@EJB
 	private SampleFacade sampleFacade;
 	
 	@PostConstruct

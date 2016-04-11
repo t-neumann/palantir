@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="queryForm">
+			<p:dataTable id="queryDT" var="datapoint"
+				value="#{GeneController.datapoints}" selectionMode="single"
+				rowKey="datapoint.id">
+				<p:column headerText="Sample">
+					<h:outputText value="#{datapoint.result.alignment.sample.id}" />
+				</p:column>
+				<p:column headerText="Cell Type">
+					<h:outputText value="#{datapoint.result.alignment.sample.metaInfo.celltype}" />
+				</p:column>
+				<p:column headerText="Genotype">
+					<h:outputText value="#{atapoint.result.alignment.sample.metaInfo.genotype}" />
+				</p:column>
+				<p:column headerText="Antibody">
+					<h:outputText value="#{atapoint.result.alignment.sample.metaInfo.antibody}" />
+				</p:column>
+				<p:column headerText="RPKM">
+					<h:outputText value="#{datapoint.rpkm}">
+						<f:convertNumber pattern="#0.0" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="TPM">
+					<h:outputText value="#{datapoint.tpm}">
+						<f:convertNumber pattern="#0.0" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Count">
+					<h:outputText value="#{datapoint.count}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

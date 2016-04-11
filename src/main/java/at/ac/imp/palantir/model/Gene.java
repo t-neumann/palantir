@@ -23,7 +23,7 @@ public class Gene implements Serializable, Comparable<Gene> {
 	private int end;
 	
 	private String geneSymbol;
-	private boolean reverse;
+	private String strand;
 	private int entrezId;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -93,32 +93,40 @@ public class Gene implements Serializable, Comparable<Gene> {
 		this.entrezId = entrezId;
 	}
 	
-	public boolean isReverse() {
-		return reverse;
+	public String getStrand() {
+		return strand;
 	}
 
-	public void setReverse(boolean reverse) {
-		this.reverse = reverse;
+	public void setStrand(String strand) {
+		this.strand = strand;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Gene() {
 		super();
 	}
 
-	public Gene(String chr, int start, int end, String geneSymbol, boolean reverse, int entrezId) {
+	public Gene(String chr, int start, int end, String geneSymbol, String strand, int entrezId) {
 		super();
 		this.chr = chr;
 		this.start = start;
 		this.end = end;
 		this.geneSymbol = geneSymbol;
-		this.reverse = reverse;
+		this.strand = strand;
 		this.entrezId = entrezId;
 	}
 
 	@Override
 	public String toString() {
 		return "Gene [chr=" + chr + ", start=" + start + ", end=" + end + ", geneSymbol=" + geneSymbol + ", reverse="
-				+ reverse + ", entrezId=" + entrezId + ", reference=" + reference + "]";
+				+ strand + ", entrezId=" + entrezId + ", reference=" + reference + "]";
 	}
 
 	@Override

@@ -55,8 +55,8 @@ public class SampleController implements Serializable {
 		this.organisms = organisms;
 	}
 
-	@Inject
-	private SampleFacadeBean sampleFacade;
+	@EJB
+	private SampleFacade sampleFacade;
 	
 	@PostConstruct
 	public void init() {

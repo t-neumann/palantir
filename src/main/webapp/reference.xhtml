@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		<h2>Reference</h2>
+		<p:fieldset>
+			<h:panelGrid cellpadding="5">
+				<h:form id="referenceForm">
+					<p:growl id="growl" sticky="true" showDetail="true"
+						autoUpdate="true" />
+					<p:dataTable id="referenceDT" var="reference"
+						value="#{ReferenceController.references}" selectionMode="single"
+						selection="#{ReferenceController.selectedReference}"
+						rowKey="#{reference.id}" stickyHeader="false" scrollable="false"
+						resizableColumns="false" tableStyle="table-layout: auto;">
+						<p:ajax event="rowSelect"
+							listener="#{ReferenceController.onRowSelect}"
+							update=":contentForm:geneForm" />
+						<p:column headerText="Reference" width="20px">
+							<h:outputText value="#{reference.name}" />
+						</p:column>
+						<p:column headerText="Genome version" width="20px">
+							<h:outputText value="#{reference.build}" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</h:panelGrid>
+		</p:fieldset>
+		<!-- <p:separator /> -->
+		<h2>Gene</h2>
+		<!-- <p:fieldset legend="Gene" style="margin-bottom:5px"> -->
+		<p:fieldset>
+			<h:panelGrid cellpadding="5">
+				<h:form id="geneForm">
+					<p:dataTable id="geneDT" var="gene"
+						value="#{ReferenceController.lazyModel}" paginator="false"
+						rows="15" selection="#{ReferenceController.selectedGene}"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						selectionMode="single" lazy="true">
+						<p:ajax event="rowSelect"
+							listener="#{ReferenceController.onGeneSelect}" update="@form" />
+						<p:column headerText="Gene" sortBy="#{gene.geneSymbol}"
+							filterBy="#{gene.geneSymbol}">
+							<h:outputText value="#{gene.geneSymbol}" />
+						</p:column>
+						<p:column headerText="EntrezID" sortBy="#{gene.entrezId}"
+							filterBy="#{gene.entrezId}">
+							<h:outputText value="#{gene.entrezId}" />
+						</p:column>
+						<p:column headerText="Chr" sortBy="#{gene.chr}"
+							filterBy="#{gene.chr}">
+							<h:outputText value="#{gene.chr}" />
+						</p:column>
+						<p:column headerText="Start" sortBy="#{gene.start}">
+							<h:outputText value="#{gene.start}" />
+						</p:column>
+						<p:column headerText="End" sortBy="#{gene.end}">
+							<h:outputText value="#{gene.end}" />
+						</p:column>
+						<p:column headerText="Strand" sortBy="#{gene.strand}">
+							<h:outputText value="#{gene.strand}" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</h:panelGrid>
+		</p:fieldset>
+	</ui:define>
+</ui:composition>
