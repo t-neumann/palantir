@@ -70,4 +70,12 @@ public class GeneController implements Serializable {
 	public void setDatapoints(Collection<ExpressionValue> datapoints) {
 		this.datapoints = datapoints;
 	}
+
+	public Gene getSelectedGene() {
+		return selectedGene;
+	}
+
+	public void setSelectedGene(Gene selectedGene) {
+		this.selectedGene = selectedGene;
+	}
 }

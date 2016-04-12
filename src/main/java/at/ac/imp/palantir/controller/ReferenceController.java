@@ -70,8 +70,8 @@ public class ReferenceController implements Serializable {
 		
 		lazyModel = new LazyGeneDataModel(em, selectedReference.getId());
 
-		FacesMessage msg = new FacesMessage("Loading genes", "Reference: " + selectedReference.getName());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+		//FacesMessage msg = new FacesMessage("Loading genes", "Reference: " + selectedReference.getName());
+		//FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 public void onGeneSelect(SelectEvent event) {
