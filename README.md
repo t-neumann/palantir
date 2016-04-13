@@ -11,7 +11,7 @@ Source: <https://github.com/t-neumann/palantir>
 What is it?
 -----------
 
-It is a deployable Maven 3 project compliant with Java EE6 on [WildFly AS 9.x](http://wildfly.org/downloads/). It includes a persistence unit connecting to a MySql datasource with processed count data and transformations from experiments such as RNA-seq and Screens. The JSF front-end lets you conveniently browse the data and add metainformation such as sample annotations, screen candidate selection and comments, as well as
+It is a deployable Maven 3 project compliant with Java EE6 on [WildFly AS 9.x](http://wildfly.org/downloads/). It includes a persistence unit connecting to a MySQL datasource with processed count data and transformations from experiments such as RNA-seq and Screens. The JSF front-end lets you conveniently browse the data and add metainformation such as sample annotations, screen candidate selection and comments, as well as
 grouping data into experiments.  
 
 System requirements
@@ -36,7 +36,13 @@ Start WildFly AS 9 with the Web Profile
 
         For Linux:   ./bin/standalone.sh
         For Windows: \bin\standalone.bat
+        
+Setup MySQL datasource on WildFly AS 9
+-------------------------
 
+The application server needs to have a configured JTA MySQL datasource containing the processed data import from [palantir-importer](https://github.com/t-neumann/palantir-importer) as well as the installed MySQL connector.
+
+After setup, configure the datasource in persistence.xml accordingly.
  
 Build and Deploy the Quickstart
 -------------------------
