@@ -21,6 +21,9 @@
 		<p:layout fullPage="true" resizeTitle="resize"
 			style="background-color:#FFFFFF;">
 			<p:layoutUnit position="north" size="68" id="north">
+				<center>
+					<p:graphicImage name="dna-header.jpg" library="img" width="100%" />
+				</center>
 			</p:layoutUnit>
 			<p:layoutUnit position="west" id="west" resizable="false"
 				style="height:580px;overflow:hidden;" size="150">
@@ -36,6 +39,8 @@
 					<h:form id="loginForm">
 						<p:growl id="growl" sticky="true" showDetail="true" life="3000"
 							autoUpdate="true" />
+						<h3>Speak, friend, and enter.</h3>
+						<p:separator />
 						<h:panelGrid columns="2" cellpadding="5">
 							<h:outputLabel for="username" value="Username:" />
 							<p:inputText id="username" value="#{LoginController.username}"
