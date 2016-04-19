@@ -201,6 +201,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.38</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.faces</groupId>
@@ -259,12 +260,6 @@
 			<artifactId>wildfly-maven-plugin</artifactId>
 			<version>1.0.2.Final</version>
 			<type>maven-plugin</type>
-		</dependency>
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
