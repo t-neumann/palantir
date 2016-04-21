@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<f:view contentType="text/html" id="fview">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Zuberlab</title>
+	<ui:debug />
+	<f:metadata>
+		<ui:insert name="metadata" />
+	</f:metadata>
+	<h:head>
+		<h:outputStylesheet name="custom.css" library="css" />
+	</h:head>
+	<h:body>
+		<p:layout fullPage="true" resizeTitle="resize"
+			style="background-color:#FFFFFF;">
+			<p:layoutUnit position="north" size="68" id="north">
+				<center>
+					<p:graphicImage name="dna-header.jpg" library="img" width="100%" />
+				</center>
+			</p:layoutUnit>
+			<p:layoutUnit position="west" id="west" resizable="false"
+				style="height:580px;overflow:hidden;" size="150">
+			</p:layoutUnit>
+			<p:layoutUnit position="east" size="0"
+				style="width:0px; display:none;" id="east">
+			</p:layoutUnit>
+			<!-- <p:layoutUnit position="south" resizable="true" id="south">
+				<ui:include src="footer.xhtml" />
+			</p:layoutUnit> -->
+			<p:layoutUnit styleClass="layoutUnitCenter" position="center">
+				<h:form id="contentForm">
+					<h:form id="loginForm">
+						<p:growl id="growl" sticky="true" showDetail="true" life="3000"
+							autoUpdate="true" />
+						<h3>Speak, friend, and enter.</h3>
+						<p:separator />
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel for="username" value="Username:" />
+							<p:inputText id="username" value="#{LoginController.username}"
+								required="true" label="username" />
+
+							<h:outputLabel for="password" value="Password:" />
+							<p:password id="password" value="#{LoginController.password}"
+								required="true" label="password" />
+
+							<f:facet name="footer">
+								<p:commandButton value="Login" action="#{LoginController.login}" />
+							</f:facet>
+						</h:panelGrid>
+					</h:form>
+				</h:form>
+			</p:layoutUnit>
+		</p:layout>
+	</h:body>
+</f:view>
+</html>
