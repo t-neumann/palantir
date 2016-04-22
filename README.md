@@ -2,7 +2,7 @@ palantir: A JSF front-end for querying genomic count data from RNA-seq experimen
 ========================
 Author: Tobias Neumann
 
-Technologies: CDI, JSF, JPA, EJB, PrimeFaces
+Technologies: CDI, JSF, Hibernate / JPA, EJB, PrimeFaces
 
 Target Product: War
 
