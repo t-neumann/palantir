@@ -67,11 +67,54 @@ The application will be running at the following URL: <http://localhost:8080/pal
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the JBoss Server as described above.
+1. Make sure you have started the Wildfly Server as described above.
 2. Open a command line and navigate to the root directory of this palantir.
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn org.wildfly.plugins:wildfly-maven-plugin:undeploy
+        
+ Deploy to remote servers
+--------------------
+
+* Make sure you have started the Wildfly Server on the remove machine.
+* Edit `settings.xml` file in your Maven home (usually `~/.m2/settings.xml`) to contain all relevant remote server credentials
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+	<profiles>
+		<profile>
+			<id>wildfly-dev</id>
+			<properties>
+				<wildfly-hostname>dev-server.org</wildfly-hostname>
+				<wildfly-port>9990</wildfly-port>
+				<wildfly-username>user</wildfly-username>
+				<wildfly-password>pw</wildfly-password>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>wildfly-production</id>
+			<properties>
+				<wildfly-hostname>production-server.org</wildfly-hostname>
+				<wildfly-port>9990</wildfly-port>
+				<wildfly-username>user</wildfly-username>
+				<wildfly-password>pw</wildfly-password>
+			</properties>
+		</profile>
+
+	</profiles>
+
+</settings>
+```
+
+* Deploy the archive to your desired remote machine:
+
+        mvn clean package org.wildfly.plugins:wildfly-maven-plugin:deploy -P wildfly-dev
+        mvn clean package org.wildfly.plugins:wildfly-maven-plugin:deploy -P wildfly-production
 
 
 Run the Arquillian Tests 
