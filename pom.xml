@@ -284,14 +284,33 @@
 			</plugin>
 			<!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
 			<!-- To use, run: mvn package jboss-as:deploy -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.jboss.as.plugins</groupId> -->
+<!-- 				<artifactId>jboss-as-maven-plugin</artifactId> -->
+<!-- 				<version>${version.jboss.maven.plugin}</version> -->
+<!-- 				<configuration> -->
+<!-- 					<hostname>127.0.0.1</hostname> -->
+<!-- 					<port>9990</port> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
 			<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>${version.jboss.maven.plugin}</version>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>1.0.2.Final</version>
 				<configuration>
-					<hostname>127.0.0.1</hostname>
-					<port>9990</port>
+					<hostname>${wildfly-hostname}</hostname>
+					<port>${wildfly-port}</port>
+					<username>${wildfly-username}</username>
+					<password>${wildfly-password}</password>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -378,6 +397,7 @@
 				</plugins>
 			</build>
 		</profile>
+
 
 	</profiles>
 	<packaging>war</packaging>

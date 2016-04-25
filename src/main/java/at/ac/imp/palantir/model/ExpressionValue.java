@@ -13,6 +13,7 @@ import at.ac.imp.palantir.model.Datapoint;
  */
 @Entity
 @DiscriminatorValue(value = "ExpressionValue")
+@NamedQuery(name="ExpressionValue.findByGene",query="SELECT e FROM ExpressionValue e WHERE e.gene.id = :id")
 public class ExpressionValue extends Datapoint implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

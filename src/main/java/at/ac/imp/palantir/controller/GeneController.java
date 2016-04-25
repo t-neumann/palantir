@@ -60,7 +60,8 @@ public class GeneController implements Serializable {
 		System.out.println(geneId);
 		selectedGene = em.find(Gene.class, geneId);
 		System.out.println(selectedGene.getGeneSymbol());
-		datapoints = (Collection<ExpressionValue>)(Collection<?>) selectedGene.getDatapoints();
+		//datapoints = (Collection<ExpressionValue>)(Collection<?>) selectedGene.getDatapoints();
+		datapoints = experimentFacade.findExpressionValuesPerGene(geneId);
 	}
 
 	public Collection<ExpressionValue> getDatapoints() {
