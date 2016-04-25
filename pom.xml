@@ -219,12 +219,12 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>5.3</version>
-			<exclusions> 
-            			<exclusion>
-                			<groupId>dom4j</groupId>
-                			<artifactId>dom4j</artifactId>
-            			</exclusion>
-        		</exclusions>
+			<exclusions>
+				<exclusion>
+					<groupId>dom4j</groupId>
+					<artifactId>dom4j</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
@@ -313,6 +313,13 @@
 						<version>${version.surefire.plugin}</version>
 						<configuration>
 							<skip>true</skip>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>${version.war.plugin}</version>
+						<configuration>
+							<attachClasses>true</attachClasses>
 						</configuration>
 					</plugin>
 				</plugins>
