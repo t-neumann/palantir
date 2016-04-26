@@ -7,11 +7,10 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
-import javax.inject.Inject;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
@@ -19,13 +18,12 @@ import org.primefaces.event.SelectEvent;
 import at.ac.imp.palantir.exceptions.DatabaseException;
 import at.ac.imp.palantir.facades.ExperimentFacade;
 import at.ac.imp.palantir.facades.SampleFacade;
-import at.ac.imp.palantir.facades.SampleFacadeBean;
 import at.ac.imp.palantir.model.Alignment;
 import at.ac.imp.palantir.model.Result;
 import at.ac.imp.palantir.model.Sample;
 
 @Named("AlignmentController")
-@SessionScoped
+@ViewScoped
 public class AlignmentController implements Serializable {
 
 	/**
@@ -56,6 +54,7 @@ public class AlignmentController implements Serializable {
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		for (String key : flash.keySet()) {
 			System.out.println(key);
+			System.out.println(flash.get(key));
 		}
 		this.sampleId = (Integer) flash.get("sampleId");
 
