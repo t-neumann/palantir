@@ -62,6 +62,9 @@
 		<!-- maven-compiler-plugin -->
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
+
+		<!-- Default datasource = dev -->
+		<datasource>java:jboss/datasources/palantir-devDS</datasource>
 	</properties>
 
 
@@ -282,17 +285,6 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-			<!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
-			<!-- To use, run: mvn package jboss-as:deploy -->
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.jboss.as.plugins</groupId> -->
-<!-- 				<artifactId>jboss-as-maven-plugin</artifactId> -->
-<!-- 				<version>${version.jboss.maven.plugin}</version> -->
-<!-- 				<configuration> -->
-<!-- 					<hostname>127.0.0.1</hostname> -->
-<!-- 					<port>9990</port> -->
-<!-- 				</configuration> -->
-<!-- 			</plugin> -->
 			<plugin>
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
@@ -313,6 +305,12 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 
 	<profiles>
@@ -343,6 +341,15 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+
+		<profile>
+
+			<!-- Seperate profile for deploying to the production system -->
+			<id>wildfly-production</id>
+			<properties>
+				<datasource>java:jboss/datasources/palantir-DS</datasource>
+			</properties>
 		</profile>
 
 		<profile>
