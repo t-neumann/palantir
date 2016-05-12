@@ -24,26 +24,28 @@ public class Gene implements Serializable, Comparable<Gene> {
 	
 	private String geneSymbol;
 	private String strand;
-	private int entrezId;
+	private String entrezId;
+	
+	private String anno;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Reference reference;
 	
 	// Review fetch type
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
-	protected Collection<Datapoint> datapoints;
+//	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
+//	protected Collection<Datapoint> datapoints;
 
-	public Collection<Datapoint> getDatapoints() {
-		return datapoints;
-	}
-
-	public void setDatapoints(Collection<Datapoint> datapoints) {
-		this.datapoints = datapoints;
-	}
-	
-	public void addDatapoint(Datapoint datapoint) {
-		this.datapoints.add(datapoint);
-	}
+//	public Collection<Datapoint> getDatapoints() {
+//		return datapoints;
+//	}
+//
+//	public void setDatapoints(Collection<Datapoint> datapoints) {
+//		this.datapoints = datapoints;
+//	}
+//	
+//	public void addDatapoint(Datapoint datapoint) {
+//		this.datapoints.add(datapoint);
+//	}
 
 	public Reference getReference() {
 		return reference;
@@ -85,11 +87,11 @@ public class Gene implements Serializable, Comparable<Gene> {
 		this.geneSymbol = geneSymbol;
 	}
 
-	public int getEntrezId() {
+	public String getEntrezId() {
 		return entrezId;
 	}
 
-	public void setEntrezId(int entrezId) {
+	public void setEntrezId(String entrezId) {
 		this.entrezId = entrezId;
 	}
 	
@@ -99,6 +101,14 @@ public class Gene implements Serializable, Comparable<Gene> {
 
 	public void setStrand(String strand) {
 		this.strand = strand;
+	}
+
+	public String getAnno() {
+		return anno;
+	}
+
+	public void setAnno(String anno) {
+		this.anno = anno;
 	}
 
 	public int getId() {
@@ -113,7 +123,7 @@ public class Gene implements Serializable, Comparable<Gene> {
 		super();
 	}
 
-	public Gene(String chr, int start, int end, String geneSymbol, String strand, int entrezId) {
+	public Gene(String chr, int start, int end, String geneSymbol, String strand, String entrezId, String anno) {
 		super();
 		this.chr = chr;
 		this.start = start;
@@ -121,12 +131,13 @@ public class Gene implements Serializable, Comparable<Gene> {
 		this.geneSymbol = geneSymbol;
 		this.strand = strand;
 		this.entrezId = entrezId;
+		this.anno = anno;
 	}
 
 	@Override
 	public String toString() {
 		return "Gene [chr=" + chr + ", start=" + start + ", end=" + end + ", geneSymbol=" + geneSymbol + ", reverse="
-				+ strand + ", entrezId=" + entrezId + ", reference=" + reference + "]";
+				+ strand + ", entrezId=" + entrezId + ", reference=" + reference + ", anno=" + anno + "]";
 	}
 
 	@Override
