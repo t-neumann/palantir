@@ -8,9 +8,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.ConfigurableNavigationHandler;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
@@ -56,19 +56,25 @@ public class AlignmentController implements Serializable {
 			System.out.println(key);
 			System.out.println(flash.get(key));
 		}
-		this.sampleId = (Integer) flash.get("sampleId");
+		
+		Integer sampleId = (Integer) flash.get("sampleId");
+		
+		if (sampleId != null) {
+			
+			this.sampleId = sampleId;
 
-		Sample sample = sampleFacade.getSampleById(sampleId);
-		if (sample != null) {
-			results = new ArrayList<Result>();
-
-			for (Alignment alignment : sample.getAlignments()) {
-				try {
-					List<Result> alignmentResults = experimentFacade.getResultsForAlignment(alignment);
-					results.addAll(alignmentResults);
-				} catch (DatabaseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			Sample sample = sampleFacade.getSampleById(sampleId);
+			if (sample != null) {
+				results = new ArrayList<Result>();
+	
+				for (Alignment alignment : sample.getAlignments()) {
+					try {
+						List<Result> alignmentResults = experimentFacade.getResultsForAlignment(alignment);
+						results.addAll(alignmentResults);
+					} catch (DatabaseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}

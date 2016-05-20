@@ -15,6 +15,9 @@
 				<p:column headerText="Sample">
 					<h:outputText value="#{datapoint.result.alignment.sample.id}" />
 				</p:column>
+				<p:column headerText="Alignment">
+					<h:outputText value="#{datapoint.result.alignment.name}" />
+				</p:column>
 				<p:column headerText="Cell Type">
 					<h:outputText
 						value="#{datapoint.result.alignment.sample.metaInfo.celltype}" />
