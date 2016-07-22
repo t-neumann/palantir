@@ -27,6 +27,9 @@
 							<p:column headerText="Organism" width="10%">
 								<h:outputText value="#{sample.metaInfo.organism}" />
 							</p:column>
+							<p:column headerText="Description">
+								<h:outputText value="#{sample.metaInfo.description}" />
+							</p:column>
 							<p:column headerText="Experiment Type" width="10%">
 								<h:outputText value="#{sample.metaInfo.experimentType}" />
 							</p:column>
@@ -39,7 +42,7 @@
 							<p:column headerText="Antibody" width="10%">
 								<h:outputText value="#{sample.metaInfo.antibody}" />
 							</p:column>
-							<p:column headerText="Sequencer" width="10%">
+							<!-- <p:column headerText="Sequencer" width="10%">
 								<h:outputText value="#{sample.metaInfo.sequencer}" />
 							</p:column>
 							<p:column headerText="Read Type" width="10%">
@@ -47,7 +50,7 @@
 							</p:column>
 							<p:column headerText="Primer" width="10%">
 								<h:outputText value="#{sample.metaInfo.primer}" />
-							</p:column>
+							</p:column> -->
 						</p:dataTable>
 					</p:panel>
 				</p:tab>
@@ -59,9 +62,9 @@
 							rowKey="#{result.id}" stickyHeader="false" scrollable="true"
 							scrollHeight="100%" resizableColumns="true">
 							<!-- <p:ajax event="rowSelect" listener="#{ExperimentWizard.onRowSelect}" /> -->
-							<p:column headerText="Result ID">
+							<!-- <p:column headerText="Result ID">
 								<h:outputText value="#{result.id}" />
-							</p:column>
+							</p:column> -->
 							<p:column headerText="Alignment">
 								<h:outputText value="#{result.alignment.name}" />
 							</p:column>

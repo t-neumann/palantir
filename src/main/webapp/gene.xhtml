@@ -9,59 +9,65 @@
 	</ui:define>
 	<ui:define name="content">
 		<!-- <h:form id="queryForm"> -->
-			<p:dataTable id="queryDT" var="datapoint"
-				value="#{GeneController.datapoints}" selectionMode="single"
-				rowKey="datapoint.id">
-				<p:column headerText="Sample">
-					<h:outputText value="#{datapoint.result.alignment.sample.id}" />
-				</p:column>
-				<p:column headerText="Alignment">
-					<h:outputText value="#{datapoint.result.alignment.name}" />
-				</p:column>
-				<p:column headerText="Cell Type">
-					<h:outputText
-						value="#{datapoint.result.alignment.sample.metaInfo.celltype}" />
-				</p:column>
-				<p:column headerText="Genotype">
-					<h:outputText
-						value="#{datapoint.result.alignment.sample.metaInfo.genotype}" />
-				</p:column>
-				<p:column headerText="Antibody">
-					<h:outputText
-						value="#{datapoint.result.alignment.sample.metaInfo.antibody}" />
-				</p:column>
-				<p:column headerText="RPKM">
-					<h:outputText value="#{datapoint.rpkm}">
-						<f:convertNumber pattern="#0.0" />
-					</h:outputText>
-				</p:column>
-				<p:column headerText="TPM">
-					<h:outputText value="#{datapoint.tpm}">
-						<f:convertNumber pattern="#0.0" />
-					</h:outputText>
-				</p:column>
-				<p:column headerText="Count">
-					<h:outputText value="#{datapoint.count}" />
-				</p:column>
-			</p:dataTable>
-			<h3>Export</h3>
-			<h:commandLink ajax="false">
-				<p:graphicImage name="excel.png" library="img" width="30" />
-				<p:dataExporter type="xls" target="queryDT" fileName="#{GeneController.selectedGene.geneSymbol}"
-					pageOnly="false" />
-			</h:commandLink>
+		<p:dataTable id="queryDT" var="datapoint"
+			value="#{GeneController.datapoints}" selectionMode="single"
+			rowKey="datapoint.id">
+			<p:column headerText="Sample">
+				<h:outputText value="#{datapoint.result.alignment.sample.id}" />
+			</p:column>
+			<p:column headerText="Description">
+				<h:outputText value="#{datapoint.result.alignment.sample.metaInfo.description}" />
+			</p:column>
+			<p:column headerText="Alignment">
+				<h:outputText value="#{datapoint.result.alignment.name}" />
+			</p:column>
+			<p:column headerText="Cell Type">
+				<h:outputText
+					value="#{datapoint.result.alignment.sample.metaInfo.celltype}" />
+			</p:column>
+			<p:column headerText="Genotype">
+				<h:outputText
+					value="#{datapoint.result.alignment.sample.metaInfo.genotype}" />
+			</p:column>
+			<p:column headerText="Antibody">
+				<h:outputText
+					value="#{datapoint.result.alignment.sample.metaInfo.antibody}" />
+			</p:column>
+			<p:column headerText="RPKM">
+				<h:outputText value="#{datapoint.rpkm}">
+					<f:convertNumber pattern="#0.0" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="TPM">
+				<h:outputText value="#{datapoint.tpm}">
+					<f:convertNumber pattern="#0.0" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Count">
+				<h:outputText value="#{datapoint.count}" />
+			</p:column>
+		</p:dataTable>
+		<h3>Export</h3>
+		<h:commandLink ajax="false">
+			<p:graphicImage name="excel.png" library="img" width="30" />
+			<p:dataExporter type="xls" target="queryDT"
+				fileName="#{GeneController.selectedGene.geneSymbol}"
+				pageOnly="false" />
+		</h:commandLink>
 
-			<h:commandLink ajax="false">
-				<p:graphicImage name="pdf.png" library="img" width="30" />
-				<p:dataExporter type="pdf" target="queryDT" fileName="#{GeneController.selectedGene.geneSymbol}"
-					pageOnly="false" />
-			</h:commandLink>
+		<h:commandLink ajax="false">
+			<p:graphicImage name="pdf.png" library="img" width="30" />
+			<p:dataExporter type="pdf" target="queryDT"
+				fileName="#{GeneController.selectedGene.geneSymbol}"
+				pageOnly="false" />
+		</h:commandLink>
 
-			<h:commandLink ajax="false">
-				<p:graphicImage name="csv.png" library="img" width="30" />
-				<p:dataExporter type="csv" target="queryDT" fileName="#{GeneController.selectedGene.geneSymbol}"
-					pageOnly="false" />
-			</h:commandLink>
+		<h:commandLink ajax="false">
+			<p:graphicImage name="csv.png" library="img" width="30" />
+			<p:dataExporter type="csv" target="queryDT"
+				fileName="#{GeneController.selectedGene.geneSymbol}"
+				pageOnly="false" />
+		</h:commandLink>
 		<!-- </h:form>-->
 	</ui:define>
 </ui:composition>

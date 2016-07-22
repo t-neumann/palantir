@@ -26,6 +26,9 @@
 			<p:column headerText="Organism">
 				<h:outputText value="#{sample.metaInfo.organism}" />
 			</p:column>
+			<p:column headerText="Description">
+				<h:outputText value="#{sample.metaInfo.description}" />
+			</p:column>
 			<p:column headerText="Experiment Type">
 				<h:outputText value="#{sample.metaInfo.experimentType}" />
 			</p:column>
@@ -41,7 +44,7 @@
 			<p:column headerText="Sequencer">
 				<h:outputText value="#{sample.metaInfo.sequencer}" />
 			</p:column>
-			<p:column headerText="Flowcell">
+			<!-- <p:column headerText="Flowcell">
 				<h:outputText value="#{sample.metaInfo.flowcellId}" />
 			</p:column>
 			<p:column headerText="Lane">
@@ -52,7 +55,7 @@
 			</p:column>
 			<p:column headerText="Primer">
 				<h:outputText value="#{sample.metaInfo.primer}" />
-			</p:column>
+			</p:column> -->
 			<f:facet name="footer">
 				<p:commandButton process="eventsDT" icon="fa fa-fw fa-edit"
 					value="Edit" action="#{SampleController.edit}" />

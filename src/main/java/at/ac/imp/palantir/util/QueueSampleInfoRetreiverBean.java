@@ -3,13 +3,21 @@ package at.ac.imp.palantir.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
+
+import org.primefaces.json.JSONObject;
+import org.primefaces.json.JSONTokener;
 
 import at.ac.imp.palantir.model.QueueSampleMetaInfo;
 
@@ -121,10 +129,91 @@ public class QueueSampleInfoRetreiverBean implements QueueSampleInfoRetreiver {
 		
 		return new QueueSampleMetaInfo(sampleId, sequencer, vendor, flowcell, readType, lane, user, organism, celltype, experimentType, genotype, antibody, primer);
 	}
+	
+	// New VBCF URL API
+	// http://ngs.csf.ac.at/forskalle/apidoc
+	// Retreive cookie 
+	private String getVBCFCookie() {
+		String cookie = null;
+		HttpURLConnection c = null;
+		try {
+			Map<String, Object> params = new LinkedHashMap<>();
+			params.put("username", user);
+			params.put("password", password);
+
+			StringBuilder postData = new StringBuilder();
+			for (Map.Entry<String, Object> param : params.entrySet()) {
+				if (postData.length() != 0)
+					postData.append('&');
+				postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+				postData.append('=');
+				postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+			}
+			byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+			URL u = new URL("http://ngs.vbcf.ac.at/forskalle/api/login");
+			c = (HttpURLConnection) u.openConnection();
+			c.setRequestMethod("POST");
+			c.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			c.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+			c.setDoOutput(true);
+			c.getOutputStream().write(postDataBytes);
+
+			String cookieField = c.getHeaderField("Set-Cookie");
+
+			cookieField = cookieField.substring(0, cookieField.indexOf(";"));
+			String cookieName = cookieField.substring(0, cookieField.indexOf("="));
+			String cookieValue = cookieField.substring(cookieField.indexOf("=") + 1, cookieField.length());
+
+			cookie = cookieName + "=" + cookieValue;
+
+			c.disconnect();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			c.disconnect();
+		}
+		return cookie;
+	}
+	
+	private String getVBCFJSONproperty(String sampleID, String key) {
+		String value = null;
+		HttpURLConnection c = null;
+			try {
+				String url = "http://ngs.vbcf.ac.at/forskalle/api/samples/" + sampleID;
+				URL u = new URL(url);
+				c = (HttpURLConnection) u.openConnection();
+				
+				String cookie = getVBCFCookie();
+				c.setRequestProperty("Cookie", cookie);
+				c.connect();
+				
+				BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+	            StringBuilder sb = new StringBuilder();
+	            String line = "";
+	            while ((line = br.readLine()) != null) {
+	                sb.append(line + "\n");
+	            }
+	            br.close();
+	            
+	            JSONObject json = new JSONObject(new JSONTokener(sb.toString()));
+	            
+	            value = json.getString(key);				
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				c.disconnect();
+			}
+			return value;
+	}
 
 	@Override
 	public QueueSampleMetaInfo getInfoForSample(int sampleId) {
 		QueueSampleMetaInfo info = urlHandler(sampleId);
+		info.setDescription(getVBCFJSONproperty(String.valueOf(sampleId), "descr"));
 		return info;
 	}
 }

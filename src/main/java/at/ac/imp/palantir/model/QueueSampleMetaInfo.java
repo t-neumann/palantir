@@ -17,6 +17,7 @@ public class QueueSampleMetaInfo implements Serializable {
 	private int id;
 	
 	private int sampleId;
+	private String description = "";
 	private String sequencer = "";
 	private String vendor = "";
 	private String flowcellId = "";
@@ -35,6 +36,12 @@ public class QueueSampleMetaInfo implements Serializable {
 	}
 	public void setSampleId(int sampleId) {
 		this.sampleId = sampleId;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public String getSequencer() {
 		return sequencer;

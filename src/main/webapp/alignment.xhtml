@@ -20,9 +20,9 @@
 				rowKey="#{result.id}" tableStyle="table-layout: auto;" resizableColumns="true">
 				<p:ajax event="rowSelect" listener="#{AlignmentController.onRowSelect}" onstart="PF('statusDialog').show()"
 						oncomplete="PF('statusDialog').hide()"/>
-				<p:column headerText="Result id">
+				<!-- <p:column headerText="Result id">
 					<h:outputText value="#{result.id}" />
-				</p:column>
+				</p:column> -->
 				<p:column headerText="Alignment">
 					<h:outputText value="#{result.alignment.name}" />
 				</p:column>
