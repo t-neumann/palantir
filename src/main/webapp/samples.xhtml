@@ -7,44 +7,49 @@
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
-	<h:form id="sampletab">
-		<p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true" />
-		<p:dataTable id="eventsDT" var="sample"
-			value="#{SampleController.samples}" selectionMode="single"
-			selection="#{SampleController.selectedSample}" rowKey="#{sample.id}" stickyHeader="false" scrollable="false"
-			tableStyle="table-layout: auto;" resizableColumns="true">
-			<f:facet name="header">
-            	Zuberlab Sample List
-      		</f:facet>
-			<p:ajax event="rowSelect" listener="#{SampleController.onRowSelect}" />
-			<p:column headerText="Sample ID">
-				<h:outputText value="#{sample.id}" />
-			</p:column>
-			<p:column headerText="Owner">
-				<h:outputText value="#{sample.metaInfo.user}" />
-			</p:column>
-			<p:column headerText="Organism">
-				<h:outputText value="#{sample.metaInfo.organism}" />
-			</p:column>
-			<p:column headerText="Description">
-				<h:outputText value="#{sample.metaInfo.description}" />
-			</p:column>
-			<p:column headerText="Experiment Type">
-				<h:outputText value="#{sample.metaInfo.experimentType}" />
-			</p:column>
-			<p:column headerText="Cell Type">
-				<h:outputText value="#{sample.metaInfo.celltype}" />
-			</p:column>
-			<p:column headerText="Genotype">
-				<h:outputText value="#{sample.metaInfo.genotype}" />
-			</p:column>
-			<p:column headerText="Antibody">
-				<h:outputText value="#{sample.metaInfo.antibody}" />
-			</p:column>
-			<p:column headerText="Sequencer">
-				<h:outputText value="#{sample.metaInfo.sequencer}" />
-			</p:column>
-			<!-- <p:column headerText="Flowcell">
+		<h:form id="sampletab">
+			<!-- tableStyle="table-layout:auto;width:100%;height:80% padding-bottom:5px;" stickyHeader="false" scrollable="true"
+			resizableColumns="true" -->
+			<p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true" />
+			<p:dataTable id="eventsDT" var="sample"
+				value="#{SampleController.samples}" selectionMode="single"
+				selection="#{SampleController.selectedSample}" rowKey="#{sample.id}">
+				<f:facet name="header">
+					<h:outputText value="Zuberlab Sample List" />
+					<div align="right">
+						<p:commandButton process="eventsDT" icon="fa fa-fw fa-edit"
+							value="Edit" action="#{SampleController.edit}" />
+					</div>
+				</f:facet>
+				<p:ajax event="rowSelect" listener="#{SampleController.onRowSelect}" />
+				<p:column headerText="Sample ID">
+					<h:outputText value="#{sample.id}" />
+				</p:column>
+				<p:column headerText="Owner">
+					<h:outputText value="#{sample.metaInfo.user}" />
+				</p:column>
+				<p:column headerText="Organism">
+					<h:outputText value="#{sample.metaInfo.organism}" />
+				</p:column>
+				<p:column headerText="Description">
+					<h:outputText value="#{sample.metaInfo.description}" />
+				</p:column>
+				<p:column headerText="Experiment Type">
+					<h:outputText value="#{sample.metaInfo.experimentType}" />
+				</p:column>
+				<p:column headerText="Cell Type">
+					<h:outputText value="#{sample.metaInfo.celltype}" />
+				</p:column>
+				<p:column headerText="Genotype">
+					<h:outputText value="#{sample.metaInfo.genotype}" />
+				</p:column>
+				<p:column headerText="Antibody">
+					<h:outputText value="#{sample.metaInfo.antibody}" />
+				</p:column>
+				<p:column headerText="Sequencer">
+					<h:outputText value="#{sample.metaInfo.sequencer}" />
+				</p:column>
+				<!-- <p:column headerText="Flowcell">
 				<h:outputText value="#{sample.metaInfo.flowcellId}" />
 			</p:column>
 			<p:column headerText="Lane">
@@ -56,11 +61,11 @@
 			<p:column headerText="Primer">
 				<h:outputText value="#{sample.metaInfo.primer}" />
 			</p:column> -->
-			<f:facet name="footer">
-				<p:commandButton process="eventsDT" icon="fa fa-fw fa-edit"
-					value="Edit" action="#{SampleController.edit}" />
-			</f:facet>
-		</p:dataTable>
-	</h:form>
+				<!-- <f:facet name="footer">
+					<p:commandButton process="eventsDT" icon="fa fa-fw fa-edit"
+						value="Edit" action="#{SampleController.edit}" />
+				</f:facet> -->
+			</p:dataTable>
+		</h:form>
 	</ui:define>
 </ui:composition>

@@ -16,11 +16,11 @@
 				<h:outputText value="Fetching metainfo from VBCF server..." />
 				<p:graphicImage name="img/ajax-loader.gif" />
 			</p:dialog>
-
+			
 			<p:dataTable id="sampleEditDT" var="sample"
-				value="#{SampleController.samples}" editable="true" editMode="cell"
-				widgetVar="cellSamples" stickyHeader="false" scrollable="false"
-				tableStyle="table-layout: auto;" resizableColumns="true">
+			value="#{SampleController.samples}" paginator="true" rows="15" editable="true" editMode="cell" widgetVar="cellSamples"
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			selectionMode="single" lazy="true" rowKey="#{sample.id}" height="100" tableStyle="table-layout:auto;width:100%;height:80% padding-bottom:5px;">
 
 				<p:ajax event="cellEdit" listener="#{SampleController.onCellEdit}" />
 				<p:column headerText="Sample ID">
