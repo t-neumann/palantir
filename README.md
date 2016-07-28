@@ -6,7 +6,7 @@ Technologies: CDI, JSF, Hibernate / JPA, EJB, PrimeFaces
 
 Target Product: War
 
-Source: <https://github.com/t-neumann/palantir>
+Source: ("tar":https://github.com/t-neumann/palantir/archive/v0.1.tar.gz, "zip":https://github.com/t-neumann/palantir/archive/v0.1.zip)
 
 What is it?
 -----------
