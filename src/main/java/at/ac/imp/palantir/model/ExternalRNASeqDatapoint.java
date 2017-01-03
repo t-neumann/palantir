@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -20,9 +21,9 @@ public class ExternalRNASeqDatapoint implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne
-	private ExternalRNASeqResource resource;
+	private ExternalRNASeqEntry entry;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<Gene> genes = new ArrayList<Gene>();
 	
 	@Id
@@ -37,15 +38,15 @@ public class ExternalRNASeqDatapoint implements Serializable {
 		this.id = id;
 	}
 	
-	private int entrezId;
+	private String entrezId;
 
 	private float value;
 	
-	public int getEntrezId() {
+	public String getEntrezId() {
 		return entrezId;
 	}
 	
-	public void setEntrezId(int entrezId) {
+	public void setEntrezId(String entrezId) {
 		this.entrezId = entrezId;
 	}
 	
@@ -57,11 +58,31 @@ public class ExternalRNASeqDatapoint implements Serializable {
 		this.value = value;
 	}
 	
+	public void addGene(Gene gene) {
+		genes.add(gene);
+	}
+	
+	public Collection<Gene> getGenes() {
+		return genes;
+	}
+
+	public void setGenes(Collection<Gene> genes) {
+		this.genes = genes;
+	}
+
+	public ExternalRNASeqEntry getEntry() {
+		return entry;
+	}
+
+	public void setEntry(ExternalRNASeqEntry entry) {
+		this.entry = entry;
+	}
+
 	public ExternalRNASeqDatapoint() {
 		
 	}
 
-	public ExternalRNASeqDatapoint(int entrezId, float value) {
+	public ExternalRNASeqDatapoint(String entrezId, float value) {
 		super();
 		this.entrezId = entrezId;
 		this.value = value;
@@ -69,7 +90,7 @@ public class ExternalRNASeqDatapoint implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ExternalRNASeqDatapoint [value=" + this.value + "resource=" + resource.getId()
+		return "ExternalRNASeqDatapoint [value=" + this.value + "entry=" + entry.getId()
 				+ ", id=" + this.getId() + "]";
 	}
 }

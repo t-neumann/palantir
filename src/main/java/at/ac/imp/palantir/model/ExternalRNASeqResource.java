@@ -28,12 +28,25 @@ public class ExternalRNASeqResource implements Serializable {
 	private int id;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<ExternalRNASeqEntry> entries = new ArrayList<ExternalRNASeqEntry>();
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Collection<Reference> references = new ArrayList<Reference>();
-	
-	private Collection<ExternalRNASeqDatapoint> datapoints = new ArrayList<ExternalRNASeqDatapoint>();
-	
+		
 	private String name;
 	
+	public Collection<Reference> getReferences() {
+		return references;
+	}
+
+	public void setReferences(Collection<Reference> references) {
+		this.references = references;
+	}
+	
+	public void addReference(Reference reference) {
+		this.references.add(reference);
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -42,24 +55,16 @@ public class ExternalRNASeqResource implements Serializable {
 		this.name = name;
 	}
 
-	public void addDatapoint(ExternalRNASeqDatapoint datapoint) {
-		datapoints.add(datapoint);
+	public void addEntry(ExternalRNASeqEntry entry) {
+		entries.add(entry);
 	}
 	
-	public Collection<Reference> getReferences() {
-		return references;
+	public Collection<ExternalRNASeqEntry> getEntries() {
+		return entries;
 	}
 
-	public void setReference(Collection<Reference> references) {
-		this.references = references;
-	}
-	
-	public Collection<ExternalRNASeqDatapoint> getDatapoints() {
-		return datapoints;
-	}
-
-	public void setDatapoints(Collection<ExternalRNASeqDatapoint> datapoints) {
-		this.datapoints = datapoints;
+	public void setEntries(Collection<ExternalRNASeqEntry> entries) {
+		this.entries = entries;
 	}
 	
 	public int getId() {
