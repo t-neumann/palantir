@@ -39,6 +39,8 @@ public class ExternalRNASeqDatapoint implements Serializable {
 	}
 	
 	private String entrezId;
+	
+	private String geneSymbol;
 
 	private float value;
 	
@@ -50,6 +52,14 @@ public class ExternalRNASeqDatapoint implements Serializable {
 		this.entrezId = entrezId;
 	}
 	
+	public String getGeneSymbol() {
+		return geneSymbol;
+	}
+
+	public void setGeneSymbol(String geneSymbol) {
+		this.geneSymbol = geneSymbol;
+	}
+
 	public float getValue() {
 		return value;
 	}
@@ -82,15 +92,16 @@ public class ExternalRNASeqDatapoint implements Serializable {
 		
 	}
 
-	public ExternalRNASeqDatapoint(String entrezId, float value) {
+	public ExternalRNASeqDatapoint(String entrezId, String geneSymbol, float value) {
 		super();
 		this.entrezId = entrezId;
+		this.geneSymbol = geneSymbol;
 		this.value = value;
 	}
 
 	@Override
 	public String toString() {
-		return "ExternalRNASeqDatapoint [value=" + this.value + "entry=" + entry.getId()
+		return "ExternalRNASeqDatapoint [gene=" + this.geneSymbol + ", value=" + this.value + "entry=" + entry.getId()
 				+ ", id=" + this.getId() + "]";
 	}
 }

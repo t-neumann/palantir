@@ -1,22 +1,21 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 	<h:form id="menuForm">
-		<p:outputPanel id="menuPanel" layout="block">
-			<p:menu autoSubmenuDisplay="true"
-				style="width:213px;height:483px;border:none;font-size:small;padding:0px;"
-				ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
-				<p:submenu label="RNA-seq" icon="ui-icon ui-icon-refresh">
-					<p:menuitem value="Samples" action="#{Navigator.navigateSample}" update=":contentForm"/>
-					<p:menuitem value="Experiments" action="#{Navigator.navigateExperiment}" update=":contentForm"/>
-					<p:menuitem value="Genes" action="#{Navigator.navigateGene}" update=":contentForm"/>
-				</p:submenu>
-				<p:submenu label="Screens" icon="ui-icon ui-icon-refresh">
-				</p:submenu>
-			</p:menu>
-		</p:outputPanel>
+		<h4>RNASeq</h4>
+		<p:menu>
+			<p:menuitem value="Samples" action="#{Navigator.navigateSample}"
+				update=":contentForm" icon="fa fa-files-o"/>
+			<p:menuitem value="Experiments"
+				action="#{Navigator.navigateExperiment}" update=":contentForm" />
+			<p:menuitem value="Genes" action="#{Navigator.navigateGene}"
+				update=":contentForm" icon="fa fa-ge"/>
+		</p:menu>
+		<h4>Public resources</h4>
+		<p:slideMenu model="#{ExternalRNASeqMenuView.model}" />
 	</h:form>
 </ui:composition>
