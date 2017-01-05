@@ -7,6 +7,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,8 +24,8 @@ public class ExternalRNASeqDatapoint implements Serializable {
 	@ManyToOne
 	private ExternalRNASeqEntry entry;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	private Collection<Gene> genes = new ArrayList<Gene>();
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private GenericGene gene;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,27 +39,7 @@ public class ExternalRNASeqDatapoint implements Serializable {
 		this.id = id;
 	}
 	
-	private String entrezId;
-	
-	private String geneSymbol;
-
 	private float value;
-	
-	public String getEntrezId() {
-		return entrezId;
-	}
-	
-	public void setEntrezId(String entrezId) {
-		this.entrezId = entrezId;
-	}
-	
-	public String getGeneSymbol() {
-		return geneSymbol;
-	}
-
-	public void setGeneSymbol(String geneSymbol) {
-		this.geneSymbol = geneSymbol;
-	}
 
 	public float getValue() {
 		return value;
@@ -66,18 +47,6 @@ public class ExternalRNASeqDatapoint implements Serializable {
 
 	public void setValue(float value) {
 		this.value = value;
-	}
-	
-	public void addGene(Gene gene) {
-		genes.add(gene);
-	}
-	
-	public Collection<Gene> getGenes() {
-		return genes;
-	}
-
-	public void setGenes(Collection<Gene> genes) {
-		this.genes = genes;
 	}
 
 	public ExternalRNASeqEntry getEntry() {
@@ -88,20 +57,26 @@ public class ExternalRNASeqDatapoint implements Serializable {
 		this.entry = entry;
 	}
 
+	public GenericGene getGene() {
+		return gene;
+	}
+
+	public void setGene(GenericGene gene) {
+		this.gene = gene;
+	}
+
 	public ExternalRNASeqDatapoint() {
 		
 	}
 
-	public ExternalRNASeqDatapoint(String entrezId, String geneSymbol, float value) {
+	public ExternalRNASeqDatapoint(float value) {
 		super();
-		this.entrezId = entrezId;
-		this.geneSymbol = geneSymbol;
 		this.value = value;
 	}
 
 	@Override
 	public String toString() {
-		return "ExternalRNASeqDatapoint [gene=" + this.geneSymbol + ", value=" + this.value + "entry=" + entry.getId()
+		return "ExternalRNASeqDatapoint [value=" + this.value + "entry=" + entry.getId()
 				+ ", id=" + this.getId() + "]";
 	}
 }

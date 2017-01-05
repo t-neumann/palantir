@@ -27,24 +27,24 @@ public class ExternalRNASeqResource implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<ExternalRNASeqEntry> entries = new ArrayList<ExternalRNASeqEntry>();
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Collection<Reference> references = new ArrayList<Reference>();
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Collection<GenericGene> genes = new ArrayList<GenericGene>();
 		
 	private String name;
 	
-	public Collection<Reference> getReferences() {
-		return references;
+	public Collection<GenericGene> getGenes() {
+		return genes;
 	}
 
-	public void setReferences(Collection<Reference> references) {
-		this.references = references;
+	public void setReferences(Collection<GenericGene> genes) {
+		this.genes = genes;
 	}
 	
-	public void addReference(Reference reference) {
-		this.references.add(reference);
+	public void addGenericGene(GenericGene gene) {
+		this.genes.add(gene);
 	}
 
 	public String getName() {

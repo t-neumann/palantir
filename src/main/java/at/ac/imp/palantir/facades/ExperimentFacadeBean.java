@@ -35,8 +35,8 @@ public class ExperimentFacadeBean implements ExperimentFacade {
 	@PersistenceContext(unitName = "palantir-db")
 	private EntityManager em;
 
-	@EJB
-	private ExperimentFacade experimentFacade;
+	//@EJB
+	//private ExperimentFacade experimentFacade;
 
 	@Override
 	public List<Result> getResultsForAlignment(Alignment alignment) throws DatabaseException {

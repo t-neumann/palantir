@@ -1,5 +1,6 @@
 package at.ac.imp.palantir.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -13,9 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class ExternalRNASeqEntry {
+public class ExternalRNASeqEntry implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1120421267091583263L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,7 +28,7 @@ public class ExternalRNASeqEntry {
 	@ManyToOne(fetch=FetchType.LAZY)
 	private ExternalRNASeqResource resource;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<ExternalRNASeqDatapoint> datapoints = new ArrayList<ExternalRNASeqDatapoint>();
 	
 	private String name;
