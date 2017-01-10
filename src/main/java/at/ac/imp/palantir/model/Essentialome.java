@@ -38,7 +38,7 @@ public class Essentialome implements Serializable {
 		this.genes = genes;
 	}
 	
-	public void addGenericGene(ScreenGene gene) {
+	public void addScreenGene(ScreenGene gene) {
 		this.genes.add(gene);
 	}
 

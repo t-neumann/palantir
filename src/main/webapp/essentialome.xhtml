@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		 <p:dataTable id="essentialomeDT" var="gene"
+			value="#{EssentialomeController.genes}" paginator="true" rows="15"
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
+			selectionMode="single" rowKey="gene.id">
+
+			<f:facet name="{Exporters}">
+				<h:commandLink ajax="false">
+					<p:graphicImage name="excel.png" library="img" width="20" />
+					<p:dataExporter type="xls" target="essentialomeDT" fileName="essentialome"
+						pageOnly="true" />
+				</h:commandLink>
+
+				<h:commandLink ajax="false">
+					<p:graphicImage name="pdf.png" library="img" width="20" />
+					<p:dataExporter type="pdf" target="essentialomeDT" fileName="essentialome"
+						pageOnly="true" />
+				</h:commandLink>
+
+				<h:commandLink ajax="false">
+					<p:graphicImage name="csv.png" library="img" width="20" />
+					<p:dataExporter type="csv" target="essentialomeDT" fileName="essentialome"
+						pageOnly="true" />
+				</h:commandLink>
+			</f:facet>
+
+			<p:column headerText="EntrezID"
+				sortBy="#{gene.entrezId}"
+				filterBy="#{gene.entrezId}" parser="number">
+				<h:outputText value="#{gene.entrezId}" />
+			</p:column>
+			<p:column headerText="GeneSymbol" sortBy="#{gene.geneSymbol}"
+				filterBy="#{gene.geneSymbol}">
+				<h:outputText value="#{gene.geneSymbol}" />
+			</p:column>
+			<p:column headerText="Essential" sortBy="#{gene.essential}"
+				filterBy="#{gene.essential}">
+				<h:outputText value="#{gene.essential}" />
+			</p:column>
+			<p:column headerText="Pool" sortBy="#{gene.pool}"
+				filterBy="#{gene.pool}">
+				<h:outputText value="#{gene.pool}" />
+			</p:column>
+			<p:column headerText="Aliases" sortBy="#{gene.aliases}"
+				filterBy="#{gene.aliases}">
+				<h:outputText value="#{gene.aliases}" />
+			</p:column>
+			<p:column headerText="ChromLoc" sortBy="#{gene.chrLocation}"
+				filterBy="#{gene.chrLocation}">
+				<h:outputText value="#{gene.chrLocation}" />
+			</p:column>
+			<p:column headerText="Type" sortBy="#{gene.type}"
+				filterBy="#{gene.type}">
+				<h:outputText value="#{gene.type}" />
+			</p:column>
+			<!-- <p:column headerText="Value" sortBy="#{datapoint.value}">
+				<h:outputText value="#{datapoint.value}">
+					<f:convertNumber pattern="#0.0" />
+				</h:outputText>
+			</p:column> -->
+		</p:dataTable>
+	</ui:define>
+</ui:composition>

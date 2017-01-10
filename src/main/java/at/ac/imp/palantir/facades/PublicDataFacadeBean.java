@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import at.ac.imp.palantir.exceptions.DatabaseException;
+import at.ac.imp.palantir.model.Essentialome;
 import at.ac.imp.palantir.model.ExternalRNASeqResource;
 import at.ac.imp.palantir.model.GenericGene;
 import at.ac.imp.palantir.model.Reference;
@@ -34,9 +35,16 @@ public class PublicDataFacadeBean implements PublicDataFacade {
 	}
 
 	@Override
-	public List<GenericGene> getGenesPerResource(ExternalRNASeqResource resource) throws DatabaseException {
-	
-		return null;
+	public List<Essentialome> getAvailableEssentialomes() throws DatabaseException {
+		List<Essentialome> essentialomes = null;
+
+		try {
+			TypedQuery<Essentialome> query = em.createQuery("SELECT e FROM Essentialome e", Essentialome.class);
+			essentialomes = query.getResultList();
+		} catch (Exception e) {
+			throw new DatabaseException(e.getMessage(), e.getCause());
+		}
+		return essentialomes;
 	}
 
 }

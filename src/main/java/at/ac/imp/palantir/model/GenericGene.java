@@ -21,10 +21,10 @@ public class GenericGene implements Serializable {
 	private String entrezId;
 	private String geneSymbol;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Collection<Gene> genes = new ArrayList<Gene>();
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Collection<ExternalRNASeqDatapoint> datapoints = new ArrayList<ExternalRNASeqDatapoint>();
 	
 	public String getGeneSymbol() {

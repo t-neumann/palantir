@@ -21,6 +21,8 @@ import org.primefaces.model.menu.MenuModel;
 import at.ac.imp.palantir.exceptions.DatabaseException;
 import at.ac.imp.palantir.facades.ExperimentFacade;
 import at.ac.imp.palantir.facades.PublicDataFacade;
+import at.ac.imp.palantir.model.Essentialome;
+import at.ac.imp.palantir.model.EssentialomeEntry;
 import at.ac.imp.palantir.model.ExternalRNASeqEntry;
 import at.ac.imp.palantir.model.ExternalRNASeqResource;
 
@@ -40,14 +42,15 @@ public class PublicMenuController implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		
-		model = new DefaultMenuModel();
-		
-		//First submenu
-        DefaultSubMenu externalRNASeqSubMenu = new DefaultSubMenu("RNASeq");
-        externalRNASeqSubMenu.setIcon("fa fa-connectdevelop");
         
         try {
+        	
+        	model = new DefaultMenuModel();
+    		
+    		// RNASeq submenu
+            DefaultSubMenu externalRNASeqSubMenu = new DefaultSubMenu("RNASeq");
+            externalRNASeqSubMenu.setIcon("fa fa-connectdevelop");
+            
 			List<ExternalRNASeqResource> externalRNASeqResources = publicDataFacade.getAvailableRNASeqResources();
 			
 			for (ExternalRNASeqResource resource : externalRNASeqResources) {
@@ -66,20 +69,28 @@ public class PublicMenuController implements Serializable {
 	         
 	        model.addElement(externalRNASeqSubMenu);
 	         
-	        //Second submenu
+	        // Essentialome submenu
 	        DefaultSubMenu essentialomeSubmenu = new DefaultSubMenu("Essentialomes");
 	        essentialomeSubmenu.setIcon("fa fa-barcode");
+	        
+	        List<Essentialome> essentialomes = publicDataFacade.getAvailableEssentialomes();
+	        
+	        for (Essentialome essentialome : essentialomes) {
+				DefaultSubMenu essentialomeSubMenu = new DefaultSubMenu(essentialome.getName());
+				for (EssentialomeEntry entry : essentialome.getEntries()) {
+					DefaultMenuItem entryItem = new DefaultMenuItem(entry.getName());
+					entryItem.setCommand("#{PublicMenuController.essentialomeRedirect}");
+					entryItem.setParam("essentialomeId", essentialome.getId());
+					entryItem.setParam("entryId", entry.getId());
+					entryItem.setUpdate(":contentForm");
+					essentialomeSubMenu.addElement(entryItem);
+				}
+				essentialomeSubmenu.addElement(essentialomeSubMenu);
+				
+			}
 	 
-	        DefaultMenuItem item = new DefaultMenuItem("K562");
-	        essentialomeSubmenu.addElement(item);
-	         
-	        item = new DefaultMenuItem("Molm13");
-	        essentialomeSubmenu.addElement(item);
-	         
-	        item = new DefaultMenuItem("MV4-11");
-	        essentialomeSubmenu.addElement(item);
-	 
-	        model.addElement(essentialomeSubmenu);	
+	        model.addElement(essentialomeSubmenu);
+	        
 		} catch (DatabaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,5 +114,15 @@ public class PublicMenuController implements Serializable {
 		flash.put("entryId", entryId);
 		System.out.println("New entry in flash: " + entryId);
 		return "externalRNASeq";
+	}
+	
+	public String essentialomeRedirect(ActionEvent event) {
+		MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
+		int resourceId = Integer.parseInt(menuItem.getParams().get("essentialomeId").get(0));
+		int entryId = Integer.parseInt(menuItem.getParams().get("entryId").get(0));
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		flash.put("essentialomeId", resourceId);
+		flash.put("entryId", entryId);
+		return "essentialome";
 	}
 }

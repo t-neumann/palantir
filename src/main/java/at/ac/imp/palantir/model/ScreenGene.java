@@ -6,9 +6,11 @@ import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -33,6 +35,9 @@ public class ScreenGene implements Serializable{
 	private String chrLocation;
 	
 	private String type;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Essentialome essentialome;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private Collection<Gene> genes = new ArrayList<Gene>();
@@ -128,14 +133,28 @@ public class ScreenGene implements Serializable{
 		this.genes.add(gene);
 	}
 
+	public Essentialome getEssentialome() {
+		return essentialome;
+	}
+
+	public void setEssentialome(Essentialome essentialome) {
+		this.essentialome = essentialome;
+	}
+
 	public ScreenGene() {
 		super();
 	}
 
-	public ScreenGene(String entrezId, String geneSymbol) {
+	public ScreenGene(String entrezId, String geneSymbol, String essential, String pool, String aliases,
+			String chrLocation, String type) {
 		super();
-		this.geneSymbol = geneSymbol;
 		this.entrezId = entrezId;
+		this.geneSymbol = geneSymbol;
+		this.essential = essential;
+		this.pool = pool;
+		this.aliases = aliases;
+		this.chrLocation = chrLocation;
+		this.type = type;
 	}
 
 	@Override
