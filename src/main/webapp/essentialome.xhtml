@@ -10,7 +10,7 @@
 	<ui:define name="content">
 	
 	<p:dataTable id="essentialomeDT" var="gene"
-			value="#{EssentialomeController.genes}" paginator="true" rows="15"
+			value="#{EssentialomeController.genes}" paginator="true" rows="15" rowKey="gene.id"
 			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}">
 
 			<f:facet name="{Exporters}">

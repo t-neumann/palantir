@@ -21,7 +21,7 @@ import at.ac.imp.palantir.model.ExternalRNASeqDatapoint;
 import at.ac.imp.palantir.model.GenericGene;
 import at.ac.imp.palantir.model.ScreenGene;
 
-public class LazyScreenGeneDataModel extends LazyDataModel<GenericGene> {
+public class LazyScreenGeneDataModel extends LazyDataModel<ScreenGene> {
 	
 	/**
 	 * 
@@ -38,7 +38,7 @@ public class LazyScreenGeneDataModel extends LazyDataModel<GenericGene> {
 	}
 
 	@Override
-	public List<GenericGene> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+	public List<ScreenGene> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
 		
 		for (Map.Entry<String, Object> filter : filters.entrySet()) {
@@ -57,7 +57,7 @@ public class LazyScreenGeneDataModel extends LazyDataModel<GenericGene> {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		
 		CriteriaQuery<Long> cqCount = cb.createQuery(Long.class);
-		Root<GenericGene> datapoint = cqCount.from(GenericGene.class);
+		Root<ScreenGene> datapoint = cqCount.from(ScreenGene.class);
 
 		Predicate p = getFilterCondition(cb, datapoint, filters);
 		
@@ -70,10 +70,12 @@ public class LazyScreenGeneDataModel extends LazyDataModel<GenericGene> {
 
 		int count = em.createQuery(cqCount).getSingleResult().intValue();
 
-		CriteriaQuery<GenericGene> cq = cb.createQuery(GenericGene.class);
-		datapoint = cq.from(GenericGene.class);
+		CriteriaQuery<ScreenGene> cq = cb.createQuery(ScreenGene.class);
+		datapoint = cq.from(ScreenGene.class);
+		
+		datapoint.fetch("datapoints", JoinType.INNER);
 
-		cq.select(datapoint).where(p);
+		cq.select(datapoint).distinct(true).where(p);
 
 		this.setRowCount(count);
 
@@ -96,7 +98,7 @@ public class LazyScreenGeneDataModel extends LazyDataModel<GenericGene> {
 			cq.orderBy(cb.desc(sort));
 		}
 		
-		List<GenericGene> result = em.createQuery(cq).setFirstResult(first).setMaxResults(pageSize).getResultList();
+		List<ScreenGene> result = em.createQuery(cq).setFirstResult(first).setMaxResults(pageSize).getResultList();
 
 		return result;
 	}
@@ -118,7 +120,7 @@ public class LazyScreenGeneDataModel extends LazyDataModel<GenericGene> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Predicate getFilterCondition(CriteriaBuilder cb, Root<GenericGene> myObj, Map<String, Object> filters) {
+	public Predicate getFilterCondition(CriteriaBuilder cb, Root<ScreenGene> myObj, Map<String, Object> filters) {
 		Predicate filterCondition = cb.conjunction();
 		String wildCard = "%";
 		for (Map.Entry<String, Object> filter : filters.entrySet()) {

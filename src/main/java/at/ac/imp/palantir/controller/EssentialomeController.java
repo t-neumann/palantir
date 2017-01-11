@@ -35,6 +35,8 @@ import at.ac.imp.palantir.model.EssentialomeDatapoint;
 import at.ac.imp.palantir.model.EssentialomeEntry;
 import at.ac.imp.palantir.model.ExpressionValue;
 import at.ac.imp.palantir.model.ScreenGene;
+import at.ac.imp.palantir.util.LazyExternalRNASeqDataModel;
+import at.ac.imp.palantir.util.LazyScreenGeneDataModel;
 
 @Named("EssentialomeController")
 @ViewScoped
@@ -48,6 +50,8 @@ public class EssentialomeController implements Serializable {
 	private List<ScreenGene> genes;
 	
 	private List<String> columnHeaders;
+	
+	private LazyScreenGeneDataModel lazyModel;
 		
 	@PersistenceContext(unitName = "palantir-db")
 	private EntityManager em;
@@ -85,6 +89,8 @@ public class EssentialomeController implements Serializable {
 			q.setParameter("ids", ids);
 			
 			columnHeaders = q.getResultList();
+			
+			//lazyModel = new LazyScreenGeneDataModel(em, essentialomeId);
 			
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<ScreenGene> query = cb.createQuery(ScreenGene.class);
@@ -141,6 +147,18 @@ public class EssentialomeController implements Serializable {
 
 	public void setColumnHeaders(List<String> columnHeaders) {
 		this.columnHeaders = columnHeaders;
+	}
+
+
+
+	public LazyScreenGeneDataModel getLazyModel() {
+		return lazyModel;
+	}
+
+
+
+	public void setLazyModel(LazyScreenGeneDataModel lazyModel) {
+		this.lazyModel = lazyModel;
 	}
 	
 }
