@@ -3,6 +3,8 @@ package at.ac.imp.palantir.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -36,14 +38,14 @@ public class ScreenGene implements Serializable{
 	
 	private String type;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Essentialome essentialome;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private Collection<Gene> genes = new ArrayList<Gene>();
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Collection<EssentialomeDatapoint> datapoints = new ArrayList<EssentialomeDatapoint>();
+	private Map<String, EssentialomeDatapoint> datapoints = new HashMap<String, EssentialomeDatapoint>();
 	
 	public int getId() {
 		return id;
@@ -117,16 +119,8 @@ public class ScreenGene implements Serializable{
 		this.genes = genes;
 	}
 
-	public Collection<EssentialomeDatapoint> getDatapoints() {
-		return datapoints;
-	}
-
-	public void setDatapoints(Collection<EssentialomeDatapoint> datapoints) {
-		this.datapoints = datapoints;
-	}
-
-	public void addDatapoint(EssentialomeDatapoint datapoint) {
-		this.datapoints.add(datapoint);
+	public void addDatapoint(String entryKey, EssentialomeDatapoint datapoint) {
+		this.datapoints.put(entryKey, datapoint);
 	}
 	
 	public void addGene(Gene gene) {
@@ -139,6 +133,14 @@ public class ScreenGene implements Serializable{
 
 	public void setEssentialome(Essentialome essentialome) {
 		this.essentialome = essentialome;
+	}
+
+	public Map<String, EssentialomeDatapoint> getDatapoints() {
+		return datapoints;
+	}
+
+	public void setDatapoints(Map<String, EssentialomeDatapoint> datapoints) {
+		this.datapoints = datapoints;
 	}
 
 	public ScreenGene() {

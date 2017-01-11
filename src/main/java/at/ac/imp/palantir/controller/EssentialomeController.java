@@ -1,7 +1,10 @@
 package at.ac.imp.palantir.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -10,6 +13,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,6 +24,9 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Metamodel;
+
+import org.hibernate.Hibernate;
+
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.ManagedType;
 import at.ac.imp.palantir.exceptions.DatabaseException;
@@ -38,8 +45,10 @@ public class EssentialomeController implements Serializable {
 	 */
 	private static final long serialVersionUID = 5578116705244021926L;
 
-	private Collection<ScreenGene> genes;
+	private List<ScreenGene> genes;
 	
+	private List<String> columnHeaders;
+		
 	@PersistenceContext(unitName = "palantir-db")
 	private EntityManager em;
 
@@ -56,33 +65,82 @@ public class EssentialomeController implements Serializable {
 		int essentialomeId = (Integer) flash.get("essentialomeId");
 				
 		try {
+						
+			List<Integer> ids = Arrays.asList(new Integer[]{284113, 284114, 284115});
 			
-			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-			CriteriaQuery<ScreenGene>criteriaQuery = criteriaBuilder.createQuery(ScreenGene.class);
-			Metamodel metamodel = em.getMetamodel();
-			EntityType<ScreenGene> screenGeneType = metamodel.entity(ScreenGene.class);
-			EntityType<Essentialome> essentialomeType = metamodel.entity(Essentialome.class);
+			columnHeaders = new ArrayList<String>();
 			
-			Root<ScreenGene> root = criteriaQuery.from(screenGeneType);
-			Join<ScreenGene, Essentialome> join = root.join(screenGeneType.getSingularAttribute("essentialome",Essentialome.class), JoinType.INNER);
+//			for(Integer i : ids) {
+//				TypedQuery<EssentialomeEntry> q = em.createQuery("SELECT e FROM EssentialomeEntry e JOIN FETCH e.datapoints i WHERE e.id = :id",EssentialomeEntry.class);
+//				q.setParameter("id", i);
+//				//entries = q.getResultList();
+//				EssentialomeEntry entry = q.getSingleResult();
+//				columnHeaders.add(entry.getName());
+//				entries.add(entry.getDatapoints().toArray());
+//			}
 			
-			ParameterExpression<Integer> parameterExpression=criteriaBuilder.parameter(Integer.class);
-			criteriaQuery.where(criteriaBuilder.equal(join.get(essentialomeType.getSingularAttribute("id", Integer.class)), parameterExpression));
+			
+			
+			TypedQuery<String> q = em.createQuery("SELECT DISTINCT e.name FROM EssentialomeEntry e WHERE e.id IN :ids", String.class);
+			q.setParameter("ids", ids);
+			
+			columnHeaders = q.getResultList();
+			
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<ScreenGene> query = cb.createQuery(ScreenGene.class);
+			Root<ScreenGene> root = query.from(ScreenGene.class);
+			root.fetch("datapoints", JoinType.INNER);
+			query.select(root).distinct(true);
+			//query.where(cb.equal(root.get("id"), essentialomeId));
 
-			TypedQuery<ScreenGene> typedQuery = em.createQuery(criteriaQuery).setParameter(parameterExpression, essentialomeId);
-			this.genes = typedQuery.getResultList();
 			
-			//this.genes = query.getResultList();
+			//TypedQuery<ScreenGene> query = em.createQuery("SELECT DISTINCT s FROM ScreenGene s JOIN FETCH s.datapoints", ScreenGene.class);
+			//query.setParameter("id", essentialomeId);
+			
+			//genes = query.getResultList();
+			
+			genes = em.createQuery(query).getResultList();
+			
+//			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+//			CriteriaQuery<ScreenGene>criteriaQuery = criteriaBuilder.createQuery(ScreenGene.class);
+//			Metamodel metamodel = em.getMetamodel();
+//			EntityType<ScreenGene> screenGeneType = metamodel.entity(ScreenGene.class);
+//			EntityType<Essentialome> essentialomeType = metamodel.entity(Essentialome.class);
+//			
+//			Root<ScreenGene> root = criteriaQuery.from(screenGeneType);
+//			Join<ScreenGene, Essentialome> join = root.join(screenGeneType.getSingularAttribute("essentialome",Essentialome.class), JoinType.INNER);
+//			
+//			criteriaQuery.where(criteriaBuilder.equal(join.get(essentialomeType.getSingularAttribute("id", Integer.class)), essentialomeId));
+//			criteriaQuery.select(root);
+//
+//			TypedQuery<ScreenGene> typedQuery = em.createQuery(criteriaQuery);
+//			this.genes = typedQuery.getResultList();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public Collection<ScreenGene> getGenes() {
+	
+
+	public List<ScreenGene> getGenes() {
 		return genes;
 	}
 
-	public void setGenes(Collection<ScreenGene> genes) {
+
+
+	public void setGenes(List<ScreenGene> genes) {
 		this.genes = genes;
 	}
+
+
+
+	public List<String> getColumnHeaders() {
+		return columnHeaders;
+	}
+
+	public void setColumnHeaders(List<String> columnHeaders) {
+		this.columnHeaders = columnHeaders;
+	}
+	
 }

@@ -3,6 +3,7 @@ package at.ac.imp.palantir.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,8 +29,8 @@ public class EssentialomeEntry implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Essentialome essentialome;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Collection<EssentialomeDatapoint> datapoints = new ArrayList<EssentialomeDatapoint>();
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<EssentialomeDatapoint> datapoints = new ArrayList<EssentialomeDatapoint>();
 	
 	private String name;
 	
@@ -53,11 +54,11 @@ public class EssentialomeEntry implements Serializable{
 		datapoints.add(datapoint);
 	}
 	
-	public Collection<EssentialomeDatapoint> getDatapoints() {
+	public List<EssentialomeDatapoint> getDatapoints() {
 		return datapoints;
 	}
 
-	public void setDatapoints(Collection<EssentialomeDatapoint> datapoints) {
+	public void setDatapoints(List<EssentialomeDatapoint> datapoints) {
 		this.datapoints = datapoints;
 	}
 	

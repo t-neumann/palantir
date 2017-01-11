@@ -8,10 +8,10 @@
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
-		 <p:dataTable id="essentialomeDT" var="gene"
+	
+	<p:dataTable id="essentialomeDT" var="gene"
 			value="#{EssentialomeController.genes}" paginator="true" rows="15"
-			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
-			selectionMode="single" rowKey="gene.id">
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}">
 
 			<f:facet name="{Exporters}">
 				<h:commandLink ajax="false">
@@ -62,11 +62,12 @@
 				filterBy="#{gene.type}">
 				<h:outputText value="#{gene.type}" />
 			</p:column>
-			<!-- <p:column headerText="Value" sortBy="#{datapoint.value}">
-				<h:outputText value="#{datapoint.value}">
-					<f:convertNumber pattern="#0.0" />
-				</h:outputText>
-			</p:column> -->
-		</p:dataTable>
+			
+			<p:columns value="#{EssentialomeController.columnHeaders}" var="columnName" columnIndexVar="i">
+			<f:facet name="header">#{columnName}</f:facet>
+			#{gene.datapoints[columnName].value}
+			</p:columns>
+			</p:dataTable>
+		 
 	</ui:define>
 </ui:composition>

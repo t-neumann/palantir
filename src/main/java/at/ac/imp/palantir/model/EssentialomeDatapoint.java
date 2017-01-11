@@ -21,7 +21,7 @@ public class EssentialomeDatapoint implements Serializable {
 	@ManyToOne
 	private EssentialomeEntry entry;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL)
 	private ScreenGene gene;
 	
 	@Id

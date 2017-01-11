@@ -28,7 +28,7 @@ public class ExternalRNASeqEntry implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	private ExternalRNASeqResource resource;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	private Collection<ExternalRNASeqDatapoint> datapoints = new ArrayList<ExternalRNASeqDatapoint>();
 	
 	private String name;
