@@ -39,6 +39,11 @@
 				filterBy="#{expressionValue.gene.geneSymbol}">
 				<h:outputText value="#{expressionValue.gene.geneSymbol}" />
 			</p:column>
+			<p:column headerText="Entrez"
+				sortBy="#{expressionValue.gene.entrezId}"
+				filterBy="#{expressionValue.gene.entrezId}">
+				<h:outputText value="#{expressionValue.gene.entrezId}" />
+			</p:column>
 			<p:column headerText="Count" sortBy="#{expressionValue.count}">
 				<h:outputText value="#{expressionValue.count}" />
 			</p:column>

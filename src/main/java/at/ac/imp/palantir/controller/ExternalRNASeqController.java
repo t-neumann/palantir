@@ -11,6 +11,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Hibernate;
 
@@ -21,6 +25,7 @@ import at.ac.imp.palantir.model.ExternalRNASeqEntry;
 import at.ac.imp.palantir.model.ExternalRNASeqResource;
 import at.ac.imp.palantir.model.Gene;
 import at.ac.imp.palantir.model.GenericGene;
+import at.ac.imp.palantir.model.ScreenGene;
 import at.ac.imp.palantir.util.LazyExpressionValueDataModel;
 import at.ac.imp.palantir.util.LazyExternalRNASeqDataModel;
 
@@ -55,7 +60,16 @@ public class ExternalRNASeqController implements Serializable {
 		int resourceId = (Integer) flash.get("resourceId");
 		int entryId = (Integer) flash.get("entryId");
 		
-		entry = em.find(ExternalRNASeqEntry.class, entryId);
+		//entry = em.find(ExternalRNASeqEntry.class, entryId);
+		
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<ExternalRNASeqEntry> query = cb.createQuery(ExternalRNASeqEntry.class);
+		Root<ExternalRNASeqEntry> root = query.from(ExternalRNASeqEntry.class);
+		root.fetch("datapoints", JoinType.INNER);
+		query.select(root).distinct(true);
+		query.where(cb.equal(root.get("id"), entryId));
+		
+		entry = em.createQuery(query).getSingleResult();
 		
 		datapoints = entry.getDatapoints();
 		
