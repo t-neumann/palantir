@@ -49,6 +49,8 @@ public class EssentialomeController implements Serializable {
 
 	private List<ScreenGene> genes;
 	
+	private List<Object[]> testList = new ArrayList<Object[]>();
+	
 	private List<String> columnHeaders;
 	
 	private LazyScreenGeneDataModel lazyModel;
@@ -67,10 +69,12 @@ public class EssentialomeController implements Serializable {
 			System.out.println(flash.get(key));
 		}
 		int essentialomeId = (Integer) flash.get("essentialomeId");
+		
+		essentialomeId = 1540715;
 				
 		try {
 						
-			List<Integer> ids = Arrays.asList(new Integer[]{1485628, 1634134, 2555163});
+			List<Integer> ids = Arrays.asList(new Integer[]{1540716, 1540717, 1540718});
 			
 			columnHeaders = new ArrayList<String>();
 			
@@ -83,14 +87,39 @@ public class EssentialomeController implements Serializable {
 //				entries.add(entry.getDatapoints().toArray());
 //			}
 			
+//			TypedQuery<String> q = em.createQuery("SELECT DISTINCT e.name FROM EssentialomeEntry e WHERE e.id IN :ids", String.class);
+//			q.setParameter("ids", ids);
 			
+//			columnHeaders = q.getResultList();
 			
-			TypedQuery<String> q = em.createQuery("SELECT DISTINCT e.name FROM EssentialomeEntry e WHERE e.id IN :ids", String.class);
-			q.setParameter("ids", ids);
+			CriteriaBuilder gcb = em.getCriteriaBuilder();
+			CriteriaQuery<ScreenGene> gquery = gcb.createQuery(ScreenGene.class);
+			Root<ScreenGene> groot = gquery.from(ScreenGene.class);
+			gquery.where(gcb.equal(groot.get("essentialome").get("id"), essentialomeId));
+			gquery.select(groot);
 			
-			columnHeaders = q.getResultList();
+			genes = em.createQuery(gquery).getResultList();
 			
-			lazyModel = new LazyScreenGeneDataModel(em, essentialomeId);
+			for (Integer id : ids) {
+				
+				TypedQuery<String> q = em.createQuery("SELECT e.name FROM EssentialomeEntry e WHERE e.id = :id", String.class);
+				q.setParameter("id", id);
+				
+				columnHeaders.add(q.getResultList().get(0));
+				
+				CriteriaBuilder cb = em.getCriteriaBuilder();
+				CriteriaQuery<EssentialomeDatapoint> query = cb.createQuery(EssentialomeDatapoint.class);
+				Root<EssentialomeDatapoint> root = query.from(EssentialomeDatapoint.class);
+				//root.fetch("EssentialomeEntry", JoinType.INNER);
+				query.where(cb.equal(root.get("entry").get("id"), id));
+				query.select(root);
+				
+				testList.add(em.createQuery(query).getResultList().toArray());
+				//List<EssentialomeDatapoint> result = em.createQuery(query).getResultList();
+			
+			}
+						
+			//lazyModel = new LazyScreenGeneDataModel(em, essentialomeId);
 			
 			/*
 			 *  uncomment for previous shit
@@ -112,22 +141,6 @@ public class EssentialomeController implements Serializable {
 			
 			//genes = query.getResultList();
 			
-			
-			
-//			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-//			CriteriaQuery<ScreenGene>criteriaQuery = criteriaBuilder.createQuery(ScreenGene.class);
-//			Metamodel metamodel = em.getMetamodel();
-//			EntityType<ScreenGene> screenGeneType = metamodel.entity(ScreenGene.class);
-//			EntityType<Essentialome> essentialomeType = metamodel.entity(Essentialome.class);
-//			
-//			Root<ScreenGene> root = criteriaQuery.from(screenGeneType);
-//			Join<ScreenGene, Essentialome> join = root.join(screenGeneType.getSingularAttribute("essentialome",Essentialome.class), JoinType.INNER);
-//			
-//			criteriaQuery.where(criteriaBuilder.equal(join.get(essentialomeType.getSingularAttribute("id", Integer.class)), essentialomeId));
-//			criteriaQuery.select(root);
-//
-//			TypedQuery<ScreenGene> typedQuery = em.createQuery(criteriaQuery);
-//			this.genes = typedQuery.getResultList();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -166,6 +179,18 @@ public class EssentialomeController implements Serializable {
 
 	public void setLazyModel(LazyScreenGeneDataModel lazyModel) {
 		this.lazyModel = lazyModel;
+	}
+
+
+
+	public List<Object[]> getTestList() {
+		return testList;
+	}
+
+
+
+	public void setTestList(List<Object[]> testList) {
+		this.testList = testList;
 	}
 	
 }

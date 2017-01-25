@@ -10,9 +10,9 @@
 	<ui:define name="content">
 	
 	<p:dataTable id="essentialomeDT" var="gene"
-			value="#{EssentialomeController.lazyModel}" paginator="true" rows="15" rowKey="gene.id" lazy="true"
+			value="#{EssentialomeController.genes}" paginator="true" rows="15" rowIndexVar="i"
 			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}">
-
+			
 			<f:facet name="{Exporters}">
 				<h:commandLink ajax="false">
 					<p:graphicImage name="excel.png" library="img" width="20" />
@@ -63,9 +63,9 @@
 				<h:outputText value="#{gene.type}" />
 			</p:column>
 			
-			<p:columns value="#{EssentialomeController.columnHeaders}" var="columnName" columnIndexVar="i">
+			<p:columns value="#{EssentialomeController.columnHeaders}" var="columnName" columnIndexVar="j">
 			<f:facet name="header">#{columnName}</f:facet>
-			#{gene.datapoints[columnName].value}
+			#{EssentialomeController.testList[j][i].value}
 			</p:columns>
 			</p:dataTable>
 		 

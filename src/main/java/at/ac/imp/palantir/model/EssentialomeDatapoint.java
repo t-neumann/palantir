@@ -18,10 +18,10 @@ public class EssentialomeDatapoint implements Serializable {
 	 */
 	private static final long serialVersionUID = 6196680738779339005L;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private EssentialomeEntry entry;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ScreenGene gene;
 	
 	@Id
