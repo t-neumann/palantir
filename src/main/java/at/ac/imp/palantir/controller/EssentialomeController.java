@@ -2,8 +2,6 @@ package at.ac.imp.palantir.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,30 +11,13 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.Metamodel;
 
-import org.hibernate.Hibernate;
-
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.ManagedType;
-import at.ac.imp.palantir.exceptions.DatabaseException;
-import at.ac.imp.palantir.model.Essentialome;
 import at.ac.imp.palantir.model.EssentialomeDatapoint;
-import at.ac.imp.palantir.model.EssentialomeEntry;
-import at.ac.imp.palantir.model.ExpressionValue;
 import at.ac.imp.palantir.model.ScreenGene;
-import at.ac.imp.palantir.util.LazyExternalRNASeqDataModel;
-import at.ac.imp.palantir.util.LazyScreenGeneDataModel;
 
 @Named("EssentialomeController")
 @ViewScoped
@@ -49,12 +30,10 @@ public class EssentialomeController implements Serializable {
 
 	private List<ScreenGene> genes;
 	
-	private List<Object[]> testList = new ArrayList<Object[]>();
+	private List<Object[]> entryList = new ArrayList<Object[]>();
 	
 	private List<String> columnHeaders;
-	
-	private LazyScreenGeneDataModel lazyModel;
-		
+			
 	@PersistenceContext(unitName = "palantir-db")
 	private EntityManager em;
 
@@ -69,12 +48,17 @@ public class EssentialomeController implements Serializable {
 			System.out.println(flash.get(key));
 		}
 		int essentialomeId = (Integer) flash.get("essentialomeId");
-		
-		essentialomeId = 1540715;
 				
 		try {
+			
+			TypedQuery<Integer> qe = em.createQuery("SELECT e.id FROM EssentialomeEntry e WHERE e.essentialome.id = :id", Integer.class);
+			qe.setParameter("id", essentialomeId);
+			
+			List<Integer> ids = qe.getResultList();
+			
+			//columnHeaders.add(q.getResultList().get(0));
 						
-			List<Integer> ids = Arrays.asList(new Integer[]{1540716, 1540717, 1540718});
+			//List<Integer> ids = Arrays.asList(new Integer[]{1540716, 1540717, 1540718});
 			
 			columnHeaders = new ArrayList<String>();
 			
@@ -114,7 +98,7 @@ public class EssentialomeController implements Serializable {
 				query.where(cb.equal(root.get("entry").get("id"), id));
 				query.select(root);
 				
-				testList.add(em.createQuery(query).getResultList().toArray());
+				entryList.add(em.createQuery(query).getResultList().toArray());
 				//List<EssentialomeDatapoint> result = em.createQuery(query).getResultList();
 			
 			}
@@ -147,18 +131,14 @@ public class EssentialomeController implements Serializable {
 		}
 	}
 
-	
-
 	public List<ScreenGene> getGenes() {
 		return genes;
 	}
 
 
-
 	public void setGenes(List<ScreenGene> genes) {
 		this.genes = genes;
 	}
-
 
 
 	public List<String> getColumnHeaders() {
@@ -170,27 +150,11 @@ public class EssentialomeController implements Serializable {
 	}
 
 
-
-	public LazyScreenGeneDataModel getLazyModel() {
-		return lazyModel;
+	public List<Object[]> getEntryList() {
+		return entryList;
 	}
 
-
-
-	public void setLazyModel(LazyScreenGeneDataModel lazyModel) {
-		this.lazyModel = lazyModel;
-	}
-
-
-
-	public List<Object[]> getTestList() {
-		return testList;
-	}
-
-
-
-	public void setTestList(List<Object[]> testList) {
-		this.testList = testList;
-	}
-	
+	public void setEntryList(List<Object[]> entryList) {
+		this.entryList = entryList;
+	}	
 }

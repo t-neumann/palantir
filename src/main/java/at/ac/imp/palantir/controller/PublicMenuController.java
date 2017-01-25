@@ -76,16 +76,22 @@ public class PublicMenuController implements Serializable {
 	        List<Essentialome> essentialomes = publicDataFacade.getAvailableEssentialomes();
 	        
 	        for (Essentialome essentialome : essentialomes) {
-				DefaultSubMenu essentialomeSubMenu = new DefaultSubMenu(essentialome.getName());
-				for (EssentialomeEntry entry : essentialome.getEntries()) {
-					DefaultMenuItem entryItem = new DefaultMenuItem(entry.getName());
-					entryItem.setCommand("#{PublicMenuController.essentialomeRedirect}");
-					entryItem.setParam("essentialomeId", essentialome.getId());
-					entryItem.setParam("entryId", entry.getId());
-					entryItem.setUpdate(":contentForm");
-					essentialomeSubMenu.addElement(entryItem);
-				}
-				essentialomeSubmenu.addElement(essentialomeSubMenu);
+	        	DefaultMenuItem entryItem = new DefaultMenuItem(essentialome.getName());
+				entryItem.setCommand("#{PublicMenuController.essentialomeRedirect}");
+				entryItem.setParam("essentialomeId", essentialome.getId());
+				entryItem.setUpdate(":contentForm");
+				essentialomeSubmenu.addElement(entryItem);
+	        	
+//				DefaultSubMenu essentialomeSubMenu = new DefaultSubMenu(essentialome.getName());
+//				for (EssentialomeEntry entry : essentialome.getEntries()) {
+//					DefaultMenuItem entryItem = new DefaultMenuItem(entry.getName());
+//					entryItem.setCommand("#{PublicMenuController.essentialomeRedirect}");
+//					entryItem.setParam("essentialomeId", essentialome.getId());
+//					entryItem.setParam("entryId", entry.getId());
+//					entryItem.setUpdate(":contentForm");
+//					essentialomeSubMenu.addElement(entryItem);
+//				}
+//				essentialomeSubmenu.addElement(essentialomeSubMenu);
 				
 			}
 	 
@@ -119,10 +125,10 @@ public class PublicMenuController implements Serializable {
 	public String essentialomeRedirect(ActionEvent event) {
 		MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
 		int resourceId = Integer.parseInt(menuItem.getParams().get("essentialomeId").get(0));
-		int entryId = Integer.parseInt(menuItem.getParams().get("entryId").get(0));
+		//int entryId = Integer.parseInt(menuItem.getParams().get("entryId").get(0));
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		flash.put("essentialomeId", resourceId);
-		flash.put("entryId", entryId);
+		//flash.put("entryId", entryId);
 		return "essentialome";
 	}
 }
