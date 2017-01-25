@@ -21,7 +21,7 @@ public class GenericGene implements Serializable {
 	private String entrezId;
 	private String geneSymbol;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Collection<Gene> genes = new ArrayList<Gene>();
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

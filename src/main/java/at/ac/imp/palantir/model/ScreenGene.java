@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -41,7 +42,7 @@ public class ScreenGene implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Essentialome essentialome;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<Gene> genes = new ArrayList<Gene>();
 	
 	@OneToMany(cascade = CascadeType.ALL)

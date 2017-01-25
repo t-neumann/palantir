@@ -70,7 +70,7 @@ public class EssentialomeController implements Serializable {
 				
 		try {
 						
-			List<Integer> ids = Arrays.asList(new Integer[]{284113, 284114, 284115});
+			List<Integer> ids = Arrays.asList(new Integer[]{1485628, 1634134, 2555163});
 			
 			columnHeaders = new ArrayList<String>();
 			
@@ -90,13 +90,20 @@ public class EssentialomeController implements Serializable {
 			
 			columnHeaders = q.getResultList();
 			
-			//lazyModel = new LazyScreenGeneDataModel(em, essentialomeId);
+			lazyModel = new LazyScreenGeneDataModel(em, essentialomeId);
 			
-			CriteriaBuilder cb = em.getCriteriaBuilder();
-			CriteriaQuery<ScreenGene> query = cb.createQuery(ScreenGene.class);
-			Root<ScreenGene> root = query.from(ScreenGene.class);
-			root.fetch("datapoints", JoinType.INNER);
-			query.select(root).distinct(true);
+			/*
+			 *  uncomment for previous shit
+			 */
+			
+//			CriteriaBuilder cb = em.getCriteriaBuilder();
+//			CriteriaQuery<ScreenGene> query = cb.createQuery(ScreenGene.class);
+//			Root<ScreenGene> root = query.from(ScreenGene.class);
+//			root.fetch("datapoints", JoinType.INNER);
+//			query.select(root).distinct(true);
+//			
+//			genes = em.createQuery(query).getResultList();
+			
 			//query.where(cb.equal(root.get("id"), essentialomeId));
 
 			
@@ -105,7 +112,7 @@ public class EssentialomeController implements Serializable {
 			
 			//genes = query.getResultList();
 			
-			genes = em.createQuery(query).getResultList();
+			
 			
 //			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 //			CriteriaQuery<ScreenGene>criteriaQuery = criteriaBuilder.createQuery(ScreenGene.class);
