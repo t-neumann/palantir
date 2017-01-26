@@ -61,6 +61,8 @@ public class PublicMenuController implements Serializable {
 					entryItem.setParam("resourceId", resource.getId());
 					entryItem.setParam("entryId", entry.getId());
 					entryItem.setUpdate(":contentForm");
+					entryItem.setOnstart("PF('statusDialog').show()");
+					entryItem.setOncomplete("PF('statusDialog').hide()");
 					resourceSubMenu.addElement(entryItem);
 				}
 				externalRNASeqSubMenu.addElement(resourceSubMenu);
@@ -79,6 +81,8 @@ public class PublicMenuController implements Serializable {
 	        	DefaultMenuItem entryItem = new DefaultMenuItem(essentialome.getName());
 				entryItem.setCommand("#{PublicMenuController.essentialomeRedirect}");
 				entryItem.setParam("essentialomeId", essentialome.getId());
+				entryItem.setOnstart("PF('statusDialog').show()");
+				entryItem.setOncomplete("PF('statusDialog').hide()");
 				entryItem.setUpdate(":contentForm");
 				essentialomeSubmenu.addElement(entryItem);
 	        	

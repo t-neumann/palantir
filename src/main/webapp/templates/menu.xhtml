@@ -6,14 +6,22 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 	<h:form id="menuForm">
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false"
+				appendTo="@(body)">
+				<h:outputText value="Fetching data from server..." />
+				<p:graphicImage name="img/ajax-loader.gif" />
+			</p:dialog>
 		<h4>RNASeq</h4>
 		<p:menu>
 			<p:menuitem value="Samples" action="#{Navigator.navigateSample}"
-				update=":contentForm" icon="fa fa-files-o"/>
-			<p:menuitem value="Experiments"
-				action="#{Navigator.navigateExperiment}" update=":contentForm" />
+				update=":contentForm" icon="fa fa-files-o" onstart="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()"/>
+			<!-- <p:menuitem value="Experiments"
+				action="#{Navigator.navigateExperiment}" update=":contentForm" />  -->
 			<p:menuitem value="Genes" action="#{Navigator.navigateGene}"
-				update=":contentForm" icon="fa fa-ge"/>
+				update=":contentForm" icon="fa fa-ge" onstart="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()"/>
 		</p:menu>
 		<h4>Public resources</h4>
 		<p:slideMenu model="#{PublicMenuController.model}" />
