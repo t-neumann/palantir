@@ -33,6 +33,19 @@ public class PublicDataFacadeBean implements PublicDataFacade {
 		}
 		return resources;
 	}
+	
+	@Override
+	public List<String> getContextsForRNASeqResource(ExternalRNASeqResource resource) throws DatabaseException {
+		List<String> contexts = null;
+		try {
+			TypedQuery<String> query = em.createQuery("SELECT DISTINCT context FROM ExternalRNASeqEntry e where e.resource.id=:id", String.class);
+			query.setParameter("id", resource.getId());
+			contexts = query.getResultList();
+		} catch (Exception e) {
+			throw new DatabaseException(e.getMessage(), e.getCause());
+		}
+		return contexts;
+	}
 
 	@Override
 	public List<Essentialome> getAvailableEssentialomes() throws DatabaseException {
@@ -46,5 +59,4 @@ public class PublicDataFacadeBean implements PublicDataFacade {
 		}
 		return essentialomes;
 	}
-
 }

@@ -55,16 +55,27 @@ public class PublicMenuController implements Serializable {
 			
 			for (ExternalRNASeqResource resource : externalRNASeqResources) {
 				DefaultSubMenu resourceSubMenu = new DefaultSubMenu(resource.getName());
-				for (ExternalRNASeqEntry entry : resource.getEntries()) {
-					DefaultMenuItem entryItem = new DefaultMenuItem(entry.getName());
+				List<String> contexts = publicDataFacade.getContextsForRNASeqResource(resource);
+				for (String context : contexts) {
+					DefaultMenuItem entryItem = new DefaultMenuItem(context);
 					entryItem.setCommand("#{PublicMenuController.externalRNASeqRedirect}");
 					entryItem.setParam("resourceId", resource.getId());
-					entryItem.setParam("entryId", entry.getId());
+					entryItem.setParam("context", context);
 					entryItem.setUpdate(":contentForm");
 					entryItem.setOnstart("PF('statusDialog').show()");
 					entryItem.setOncomplete("PF('statusDialog').hide()");
 					resourceSubMenu.addElement(entryItem);
 				}
+//				for (ExternalRNASeqEntry entry : resource.getEntries()) {
+//					DefaultMenuItem entryItem = new DefaultMenuItem(entry.getName());
+//					entryItem.setCommand("#{PublicMenuController.externalRNASeqRedirect}");
+//					entryItem.setParam("resourceId", resource.getId());
+//					entryItem.setParam("entryId", entry.getId());
+//					entryItem.setUpdate(":contentForm");
+//					entryItem.setOnstart("PF('statusDialog').show()");
+//					entryItem.setOncomplete("PF('statusDialog').hide()");
+//					resourceSubMenu.addElement(entryItem);
+//				}
 				externalRNASeqSubMenu.addElement(resourceSubMenu);
 				
 			}

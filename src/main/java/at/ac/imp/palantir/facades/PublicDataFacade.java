@@ -12,5 +12,7 @@ public interface PublicDataFacade {
 	public List<ExternalRNASeqResource> getAvailableRNASeqResources() throws DatabaseException;
 	
 	public List<Essentialome> getAvailableEssentialomes() throws DatabaseException;
+	
+	public List<String> getContextsForRNASeqResource(ExternalRNASeqResource resource) throws DatabaseException;
 
 }

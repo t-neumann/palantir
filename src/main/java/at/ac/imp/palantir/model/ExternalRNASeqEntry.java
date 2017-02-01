@@ -32,6 +32,7 @@ public class ExternalRNASeqEntry implements Serializable {
 	private Collection<ExternalRNASeqDatapoint> datapoints = new ArrayList<ExternalRNASeqDatapoint>();
 	
 	private String name;
+	private String context;
 	
 	public String getName() {
 		return name;
@@ -39,6 +40,14 @@ public class ExternalRNASeqEntry implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getContext() {
+		return context;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
 	}
 
 	public ExternalRNASeqResource getResource() {
@@ -75,7 +84,7 @@ public class ExternalRNASeqEntry implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ExternalRNASeqEntry [id=" + id + ", name=" + name + "]";
+		return "ExternalRNASeqEntry [id=" + id + ", name=" + name + ", context=" + context + "]";
 	}
 
 }
