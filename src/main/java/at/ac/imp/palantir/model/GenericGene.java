@@ -20,6 +20,9 @@ public class GenericGene implements Serializable {
 
 	private String entrezId;
 	private String geneSymbol;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private ExternalRNASeqResource resource;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Collection<Gene> genes = new ArrayList<Gene>();
@@ -51,6 +54,14 @@ public class GenericGene implements Serializable {
 		this.id = id;
 	}
 	
+	public ExternalRNASeqResource getResource() {
+		return resource;
+	}
+
+	public void setResource(ExternalRNASeqResource resource) {
+		this.resource = resource;
+	}
+
 	public Collection<Gene> getGenes() {
 		return genes;
 	}

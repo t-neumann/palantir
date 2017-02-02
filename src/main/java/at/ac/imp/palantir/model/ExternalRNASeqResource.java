@@ -30,7 +30,7 @@ public class ExternalRNASeqResource implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<ExternalRNASeqEntry> entries = new ArrayList<ExternalRNASeqEntry>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	private Collection<GenericGene> genes = new ArrayList<GenericGene>();
 		
 	private String name;

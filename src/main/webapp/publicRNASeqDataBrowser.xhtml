@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		
+		 <p:dataTable id="PublicRNASeqDT" var="gene"
+			value="#{ExternalRNASeqController.genes}" paginator="true" rows="15" rowIndexVar="i"
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}">
+			
+			<f:facet name="{Exporters}">
+				<h:commandLink ajax="false">
+					<p:graphicImage name="excel.png" library="img" width="20" />
+					<p:dataExporter type="xls" target="PublicRNASeqDT" fileName="publicRNASeq"
+						pageOnly="true" />
+				</h:commandLink>
+
+				<h:commandLink ajax="false">
+					<p:graphicImage name="pdf.png" library="img" width="20" />
+					<p:dataExporter type="pdf" target="PublicRNASeqDT" fileName="publicRNASeq"
+						pageOnly="true" />
+				</h:commandLink>
+
+				<h:commandLink ajax="false">
+					<p:graphicImage name="csv.png" library="img" width="20" />
+					<p:dataExporter type="csv" target="PublicRNASeqDT" fileName="publicRNASeq"
+						pageOnly="true" />
+				</h:commandLink>
+			</f:facet>
+
+			<p:column headerText="EntrezID"
+				sortBy="#{gene.entrezId}"
+				filterBy="#{gene.entrezId}" parser="number">
+				<h:outputText value="#{gene.entrezId}" />
+			</p:column>
+			<p:column headerText="GeneSymbol" sortBy="#{gene.geneSymbol}"
+				filterBy="#{gene.geneSymbol}">
+				<h:outputText value="#{gene.geneSymbol}" />
+			</p:column>
+			
+			<p:columns value="#{ExternalRNASeqController.columnHeaders}" var="columnName" columnIndexVar="j">
+			<f:facet name="header">#{columnName}</f:facet>
+			#{ExternalRNASeqController.entryList[j][i].value}
+			</p:columns>
+			</p:dataTable>
+	</ui:define>
+</ui:composition>

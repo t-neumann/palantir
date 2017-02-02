@@ -54,29 +54,40 @@ public class PublicMenuController implements Serializable {
 			List<ExternalRNASeqResource> externalRNASeqResources = publicDataFacade.getAvailableRNASeqResources();
 			
 			for (ExternalRNASeqResource resource : externalRNASeqResources) {
-				DefaultSubMenu resourceSubMenu = new DefaultSubMenu(resource.getName());
 				List<String> contexts = publicDataFacade.getContextsForRNASeqResource(resource);
-				for (String context : contexts) {
-					DefaultMenuItem entryItem = new DefaultMenuItem(context);
+				if (contexts.size() > 1) {
+					DefaultSubMenu resourceSubMenu = new DefaultSubMenu(resource.getName());
+					for (String context : contexts) {
+						DefaultMenuItem entryItem = new DefaultMenuItem(context);
+						entryItem.setCommand("#{PublicMenuController.externalRNASeqRedirect}");
+						entryItem.setParam("resourceId", resource.getId());
+						entryItem.setParam("context", context);
+						entryItem.setUpdate(":contentForm");
+						entryItem.setOnstart("PF('statusDialog').show()");
+						entryItem.setOncomplete("PF('statusDialog').hide()");
+						resourceSubMenu.addElement(entryItem);
+					}
+	//				for (ExternalRNASeqEntry entry : resource.getEntries()) {
+	//					DefaultMenuItem entryItem = new DefaultMenuItem(entry.getName());
+	//					entryItem.setCommand("#{PublicMenuController.externalRNASeqRedirect}");
+	//					entryItem.setParam("resourceId", resource.getId());
+	//					entryItem.setParam("entryId", entry.getId());
+	//					entryItem.setUpdate(":contentForm");
+	//					entryItem.setOnstart("PF('statusDialog').show()");
+	//					entryItem.setOncomplete("PF('statusDialog').hide()");
+	//					resourceSubMenu.addElement(entryItem);
+	//				}
+					externalRNASeqSubMenu.addElement(resourceSubMenu);
+				} else {
+					DefaultMenuItem entryItem = new DefaultMenuItem(resource.getName());
 					entryItem.setCommand("#{PublicMenuController.externalRNASeqRedirect}");
 					entryItem.setParam("resourceId", resource.getId());
-					entryItem.setParam("context", context);
+					entryItem.setParam("context", "");
 					entryItem.setUpdate(":contentForm");
 					entryItem.setOnstart("PF('statusDialog').show()");
 					entryItem.setOncomplete("PF('statusDialog').hide()");
-					resourceSubMenu.addElement(entryItem);
+					externalRNASeqSubMenu.addElement(entryItem);
 				}
-//				for (ExternalRNASeqEntry entry : resource.getEntries()) {
-//					DefaultMenuItem entryItem = new DefaultMenuItem(entry.getName());
-//					entryItem.setCommand("#{PublicMenuController.externalRNASeqRedirect}");
-//					entryItem.setParam("resourceId", resource.getId());
-//					entryItem.setParam("entryId", entry.getId());
-//					entryItem.setUpdate(":contentForm");
-//					entryItem.setOnstart("PF('statusDialog').show()");
-//					entryItem.setOncomplete("PF('statusDialog').hide()");
-//					resourceSubMenu.addElement(entryItem);
-//				}
-				externalRNASeqSubMenu.addElement(resourceSubMenu);
 				
 			}
 	         
@@ -129,12 +140,14 @@ public class PublicMenuController implements Serializable {
 	public String externalRNASeqRedirect(ActionEvent event) {
 		MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
 		int resourceId = Integer.parseInt(menuItem.getParams().get("resourceId").get(0));
-		int entryId = Integer.parseInt(menuItem.getParams().get("entryId").get(0));
+		//int entryId = Integer.parseInt(menuItem.getParams().get("entryId").get(0));
+		String context = menuItem.getParams().get("context").get(0);
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		flash.put("resourceId", resourceId);
-		flash.put("entryId", entryId);
-		System.out.println("New entry in flash: " + entryId);
-		return "externalRNASeq";
+		flash.put("context", context);
+		//flash.put("entryId", entryId);
+		//System.out.println("New entry in flash: " + entryId);
+		return "publicRNASeqContext";
 	}
 	
 	public String essentialomeRedirect(ActionEvent event) {
