@@ -13,6 +13,7 @@ public class Navigator implements Serializable {
 	private static final String SAMPLE_NAVIGATE = "samples";
 	private static final String EXPERIMENT_NAVIGATE = "experiment";
 	private static final String GENE_NAVIGATE = "reference";
+	private static final String PUBLIC_SEARCH_NAVIGATE = "publicGeneSelector";
 	
 	/**
 	 * 
@@ -29,5 +30,9 @@ public class Navigator implements Serializable {
 	
 	public String navigateGene() {
 		return Navigator.GENE_NAVIGATE;
+	}
+	
+	public String navigatePublicSearch() {
+		return Navigator.PUBLIC_SEARCH_NAVIGATE;
 	}
 }

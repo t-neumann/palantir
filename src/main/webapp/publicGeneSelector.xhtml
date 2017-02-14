@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		<p:fieldset>
+			<h:panelGrid cellpadding="5">
+				<h:form id="publicGeneSelectorForm">
+					<p:dataTable id="publicGeneSelectorDT" var="gene"
+						value="#{PublicGeneSelectorController.genes}" paginator="false"
+						rows="15" selection="#{PublicGeneSelectorController.selectedGene}"
+						rowKey="#{gene.id}" 
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						selectionMode="single">
+						<p:column headerText="Gene" sortBy="#{gene.geneSymbol}"
+							filterBy="#{gene.geneSymbol}">
+							<h:outputText value="#{gene.geneSymbol}" />
+						</p:column>
+						<p:column headerText="EntrezID" sortBy="#{gene.entrezId}"
+							filterBy="#{gene.entrezId}">
+							<h:outputText value="#{gene.entrezId}" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</h:panelGrid>
+		</p:fieldset>
+	</ui:define>
+</ui:composition>
