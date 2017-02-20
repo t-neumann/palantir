@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 
 import at.ac.imp.palantir.model.GenericGene;
@@ -28,7 +29,11 @@ public class PublicGeneSelectorController implements Serializable {
 	
 	private List<GenericGene> genes;
 	
+	private List<GenericGene> pickedGenes = new ArrayList<GenericGene>();
+	
 	private GenericGene selectedGene;
+	
+	private GenericGene pickedGene;
 	
 	@PersistenceContext(unitName = "palantir-db")
 	private EntityManager em;
@@ -57,4 +62,45 @@ public class PublicGeneSelectorController implements Serializable {
 	public void setSelectedGene(GenericGene selectedGene) {
 		this.selectedGene = selectedGene;
 	}
+
+	public List<GenericGene> getPickedGenes() {
+		return pickedGenes;
+	}
+
+	public void setPickedGenes(List<GenericGene> pickedGenes) {
+		this.pickedGenes = pickedGenes;
+	}
+
+	public GenericGene getPickedGene() {
+		return pickedGene;
+	}
+
+	public void setPickedGene(GenericGene pickedGene) {
+		this.pickedGene = pickedGene;
+	}
+	
+	public void onChooseSelect(SelectEvent event) {
+		if (!pickedGenes.contains(this.selectedGene)) {
+			pickedGenes.add(this.selectedGene);
+		}
+    }
+	
+	public void onPickSelect(SelectEvent event) {
+		pickedGenes.remove(this.pickedGene);
+    }
+	
+public String queryGenes() {
+		
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		
+		List<String> geneIds = new ArrayList<String>();
+		
+		for (GenericGene gene : pickedGenes) {
+			geneIds.add(((Integer)gene.getId()).toString());
+		}
+		
+		flash.put("geneIds", String.join(",", geneIds));
+		
+        return "publicGeneBrowser";
+    }
 }

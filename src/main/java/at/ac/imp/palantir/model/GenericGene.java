@@ -3,6 +3,7 @@ package at.ac.imp.palantir.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -21,8 +22,8 @@ public class GenericGene implements Serializable {
 	private String entrezId;
 	private String geneSymbol;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private ExternalRNASeqResource resource;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<ExternalRNASeqResource> resources = new ArrayList<ExternalRNASeqResource>();
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Collection<Gene> genes = new ArrayList<Gene>();
@@ -53,13 +54,17 @@ public class GenericGene implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public ExternalRNASeqResource getResource() {
-		return resource;
+
+	public List<ExternalRNASeqResource> getResources() {
+		return resources;
 	}
 
-	public void setResource(ExternalRNASeqResource resource) {
-		this.resource = resource;
+	public void setResources(List<ExternalRNASeqResource> resources) {
+		this.resources = resources;
+	}
+	
+	public void addResource(ExternalRNASeqResource resource) {
+		this.resources.add(resource);
 	}
 
 	public Collection<Gene> getGenes() {
@@ -99,5 +104,19 @@ public class GenericGene implements Serializable {
 	@Override
 	public String toString() {
 		return "Gene [geneSymbol=" + geneSymbol + ", entrezId=" + entrezId + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GenericGene other = (GenericGene) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }

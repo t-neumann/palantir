@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -30,7 +31,7 @@ public class ExternalRNASeqResource implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<ExternalRNASeqEntry> entries = new ArrayList<ExternalRNASeqEntry>();
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<GenericGene> genes = new ArrayList<GenericGene>();
 		
 	private String name;

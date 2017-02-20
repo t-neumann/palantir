@@ -8,26 +8,55 @@
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
-		<p:fieldset>
-			<h:panelGrid cellpadding="5">
-				<h:form id="publicGeneSelectorForm">
-					<p:dataTable id="publicGeneSelectorDT" var="gene"
-						value="#{PublicGeneSelectorController.genes}" paginator="false"
-						rows="15" selection="#{PublicGeneSelectorController.selectedGene}"
-						rowKey="#{gene.id}" 
-						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-						selectionMode="single">
-						<p:column headerText="Gene" sortBy="#{gene.geneSymbol}"
-							filterBy="#{gene.geneSymbol}">
-							<h:outputText value="#{gene.geneSymbol}" />
-						</p:column>
-						<p:column headerText="EntrezID" sortBy="#{gene.entrezId}"
-							filterBy="#{gene.entrezId}">
-							<h:outputText value="#{gene.entrezId}" />
-						</p:column>
-					</p:dataTable>
-				</h:form>
-			</h:panelGrid>
-		</p:fieldset>
+		<h2 class="ui-grid-col-6" style="text-align: center;">Available
+			genes</h2>
+		<h2 class="ui-grid-col-6" style="text-align: center;">Selected
+			genes</h2>
+		<p:dataTable id="publicGeneSelectorDT" var="gene"
+			value="#{PublicGeneSelectorController.genes}" paginator="true"
+			rows="10" selection="#{PublicGeneSelectorController.selectedGene}"
+			rowKey="#{gene.id}"
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			selectionMode="single" styleClass="ui-grid-col-6"
+			style="padding: 10px;">
+
+			<p:ajax event="rowSelect"
+				listener="#{PublicGeneSelectorController.onChooseSelect}"
+				update=":contentForm" />
+
+			<p:column headerText="Gene" sortBy="#{gene.geneSymbol}"
+				filterBy="#{gene.geneSymbol}">
+				<h:outputText value="#{gene.geneSymbol}" />
+			</p:column>
+			<p:column headerText="EntrezID" sortBy="#{gene.entrezId}"
+				filterBy="#{gene.entrezId}">
+				<h:outputText value="#{gene.entrezId}" />
+			</p:column>
+		</p:dataTable>
+
+		<p:dataTable id="publicGenePickDT" var="gene"
+			value="#{PublicGeneSelectorController.pickedGenes}"
+			selection="#{PublicGeneSelectorController.pickedGene}"
+			rowKey="#{gene.id}" selectionMode="single" styleClass="ui-grid-col-6"
+			style="padding: 10px;">
+
+			<p:ajax event="rowSelect"
+				listener="#{PublicGeneSelectorController.onPickSelect}"
+				update=":contentForm" />
+
+			<p:column headerText="Gene">
+				<h:outputText value="#{gene.geneSymbol}" />
+			</p:column>
+			<p:column headerText="EntrezID">
+				<h:outputText value="#{gene.entrezId}" />
+			</p:column>
+		</p:dataTable>
+		<div class="ui-grid-col-12">
+			<p:commandButton id="publicGeneSubmit" value="Submit"
+				update=":contentForm" onstart="PF('statusDialog').show()"
+				oncomplete="PF('statusDialog').hide()"
+				action="#{PublicGeneSelectorController.queryGenes}"
+				class="ui-grid-col-3" style="margin-top:15px; float: center;" />
+		</div>
 	</ui:define>
 </ui:composition>
