@@ -9,33 +9,39 @@
 	</ui:define>
 	<ui:define name="content">
 		
-		 <p:dataTable id="PublicGeneDT" var="gene"
-			value="#{PublicGeneBrowserController.genes}" paginator="true" rows="15" rowIndexVar="i"
+		 <p:dataTable id="PublicGeneDT" var="entry"
+			value="#{PublicGeneBrowserController.entries}" paginator="true" rows="15" rowIndexVar="i"
 			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}">
 			
 			<f:facet name="{Exporters}">
 				<h:commandLink ajax="false">
 					<p:graphicImage name="excel.png" library="img" width="20" />
-					<p:dataExporter type="xls" target="PublicRNASeqDT" fileName="publicRNASeq"
+					<p:dataExporter type="xls" target="PublicGeneDT" fileName="publicRNASeq"
 						pageOnly="true" />
 				</h:commandLink>
 
 				<h:commandLink ajax="false">
 					<p:graphicImage name="pdf.png" library="img" width="20" />
-					<p:dataExporter type="pdf" target="PublicRNASeqDT" fileName="publicRNASeq"
+					<p:dataExporter type="pdf" target="PublicGeneDT" fileName="publicRNASeq"
 						pageOnly="true" />
 				</h:commandLink>
 
 				<h:commandLink ajax="false">
 					<p:graphicImage name="csv.png" library="img" width="20" />
-					<p:dataExporter type="csv" target="PublicRNASeqDT" fileName="publicRNASeq"
+					<p:dataExporter type="csv" target="PublicGeneDT" fileName="publicRNASeq"
 						pageOnly="true" />
 				</h:commandLink>
 			</f:facet>
 			
-			<!-- <p:columns value="#{PublicGeneBrowserController.columnHeaders}" var="columnName" columnIndexVar="j">
+			<p:column headerText="Sample"
+				sortBy="#{entry.name}"
+				filterBy="#{entry.name}" >
+				<h:outputText value="#{entry.name}" />
+			</p:column>
+			
+			<p:columns value="#{PublicGeneBrowserController.columnHeaders}" var="columnName" columnIndexVar="j">
 			<f:facet name="header">#{columnName}</f:facet>
-			#{ExternalRNASeqController.entryList[j][i].value}
+			#{PublicGeneBrowserController.entryList[j][i].value}
 			</p:columns> -->
 			</p:dataTable>
 	</ui:define>

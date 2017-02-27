@@ -8,6 +8,7 @@
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
+
 		<h2 class="ui-grid-col-6" style="text-align: center;">Available
 			genes</h2>
 		<h2 class="ui-grid-col-6" style="text-align: center;">Selected
@@ -52,11 +53,16 @@
 			</p:column>
 		</p:dataTable>
 		<div class="ui-grid-col-12">
+			<h:outputText value="Genome:" class="ui-grid-col-2" style="margin-top:15px;" />
+			<p:selectOneButton value="genome" class="ui-grid-col-2" style="margin-top:15px;">
+				<f:selectItem itemLabel="Human" itemValue="human" />
+				<f:selectItem itemLabel="Mouse" itemValue="mouse" />
+			</p:selectOneButton>
 			<p:commandButton id="publicGeneSubmit" value="Submit"
 				update=":contentForm" onstart="PF('statusDialog').show()"
 				oncomplete="PF('statusDialog').hide()"
 				action="#{PublicGeneSelectorController.queryGenes}"
-				class="ui-grid-col-3" style="margin-top:15px; float: center;" />
+				class="ui-grid-col-2" style="margin-top:15px; float: right;" />
 		</div>
 	</ui:define>
 </ui:composition>

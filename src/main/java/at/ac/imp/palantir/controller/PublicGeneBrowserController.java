@@ -2,8 +2,11 @@ package at.ac.imp.palantir.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -42,11 +45,11 @@ public class PublicGeneBrowserController implements Serializable {
 	 */
 	private static final long serialVersionUID = -9042595281818933860L;
 
-	private List<GenericGene> genes;
+	private List<ExternalRNASeqEntry> entries = new ArrayList<ExternalRNASeqEntry>();
 
 	private List<Object[]> entryList = new ArrayList<Object[]>();
 
-	private List<String> columnHeaders;
+	private List<String> columnHeaders = new ArrayList<String>();
 
 	@PersistenceContext(unitName = "palantir-db")
 	private EntityManager em;
@@ -61,52 +64,55 @@ public class PublicGeneBrowserController implements Serializable {
 			System.out.println(key);
 			System.out.println(flash.get(key));
 		}
-		String [] geneIds = flash.get("geneIds").toString().split(",");
+		String [] stringIds = flash.get("geneIds").toString().split(",");
+		List<Integer> geneIds = new ArrayList<Integer>();
 		
-		TypedQuery<GenericGene> q = em.createQuery("SELECT g FROM GenericGene g WHERE g.id IN :ids", GenericGene.class);
+		for (String id : stringIds) {
+			geneIds.add(Integer.parseInt(id));
+		}
+		
+		TypedQuery<GenericGene> q = em.createQuery("SELECT DISTINCT g FROM GenericGene g JOIN FETCH g.datapoints WHERE g.id IN :ids", GenericGene.class);
 		q.setParameter("ids", geneIds);
-		this.genes = q.getResultList();
-		System.out.println("bla");
-//		q.setParameter("id", Integer.parseInt(id));
 		
-	
-//		
-//		String [] entryIds = flash.get("entryIds").toString().split(",");
-//	
-//		columnHeaders = new ArrayList<String>();
-//		
-//		CriteriaBuilder gcb = em.getCriteriaBuilder();
-//		CriteriaQuery<GenericGene> gquery = gcb.createQuery(GenericGene.class);
-//		Root<GenericGene> groot = gquery.from(GenericGene.class);
-//		gquery.where(gcb.equal(groot.get("resource").get("id"), resourceId));
-//		gquery.select(groot);
-//		
-//		genes = em.createQuery(gquery).getResultList();
-//		
-//		for (String id : entryIds) {
-//			
-//			TypedQuery<String> q = em.createQuery("SELECT e.name FROM ExternalRNASeqEntry e WHERE e.id = :id", String.class);
-//			q.setParameter("id", Integer.parseInt(id));
-//			
-//			columnHeaders.add(q.getResultList().get(0));
-//			
-//			CriteriaBuilder cb = em.getCriteriaBuilder();
-//			CriteriaQuery<ExternalRNASeqDatapoint> query = cb.createQuery(ExternalRNASeqDatapoint.class);
-//			Root<ExternalRNASeqDatapoint> root = query.from(ExternalRNASeqDatapoint.class);
-//			query.where(cb.equal(root.get("entry").get("id"), Integer.parseInt(id)));
-//			query.select(root);
-//			
-//			entryList.add(em.createQuery(query).getResultList().toArray());
-//		}
+		List<GenericGene> genes = q.getResultList();
+		
+		Map<String, Map<String, ExternalRNASeqDatapoint> > datapointMap = new HashMap<String, Map<String, ExternalRNASeqDatapoint> >();
+		
+		for (GenericGene gene : genes) {
+			columnHeaders.add(gene.getGeneSymbol());
+			datapointMap.put(gene.getGeneSymbol(), new HashMap<String, ExternalRNASeqDatapoint>());
+			for (ExternalRNASeqDatapoint datapoint : gene.getDatapoints()) {
+				if (!entries.contains(datapoint.getEntry())) {
+					entries.add(datapoint.getEntry());
+				}
+				datapointMap.get(gene.getGeneSymbol()).put(datapoint.getEntry().getName(), datapoint);
+			}
+		}
+		
+		for (GenericGene gene : genes) {
+			Object[] datapoints = new Object[entries.size()];
+			int index = 0;
+			for (ExternalRNASeqEntry entry : entries) {
+				if (datapointMap.get(gene.getGeneSymbol()).containsKey(entry.getName())) {
+					datapoints[index] = datapointMap.get(gene.getGeneSymbol()).get(entry.getName());
+				} else {
+					datapoints[index] = null;
+				}
+				++index;
+			}
+			entryList.add(datapoints);
+		}
+		
+		System.out.println("test");
 		
 	}
 
-	public List<GenericGene> getGenes() {
-		return genes;
+	public List<ExternalRNASeqEntry> getEntries() {
+		return entries;
 	}
 
-	public void setGenes(List<GenericGene> genes) {
-		this.genes = genes;
+	public void setEntries(List<ExternalRNASeqEntry> entries) {
+		this.entries = entries;
 	}
 
 	public List<Object[]> getEntryList() {

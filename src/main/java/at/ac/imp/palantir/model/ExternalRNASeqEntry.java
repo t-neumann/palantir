@@ -87,4 +87,18 @@ public class ExternalRNASeqEntry implements Serializable {
 		return "ExternalRNASeqEntry [id=" + id + ", name=" + name + ", context=" + context + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ExternalRNASeqEntry other = (ExternalRNASeqEntry) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
 }
