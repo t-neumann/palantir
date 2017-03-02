@@ -71,19 +71,14 @@ public class ExternalRNASeqController implements Serializable {
 	
 		columnHeaders = new ArrayList<String>();
 		
-		CriteriaBuilder gcb = em.getCriteriaBuilder();
-		CriteriaQuery<GenericGene> gquery = gcb.createQuery(GenericGene.class);
-		Root<GenericGene> groot = gquery.from(GenericGene.class);
-		gquery.select(groot);
-		
-		genes = em.createQuery(gquery).getResultList();
-		
-//		genes = em.createQuery("SELECT g FROM GenericGene g JOIN g.resources gr WHERE gr.id = :id", GenericGene.class).setParameter("id", resourceId).getResultList();
-//		List<Integer> geneIds = new ArrayList<Integer>();
+//		CriteriaBuilder gcb = em.getCriteriaBuilder();
+//		CriteriaQuery<GenericGene> gquery = gcb.createQuery(GenericGene.class);
+//		Root<GenericGene> groot = gquery.from(GenericGene.class);
+//		gquery.select(groot);
 //		
-//		for (GenericGene gene : genes) {
-//			geneIds.add(gene.getId());
-//		}
+//		genes = em.createQuery(gquery).getResultList();
+		
+		genes = em.createQuery("SELECT g FROM GenericGene g JOIN g.resources gr WHERE gr.id = :id ORDER by g.id", GenericGene.class).setParameter("id", resourceId).getResultList();
 		
 		for (String id : entryIds) {
 			
@@ -96,7 +91,6 @@ public class ExternalRNASeqController implements Serializable {
 			CriteriaQuery<ExternalRNASeqDatapoint> query = cb.createQuery(ExternalRNASeqDatapoint.class);
 			Root<ExternalRNASeqDatapoint> root = query.from(ExternalRNASeqDatapoint.class);
 			query.where(cb.equal(root.get("entry").get("id"), Integer.parseInt(id)));
-			//query.where(root.get("gene").get("id").in(geneIds));
 			
 			query.select(root);
 			
