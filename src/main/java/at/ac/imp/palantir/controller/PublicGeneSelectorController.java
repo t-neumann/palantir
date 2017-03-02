@@ -26,25 +26,34 @@ public class PublicGeneSelectorController implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 9124720632488947088L;
-	
+
 	private List<GenericGene> genes;
-	
+
 	private List<GenericGene> pickedGenes = new ArrayList<GenericGene>();
-	
+
 	private GenericGene selectedGene;
-	
+
 	private GenericGene pickedGene;
-	
+
+	private String pickedOrganism;
+
+	private List<String> organisms;
+
 	@PersistenceContext(unitName = "palantir-db")
 	private EntityManager em;
-	
+
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
-		
-		TypedQuery<GenericGene> query = em.createQuery("SELECT g FROM GenericGene g", GenericGene.class);
+
+		this.organisms = em.createQuery("SELECT DISTINCT organism FROM GenericGene g", String.class).getResultList();
+		this.pickedOrganism = this.organisms.get(0);
+
+		TypedQuery<GenericGene> query = em.createQuery("SELECT g FROM GenericGene g where g.organism LIKE :organism",
+				GenericGene.class);
+		query.setParameter("organism", this.pickedOrganism);
 		genes = query.getResultList();
-		
+
 	}
 
 	public List<GenericGene> getGenes() {
@@ -78,29 +87,52 @@ public class PublicGeneSelectorController implements Serializable {
 	public void setPickedGene(GenericGene pickedGene) {
 		this.pickedGene = pickedGene;
 	}
-	
+
+	public String getPickedOrganism() {
+		return pickedOrganism;
+	}
+
+	public void setPickedOrganism(String pickedOrganism) {
+		this.pickedOrganism = pickedOrganism;
+	}
+
+	public List<String> getOrganisms() {
+		return organisms;
+	}
+
+	public void setOrganisms(List<String> organisms) {
+		this.organisms = organisms;
+	}
+
 	public void onChooseSelect(SelectEvent event) {
 		if (!pickedGenes.contains(this.selectedGene)) {
 			pickedGenes.add(this.selectedGene);
 		}
-    }
-	
+	}
+
 	public void onPickSelect(SelectEvent event) {
 		pickedGenes.remove(this.pickedGene);
-    }
+	}
 	
-public String queryGenes() {
-		
+	public void referenceChange() {
+		TypedQuery<GenericGene> query = em.createQuery("SELECT g FROM GenericGene g where g.organism LIKE :organism",
+				GenericGene.class);
+		query.setParameter("organism", this.pickedOrganism);
+		genes = query.getResultList();
+	}
+
+	public String queryGenes() {
+
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-		
+
 		List<String> geneIds = new ArrayList<String>();
-		
+
 		for (GenericGene gene : pickedGenes) {
-			geneIds.add(((Integer)gene.getId()).toString());
+			geneIds.add(((Integer) gene.getId()).toString());
 		}
-		
+
 		flash.put("geneIds", String.join(",", geneIds));
-		
-        return "publicGeneBrowser";
-    }
+
+		return "publicGeneBrowser";
+	}
 }

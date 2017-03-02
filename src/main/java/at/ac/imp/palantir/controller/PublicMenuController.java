@@ -144,7 +144,7 @@ public class PublicMenuController implements Serializable {
 			searchEssentialome.setOnstart("PF('statusDialog').show()");
 			searchEssentialome.setOncomplete("PF('statusDialog').hide()");
 			searchEssentialome.setUpdate(":contentForm");
-			searchEssentialome.setCommand("publicGeneSelector");
+			searchEssentialome.setCommand("essentialomeGeneSelector");
 			searchGene.addElement(searchEssentialome);
 			// entryItem.setParam("essentialomeId", essentialome.getId());
 

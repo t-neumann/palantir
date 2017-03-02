@@ -21,6 +21,7 @@ public class GenericGene implements Serializable {
 
 	private String entrezId;
 	private String geneSymbol;
+	private String organism;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ExternalRNASeqResource> resources = new ArrayList<ExternalRNASeqResource>();
@@ -53,6 +54,14 @@ public class GenericGene implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getOrganism() {
+		return organism;
+	}
+
+	public void setOrganism(String organism) {
+		this.organism = organism;
 	}
 
 	public List<ExternalRNASeqResource> getResources() {

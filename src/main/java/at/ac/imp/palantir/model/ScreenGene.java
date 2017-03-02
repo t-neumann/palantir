@@ -29,6 +29,7 @@ public class ScreenGene implements Serializable{
 
 	private String entrezId;
 	private String geneSymbol;
+	private String organism;
 	
 	private String essential;
 	private String pool;
@@ -72,6 +73,14 @@ public class ScreenGene implements Serializable{
 		this.entrezId = entrezId;
 	}
 	
+	public String getOrganism() {
+		return organism;
+	}
+
+	public void setOrganism(String organism) {
+		this.organism = organism;
+	}
+
 	public String getEssential() {
 		return essential;
 	}

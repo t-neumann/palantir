@@ -18,7 +18,7 @@ public class EssentialomeDatapoint implements Serializable {
 	 */
 	private static final long serialVersionUID = 6196680738779339005L;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private EssentialomeEntry entry;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
