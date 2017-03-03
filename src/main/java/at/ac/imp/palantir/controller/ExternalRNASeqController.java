@@ -91,6 +91,7 @@ public class ExternalRNASeqController implements Serializable {
 			CriteriaQuery<ExternalRNASeqDatapoint> query = cb.createQuery(ExternalRNASeqDatapoint.class);
 			Root<ExternalRNASeqDatapoint> root = query.from(ExternalRNASeqDatapoint.class);
 			query.where(cb.equal(root.get("entry").get("id"), Integer.parseInt(id)));
+			query.orderBy(cb.asc(root.get("gene").get("id")));
 			
 			query.select(root);
 			
