@@ -1,5 +1,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -8,7 +9,6 @@
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
-		
 		 <p:dataTable id="PublicRNASeqDT" var="gene"
 			value="#{ExternalRNASeqController.genes}" paginator="true" rows="15" rowIndexVar="i"
 			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}">
@@ -42,6 +42,12 @@
 				filterBy="#{gene.geneSymbol}">
 				<h:outputText value="#{gene.geneSymbol}" />
 			</p:column>
+			
+			<c:forEach items="#{ExternalRNASeqController.columnHeaders}" var="columnName" varStatus="loop">
+				<p:column headerText="#{columnName}"> 
+            		<h:outputText value="#{ExternalRNASeqController.entryList[loop.index][i].value}"/>
+        		</p:column>
+			</c:forEach>
 			
 			<p:columns value="#{ExternalRNASeqController.columnHeaders}" var="columnName" columnIndexVar="j">
 			<f:facet name="header">#{columnName}</f:facet>

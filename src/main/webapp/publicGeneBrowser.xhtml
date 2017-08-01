@@ -8,7 +8,6 @@
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
-		
 		 <p:dataTable id="PublicGeneDT" var="entry"
 			value="#{PublicGeneBrowserController.entries}" paginator="true" rows="15" rowIndexVar="i"
 			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}">
@@ -42,7 +41,7 @@
 			<p:columns value="#{PublicGeneBrowserController.columnHeaders}" var="columnName" columnIndexVar="j">
 			<f:facet name="header">#{columnName}</f:facet>
 			#{PublicGeneBrowserController.entryList[j][i].value}
-			</p:columns> -->
+			</p:columns>
 			</p:dataTable>
 	</ui:define>
 </ui:composition>
