@@ -17,6 +17,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Root;
 
 import at.ac.imp.palantir.model.EssentialomeDatapoint;
+import at.ac.imp.palantir.model.ExternalRNASeqDatapoint;
+import at.ac.imp.palantir.model.GenericGene;
 import at.ac.imp.palantir.model.ScreenGene;
 
 @Named("EssentialomeController")
@@ -56,33 +58,17 @@ public class EssentialomeController implements Serializable {
 			
 			List<Integer> ids = qe.getResultList();
 			
-			//columnHeaders.add(q.getResultList().get(0));
-						
-			//List<Integer> ids = Arrays.asList(new Integer[]{1540716, 1540717, 1540718});
-			
 			columnHeaders = new ArrayList<String>();
 			
-//			for(Integer i : ids) {
-//				TypedQuery<EssentialomeEntry> q = em.createQuery("SELECT e FROM EssentialomeEntry e JOIN FETCH e.datapoints i WHERE e.id = :id",EssentialomeEntry.class);
-//				q.setParameter("id", i);
-//				//entries = q.getResultList();
-//				EssentialomeEntry entry = q.getSingleResult();
-//				columnHeaders.add(entry.getName());
-//				entries.add(entry.getDatapoints().toArray());
-//			}
+//			CriteriaBuilder gcb = em.getCriteriaBuilder();
+//			CriteriaQuery<ScreenGene> gquery = gcb.createQuery(ScreenGene.class);
+//			Root<ScreenGene> groot = gquery.from(ScreenGene.class);
+//			gquery.where(gcb.equal(groot.get("essentialome").get("id"), essentialomeId));
+//			gquery.select(groot);
+//			
+//			genes = em.createQuery(gquery).getResultList();
 			
-//			TypedQuery<String> q = em.createQuery("SELECT DISTINCT e.name FROM EssentialomeEntry e WHERE e.id IN :ids", String.class);
-//			q.setParameter("ids", ids);
-			
-//			columnHeaders = q.getResultList();
-			
-			CriteriaBuilder gcb = em.getCriteriaBuilder();
-			CriteriaQuery<ScreenGene> gquery = gcb.createQuery(ScreenGene.class);
-			Root<ScreenGene> groot = gquery.from(ScreenGene.class);
-			gquery.where(gcb.equal(groot.get("essentialome").get("id"), essentialomeId));
-			gquery.select(groot);
-			
-			genes = em.createQuery(gquery).getResultList();
+			genes = em.createQuery("SELECT g FROM ScreenGene g JOIN g.essentialomes gr WHERE gr.id = :id ORDER by g.id", ScreenGene.class).setParameter("id", essentialomeId).getResultList();
 			
 			for (Integer id : ids) {
 				
@@ -94,38 +80,33 @@ public class EssentialomeController implements Serializable {
 				CriteriaBuilder cb = em.getCriteriaBuilder();
 				CriteriaQuery<EssentialomeDatapoint> query = cb.createQuery(EssentialomeDatapoint.class);
 				Root<EssentialomeDatapoint> root = query.from(EssentialomeDatapoint.class);
-				//root.fetch("EssentialomeEntry", JoinType.INNER);
 				query.where(cb.equal(root.get("entry").get("id"), id));
+				query.orderBy(cb.asc(root.get("gene").get("id")));
+				
 				query.select(root);
 				
 				entryList.add(em.createQuery(query).getResultList().toArray());
-				//List<EssentialomeDatapoint> result = em.createQuery(query).getResultList();
-			
 			}
-						
-			//lazyModel = new LazyScreenGeneDataModel(em, essentialomeId);
 			
-			/*
-			 *  uncomment for previous shit
-			 */
-			
-//			CriteriaBuilder cb = em.getCriteriaBuilder();
-//			CriteriaQuery<ScreenGene> query = cb.createQuery(ScreenGene.class);
-//			Root<ScreenGene> root = query.from(ScreenGene.class);
-//			root.fetch("datapoints", JoinType.INNER);
-//			query.select(root).distinct(true);
+//			for (Integer id : ids) {
+//				
+//				TypedQuery<String> q = em.createQuery("SELECT e.name FROM EssentialomeEntry e WHERE e.id = :id", String.class);
+//				q.setParameter("id", id);
+//				
+//				columnHeaders.add(q.getResultList().get(0));
+//				
+//				CriteriaBuilder cb = em.getCriteriaBuilder();
+//				CriteriaQuery<EssentialomeDatapoint> query = cb.createQuery(EssentialomeDatapoint.class);
+//				Root<EssentialomeDatapoint> root = query.from(EssentialomeDatapoint.class);
+//				//root.fetch("EssentialomeEntry", JoinType.INNER);
+//				query.where(cb.equal(root.get("entry").get("id"), id));
+//				query.select(root);
+//				
+//				entryList.add(em.createQuery(query).getResultList().toArray());
+//				//List<EssentialomeDatapoint> result = em.createQuery(query).getResultList();
 //			
-//			genes = em.createQuery(query).getResultList();
-			
-			//query.where(cb.equal(root.get("id"), essentialomeId));
-
-			
-			//TypedQuery<ScreenGene> query = em.createQuery("SELECT DISTINCT s FROM ScreenGene s JOIN FETCH s.datapoints", ScreenGene.class);
-			//query.setParameter("id", essentialomeId);
-			
-			//genes = query.getResultList();
-			
-			
+//			}
+//		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

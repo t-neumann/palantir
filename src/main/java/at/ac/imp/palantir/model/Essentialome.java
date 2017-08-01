@@ -25,7 +25,7 @@ public class Essentialome implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<EssentialomeEntry> entries = new ArrayList<EssentialomeEntry>();
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<ScreenGene> genes = new ArrayList<ScreenGene>();
 		
 	private String name;

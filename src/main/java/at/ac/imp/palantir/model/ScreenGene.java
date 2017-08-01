@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
@@ -40,8 +41,8 @@ public class ScreenGene implements Serializable{
 	
 	private String type;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Essentialome essentialome;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Essentialome> essentialomes = new ArrayList<Essentialome>();
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<Gene> genes = new ArrayList<Gene>();
@@ -137,12 +138,16 @@ public class ScreenGene implements Serializable{
 		this.genes.add(gene);
 	}
 
-	public Essentialome getEssentialome() {
-		return essentialome;
+	public List<Essentialome> getEssentialomes() {
+		return essentialomes;
+	}
+	
+	public void addEssentialome(Essentialome essentialome) {
+		this.essentialomes.add(essentialome);
 	}
 
-	public void setEssentialome(Essentialome essentialome) {
-		this.essentialome = essentialome;
+	public void setEssentialomes(List<Essentialome> essentialomes) {
+		this.essentialomes = essentialomes;
 	}
 
 	public Map<String, EssentialomeDatapoint> getDatapoints() {
