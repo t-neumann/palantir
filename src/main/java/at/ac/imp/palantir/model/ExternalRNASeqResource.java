@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
  *
  */
 @Entity
+@NamedQuery(name="ExternalRNASeqResource.findByName",query="SELECT e FROM ExternalRNASeqResource e WHERE e.name = :name")
 public class ExternalRNASeqResource implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -36,6 +37,16 @@ public class ExternalRNASeqResource implements Serializable {
 		
 	private String name;
 	
+	private boolean valid = false;
+	
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
 	public Collection<GenericGene> getGenes() {
 		return genes;
 	}

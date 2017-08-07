@@ -11,6 +11,7 @@ import javax.persistence.*;
  *
  */
 @Entity
+@NamedQuery(name="Essentialome.findByName",query="SELECT e FROM Essentialome e WHERE e.name = :name")
 public class Essentialome implements Serializable {
 		
 	/**
@@ -30,6 +31,16 @@ public class Essentialome implements Serializable {
 		
 	private String name;
 	
+	private boolean valid = false;
+	
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
 	public Collection<ScreenGene> getGenes() {
 		return genes;
 	}
@@ -76,6 +87,6 @@ public class Essentialome implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Essentialome [id=" + id + ", name=" + name + "]";
+		return "Essentialome [id=" + id + ", name=" + name + ", valid=" + valid + "]";
 	}
 }
